@@ -251,48 +251,13 @@ return [
                   'text' => 'Grupo Chamados',
                   'url'  => 'grupochamado/create',
                 ],
-                [
-                    'text'    => 'level_one',
-                    'url'     => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url'  => '#',
-                        ],
-                        [
-                            'text'    => 'level_two',
-                            'url'     => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'text' => 'level_one',
-                    'url'  => '#',
-                ],
             ],
         ],
-        ['header' => 'labels'],
+        ['header' => 'Movimentos'],
         [
-            'text'       => 'important',
+            'text'       => 'Novo Chamado',
             'icon_color' => 'red',
-        ],
-        [
-            'text'       => 'warning',
-            'icon_color' => 'yellow',
-        ],
-        [
-            'text'       => 'information',
-            'icon_color' => 'cyan',
+            'url' => 'chamado/create'
         ],
     ],
 

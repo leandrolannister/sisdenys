@@ -16,7 +16,8 @@ class CreateChamadosTable extends Migration
         Schema::create('chamados', 
           function (Blueprint $table) {
             $table->integer('id')->autoIncrement();
-            $table->enum('titulo', ['Normal', 'Status']);
+            $table->string('titulo', 50);
+            $table->string('tipo', 10);
             $table->string('descricao');
             $table->enum('status', 
                 ['Aberto', 'Pendente Usuário',

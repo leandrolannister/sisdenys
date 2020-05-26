@@ -9,7 +9,7 @@ use App\User;
 
 class UsersController extends Controller
 {
-  public function index():object 
+  public function create():object 
   {
     $user = auth()->user();
 

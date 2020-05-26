@@ -56,6 +56,8 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutesGrupoChamado();
 
+        $this->mapWebRoutesChamado();
+       
         //
     }
 
@@ -111,6 +113,14 @@ class RouteServiceProvider extends ServiceProvider
         ->middleware('web')
         ->namespace('App\Http\Controllers\GrupoChamado')
         ->group(base_path('routes/GrupoChamado.php'));
+    }
+
+    protected function mapWebRoutesChamado()
+    {
+      Route::prefix('chamado')
+        ->middleware('web')
+        ->namespace('App\Http\Controllers\Chamado')
+        ->group(base_path('routes/Chamado.php'));
     }
 
     /**

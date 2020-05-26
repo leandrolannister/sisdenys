@@ -30,4 +30,6 @@ class GrupoChamado extends Model
      $this->attributes['descricao'] = mb_strtoupper($grupo);
    }
 
+   
+
 }
