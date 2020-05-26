@@ -16,10 +16,9 @@ class CreateTipousuariosTable extends Migration
         Schema::create('tipousuarios', 
           function (Blueprint $table) {
             $table->integer('id')->autoIncrement();
-            $table->enum('descricao',
-            ['Admin', 'Tecnico', 'Comum'])->unique();
-            $table->index(['descricao']);            
-
+            $table->enum('descricao',['Admin', 
+            'Tecnico', 'Comum']);
+            $table->index(['descricao']); 
             $table->integer('user_id');
             $table->foreign('user_id')
             ->on('users')
