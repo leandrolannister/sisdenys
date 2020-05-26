@@ -23,7 +23,6 @@ class Equipamento extends Model
     try{
       $this::create($dados);
     }catch(\Exception $e){
-      dd($e->getMessage());
       return false;
     }
     

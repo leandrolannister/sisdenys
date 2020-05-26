@@ -8,5 +8,8 @@ Route::group(['middleware' => 'auth'], function(){
    ->name('grupochamado.index'); 
 
    Route::get('/create', 'GrupoChamadosController@create')
-   ->name('grupochamado.create');    
+   ->name('grupochamado.create'); 
+
+   Route::post('/store', 'GrupoChamadosController@store')
+   ->name('grupochamado.store');   
 });

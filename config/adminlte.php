@@ -249,7 +249,7 @@ return [
                 ],
                 [
                   'text' => 'Grupo Chamados',
-                  'url'  => 'grupochamado/',
+                  'url'  => 'grupochamado/create',
                 ],
                 [
                     'text'    => 'level_one',
