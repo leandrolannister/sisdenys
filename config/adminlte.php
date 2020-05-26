@@ -248,6 +248,10 @@ return [
                   'url'  => 'tipousuario/',
                 ],
                 [
+                  'text' => 'Grupo Chamados',
+                  'url'  => 'grupochamado/',
+                ],
+                [
                     'text'    => 'level_one',
                     'url'     => '#',
                     'submenu' => [
