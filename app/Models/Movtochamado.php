@@ -12,4 +12,16 @@ class Movtochamado extends Model
    public function chamado():object{
      return $this->belongsTo(Chamado::class);
    } 
+
+   public function store_mc(Chamado $chamado, 
+   	                        array $dados): bool{
+     try{
+   	   $chamado->movtoChamados()
+   	   ->create($dados);
+   	 }catch(\Exception $e){
+   	   return false;
+   	 }
+   	 return true;
+   }
+
 }

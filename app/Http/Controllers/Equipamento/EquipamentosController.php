@@ -23,7 +23,8 @@ class EquipamentosController extends Controller
     public function store(EquipamentoValidate $req):object{
    
       if((new Equipamento())->store_e($req->all()))
-        return redirect()->route('equipamento.create')
+        return redirect()
+        ->route('equipamento.create')
         ->with('success', MENSAGEM_SUCESSO);
 
       return redirect()->route('equipamento.create')

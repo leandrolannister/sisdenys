@@ -17,18 +17,21 @@ class ChamadosController extends Controller
 
     public function store(Request $req):object{
 
-      $chamado = (new Chamado())
-      ->store_c($req->all());
+      $chamado = $req->arquivo 
+      ?(new Chamado())->storeWithFile($req)
+      :(new Chamado())->store_c($req); 
 
-      if(is_null($chamado))
+      if($chamado)
         return redirect()->route('chamado.create')
-        ->with('success', MENSAGEM_ERRO);
-
-      if((new Arquivo())->store_a($req, $chamado))
-       return redirect()->route('chamado.create')
-       ->with('success', MENSAGEM_SUCESSO); 
+        ->with('success', MENSAGEM_SUCESSO);  
 
       return redirect()->route('chamado.create')
-      ->with('error', MENSAGEM_ERRO);  
+      ->with('success', MENSAGEM_ERRO);
+
+      /*if((new Arquivo())->store_a($req, $chamado))
+       return redirect()->route('chamado.create')
+       ->with('success', MENSAGEM_SUCESSO);*/
+
+      
     }
 }
