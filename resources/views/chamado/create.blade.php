@@ -11,7 +11,8 @@
   <div class="container">
     @include('alerts.messages')
     <form action="{{route('chamado.store')}}" 
-          method="post">
+          method="post"
+          enctype="multipart/form-data">
       {!! csrf_field() !!}
 
       <div class="form-group">
@@ -43,11 +44,17 @@
       </div>  
       <label name="descricao">Descrição</label>
       <div class="input-group">
-        <textarea class="form-control mb-2" rows="10" 
+        <textarea class="form-control mb-2" rows="5"
                   name="descricao"
                   aria-label="With textarea"
                   placeholder="Descreva a ocorrência">Favor elaborar um sistema de chamados</textarea>
-      </div>      
+      </div> 
+      <div>
+        <input type="file" name="arquivo[]"
+               class="form-control mb-2" 
+               multiple>
+
+      </div>     
       <div>
         <button type="submit" class="btn btn-info">
           Enviar

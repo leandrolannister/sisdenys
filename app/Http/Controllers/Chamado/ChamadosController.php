@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Chamado;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\GrupoChamado;
-use App\Models\Chamado;
+use App\Models\{GrupoChamado, Chamado, Arquivo};
 
 class ChamadosController extends Controller
 {
@@ -16,13 +15,20 @@ class ChamadosController extends Controller
     		compact('grupoList'));
     }
 
-    public function store(Request $req){
+    public function store(Request $req):object{
 
-      if((new Chamado())->store_c($req->all()))
+      $chamado = (new Chamado())
+      ->store_c($req->all());
+
+      if(is_null($chamado))
         return redirect()->route('chamado.create')
-        ->with('success', MENSAGEM_SUCESSO);
+        ->with('success', MENSAGEM_ERRO);
+
+      if((new Arquivo())->store_a($req, $chamado))
+       return redirect()->route('chamado.create')
+       ->with('success', MENSAGEM_SUCESSO); 
 
       return redirect()->route('chamado.create')
-      ->with('error', MENSAGEM_ERRO);	
+      ->with('error', MENSAGEM_ERRO);  
     }
 }
