@@ -23,9 +23,9 @@ class CreateChamadosTable extends Migration
                 ['Aberto', 'Pendente Usuário',
                  'Pendente Técnico', 'Fechado'])
                 ->default('Aberto');
-            $table->date('data');
-            $table->index(['data']);
             
+            $table->date('data');
+                        
             $table->integer('user_id');
             $table->foreign('user_id')
             ->on('users')
@@ -35,7 +35,8 @@ class CreateChamadosTable extends Migration
             $table->foreign('grupochamado_id')
             ->on('grupochamados')
             ->references('id');
-            $table->timestamps();
+
+            $table->index(['data']);            
         });
     }
 

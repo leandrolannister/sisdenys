@@ -11,6 +11,8 @@ class Chamado extends Model
     'grupochamado_id', 'descricao','status','data', 
     'user_id', 'grupochamado_id'];
 
+    public $timestamps = false;
+
     public function user():object {
     	return $this->belongsTo(User::class);
     }

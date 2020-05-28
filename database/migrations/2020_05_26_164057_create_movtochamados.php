@@ -16,20 +16,19 @@ class CreateMovtochamados extends Migration
       Schema::create('movtochamados', 
         function (Blueprint $table) {
           $table->integer('id')->autoIncrement();
-          $table->enum('titulo', ['Normal', 'Status']);
+          $table->enum('titulo', 
+          ['Normal', 'Status']);
+          
+          $table->string('tipo', 10);          
           $table->enum('status', 
                 ['Aberto', 'Pendente Usuário',
-                 'Pendente Técnico', 'Fechado'])
-                ->default('Aberto');
+                 'Pendente Técnico', 'Fechado']);
           $table->string('descricao');
-          $table->string('observacao');
-          $table->date('data');
-          $table->index(['data']);
 
           $table->integer('chamado_id');
-            $table->foreign('chamado_id')
-            ->on('chamados')
-            ->references('id');      
+          $table->foreign('chamado_id')
+          ->on('chamados')
+          ->references('id');  
           $table->timestamps();
       });
     }
