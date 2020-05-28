@@ -26,6 +26,9 @@ class CreateUsers extends Migration
               ->on('equipamentos')
               ->references('id');
 
+              $table->integer('grupochamado_id')
+              ->nullable();
+
               $table->timestamps();
         });
     }

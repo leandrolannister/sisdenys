@@ -33,6 +33,19 @@
                  placeholder="Senha" 
                  class="form-control">
         </div> 
+
+        <div class="form-group mb-20">
+          <label for="grupo">Grupo</label>
+          <select name="grupochamado_id" 
+                  class="form-control">
+          <option>Selecione um Grupo</option>
+            @foreach($grupoList as $g)            
+            <option value="{{$g->id}}">
+              {{$g->descricao}}
+            </option>
+          @endforeach  
+        </select>                
+      </div>  
         
         <div>
           <button type="submit" class="btn btn-info">Atualizar

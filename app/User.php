@@ -18,8 +18,8 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password', 
-    'equipamento_id'];
+    protected $fillable = ['name', 'email', 
+    'password', 'equipamento_id', 'grupochamado_id'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -51,8 +51,11 @@ class User extends Authenticatable
         return $this->hasMany(Chamado::class);
     }
 
-    public function update_u(array $dados): bool {
-      
+    public function GrupoChamado():object{
+        return $this->belongsTo(GrupoChamado::class);
+    }
+
+    public function update_u(array $dados):bool{
       try{        
         
         $user = self::find(auth()->user()->id);
@@ -65,6 +68,8 @@ class User extends Authenticatable
                
         $user->name  = $dados['name'];
         $user->email = $dados['email'];
+        $user->grupochamado_id = 
+        $dados['grupochamado_id'];
         $user->save(); 
 
       }catch(\Exception $e){

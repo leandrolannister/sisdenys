@@ -6,14 +6,17 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\User\UserValidate;
 use App\User;
+use App\Models\{GrupoChamado};
 
 class UsersController extends Controller
 {
   public function create():object 
   {
     $user = auth()->user();
+    $grupoList = GrupoChamado::all();
 
-    return view('usuario.create', compact('user'));
+    return view('usuario.create', 
+      compact('user', 'grupoList'));
   }
 
   public function update(UserValidate $req):object
