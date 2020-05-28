@@ -24,6 +24,7 @@ class CreateMovtochamados extends Migration
                 ['Aberto', 'Pendente Usuário',
                  'Pendente Técnico', 'Fechado']);
           $table->string('descricao');
+          $table->integer('user_id');
 
           $table->integer('chamado_id');
           $table->foreign('chamado_id')
