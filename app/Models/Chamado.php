@@ -31,8 +31,7 @@ class Chamado extends Model
         return $this->hasMany(Arquivo::class);
     }
 
-    public function store_c(Request $req): bool{
-      
+    public function store_c(Request $req): bool{      
       DB::beginTransaction();
 
       try{

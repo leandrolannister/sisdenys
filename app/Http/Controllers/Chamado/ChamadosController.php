@@ -17,6 +17,8 @@ class ChamadosController extends Controller
 
     public function store(Request $req):object{
 
+      $this->validar($req);
+
       $chamado = $req->arquivo 
       ?(new Chamado())->storeWithFile($req)
       :(new Chamado())->store_c($req); 
@@ -27,5 +29,12 @@ class ChamadosController extends Controller
 
       return redirect()->route('chamado.create')
       ->with('success', CHAMADO_ERRO);
+    }
+
+    private function validar(Request $req):void{
+      $this->validate($req, [
+        'titulo' => 'required',
+        'grupochamado_id' => 'required',
+        'descricao' => 'required']);  
     }
 }
