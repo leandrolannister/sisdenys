@@ -3,7 +3,7 @@
 namespace App\Service;
 
 use App\Mail\Email;
-use App\Models\Chamado;
+use App\Models\{Chamado, Movtochamado};
 use App\User;
 use Illuminate\Support\Facades\Mail;
 
@@ -34,15 +34,25 @@ class EmailSender{
       
       foreach($emails as $key => $e):
         self::sender($chamado->titulo, $e->email,
-        $chamado->id, self::VIEW_PATH_EMAIL_TECHNICIAN);  
+        $chamado->id, 
+        self::VIEW_PATH_EMAIL_TECHNICIAN);  
       endforeach;	
+
+      $this->atualizaStatusChamado($chamado->id);
     }
 
     public static function sender(String $titulo, 
-    String $email, String $chamadoId, 
+    String $email, Int $chamadoId, 
     String $viewpath):void{
 
       Mail::send(new Email($titulo, $email, 
                            $chamadoId, $viewpath));
+    }
+
+    public function atualizaStatusChamado(int 
+      $chamadoId):void{
+      
+      (new Movtochamado())
+      ->atualizaStatusChamado($chamadoId, TECNICO);
     }
 }

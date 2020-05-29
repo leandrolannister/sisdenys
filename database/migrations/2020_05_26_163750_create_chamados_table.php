@@ -20,8 +20,9 @@ class CreateChamadosTable extends Migration
             $table->string('tipo', 10);
             $table->string('descricao');
             $table->enum('status', 
-                ['Aberto', 'Pendente Usuário',
-                 'Pendente Técnico', 'Fechado'])
+                ['Aberto', 'Pendente_usuario',
+                 'Pendente_tecnico', 'Fechado',
+                 'Reaberto'])
                 ->default('Aberto');
             
             $table->date('data');

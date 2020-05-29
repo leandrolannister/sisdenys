@@ -19,8 +19,9 @@ class CreateMovtochamados extends Migration
           $table->string('titulo', 50);
           $table->string('tipo', 10);
           $table->enum('status', 
-                ['Aberto', 'Pendente Usuário',
-                 'Pendente Técnico', 'Fechado']);
+                ['Aberto', 'Pendente_usuario',
+                 'Pendente_Tecnico', 'Fechado',
+                 'Reaberto']);
           $table->string('descricao');
           $table->integer('user_id');
 

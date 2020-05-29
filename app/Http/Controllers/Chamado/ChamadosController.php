@@ -27,7 +27,7 @@ class ChamadosController extends Controller
       :(new Chamado())->store_c($req); 
 
       if($chamadoAberto):
-        (new EmailSender())->enviaEmailUsuario();  
+        (new EmailSender())->enviaEmailUsuario();
         
         return redirect()->route('chamado.create')
         ->with('success', CHAMADO_SUCESSO);  
