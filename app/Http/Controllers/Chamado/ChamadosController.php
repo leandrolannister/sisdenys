@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\{GrupoChamado, Chamado, Arquivo};
 use App\Mail\Email;
-use App\Service\Helper;
+use App\Service\EmailSender;
 use Illuminate\Support\Facades\Mail;
 
 class ChamadosController extends Controller
@@ -22,12 +22,12 @@ class ChamadosController extends Controller
 
       $this->validar($req);
 
-      $chamado = $req->arquivo 
+      $chamadoAberto = $req->arquivo 
       ?(new Chamado())->storeWithFile($req)
       :(new Chamado())->store_c($req); 
 
-      if($chamado):
-        (new Helper())->enviaEmailUsuario();
+      if($chamadoAberto):
+        (new EmailSender())->enviaEmailUsuario();  
         
         return redirect()->route('chamado.create')
         ->with('success', CHAMADO_SUCESSO);  
