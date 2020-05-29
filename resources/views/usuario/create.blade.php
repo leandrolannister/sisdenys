@@ -39,18 +39,20 @@
           <select name="grupochamado_id" 
                   class="form-control">
           <option>Selecione um Grupo</option>
-            @foreach($grupoList as $g)            
-            <option value="{{$g->id}}">
+            @foreach($grupoList as $g) 
+              <option value="{{$g->id}}" 
+              <?=$user->grupochamado_id == $g->id
+               ? "selected" : "";?> >
               {{$g->descricao}}
             </option>
           @endforeach  
         </select>                
       </div>  
         
-        <div>
-          <button type="submit" class="btn btn-info">Atualizar
-          </button>
-        </div>
+      <div>
+        <button type="submit" class="btn btn-info">Atualizar
+        </button>
+      </div>
     </form>
   </div>    
 @stop 
