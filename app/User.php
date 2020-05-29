@@ -86,4 +86,11 @@ class User extends Authenticatable
       return $users;    
     }
 
+    public function getUsuariosGrupo(
+        int $grupochamado_id):object{
+        
+        return $this::where('grupochamado_id',
+        $grupochamado_id)->select('email')
+        ->get();
+    }
 }

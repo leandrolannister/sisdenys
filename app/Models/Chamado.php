@@ -85,5 +85,10 @@ class Chamado extends Model
        DB::rollback();
        return false;   
     }
+
+    public function getUltimoChamadoUsuario():object{
+      return $this::where('user_id',
+      auth()->user()->id)->get()->last();
+    }
 }
 
