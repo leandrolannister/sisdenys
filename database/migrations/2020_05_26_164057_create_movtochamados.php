@@ -28,6 +28,11 @@ class CreateMovtochamados extends Migration
           $table->integer('chamado_id');
           $table->foreign('chamado_id')
           ->on('chamados')
+          ->references('id');
+
+          $table->integer('grupochamado_id');
+          $table->foreign('grupochamado_id')
+          ->on('grupochamados')
           ->references('id');  
           $table->timestamps();
       });

@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Mail;
 
 class ChamadosController extends Controller
 {
+    public function index(){
+      $user = auth()->user()->id;
+       
+    }
+
     public function create(): object{
     	$grupoList = GrupoChamado::all();
 

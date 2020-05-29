@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class Chamado extends Model
 {
     protected $fillable = ['titulo', 'tipo', 
-    'grupochamado_id', 'descricao','status','data', 
+    'descricao','status','data', 
     'user_id', 'grupochamado_id'];
 
     public $timestamps = false;

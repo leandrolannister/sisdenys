@@ -18,7 +18,6 @@ class TipoUsuariosController extends Controller
     }
 
     public function store(Request $req){
-      //dd($req->all());
       (new Tipousuario())->store_t($req->all());
 
       return redirect()->route('tipousuario.index')

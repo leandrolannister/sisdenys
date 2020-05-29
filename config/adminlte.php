@@ -1,5 +1,5 @@
 <?php
-
+ 
 return [
 
     /*
@@ -259,6 +259,12 @@ return [
             'icon_color' => 'red',
             'url' => 'chamado/create'
         ],
+        [
+            'text'       => 'Chamados',
+            'icon_color' => 'blue',
+            'url' => 'chamado/'
+        ],
+
     ],
 
     /*

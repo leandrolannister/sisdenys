@@ -14,6 +14,10 @@ class GrupoChamado extends Model
       return $this->hasMany(Chamado::class);	
    }
 
+   public function MovtoChamado(): object{
+      return $this->hasMany(MovtoChamado::class); 
+   }
+
    public function usuarios():object{
       return $this->hasMany(Usuario::class);
    }
