@@ -90,5 +90,33 @@ class Chamado extends Model
       return $this::where('user_id',
       auth()->user()->id)->get()->last();
     }
+
+    public function meusChamados(int $user_id):
+    array{
+       
+      $meusChamados = DB::select("
+        SELECT c.id AS id,
+         (select m.titulo from movtochamados as m
+          where m.chamado_id = c.id order by m.id 
+          desc limit 1) AS Titulo, 
+          
+         (select m.tipo from movtochamados as m 
+          where m.chamado_id = c.id order by m.id 
+          desc limit 1) AS Tipo,
+  
+         (select m.status from movtochamados as m 
+          where m.chamado_id = c.id order by m.id 
+          desc limit 1) AS Status,
+  
+         (select m.descricao from movtochamados as 
+          m where m.chamado_id = c.id order by m.id 
+          desc limit 1) as Descricao,
+          c.data AS Data
+        FROM Chamados AS c
+        WHERE c.user_id = $user_id");
+
+        return $meusChamados;      
+    }
+
 }
 

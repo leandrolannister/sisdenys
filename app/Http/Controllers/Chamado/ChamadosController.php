@@ -4,16 +4,22 @@ namespace App\Http\Controllers\Chamado;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{GrupoChamado, Chamado, Arquivo};
+use App\Models\{GrupoChamado, Chamado, Arquivo, Movtochamado};
 use App\Mail\Email;
-use App\Service\EmailSender;
+use App\Service\{Helper,EmailSender};
 use Illuminate\Support\Facades\Mail;
 
 class ChamadosController extends Controller
 {
     public function index(){
-      $user = auth()->user()->id;
-       
+      
+      $chamados = (new Chamado())
+      ->meusChamados(auth()->user()->id);
+      
+      $helper = (new Helper());
+
+      return view('chamado.index', 
+        compact('chamados', 'helper'));       
     }
 
     public function create(): object{

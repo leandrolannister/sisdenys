@@ -260,7 +260,7 @@ return [
             'url' => 'chamado/create'
         ],
         [
-            'text'       => 'Chamados',
+            'text'       => 'Meus Chamados',
             'icon_color' => 'blue',
             'url' => 'chamado/'
         ],
