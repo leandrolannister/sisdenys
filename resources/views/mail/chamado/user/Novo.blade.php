@@ -1,5 +1,5 @@
 @component('mail::message')
-  <h1>Número Chamado: {{$chamado}}</h1>
+  <h1> Mr(a) {{auth()->user()->name}}</h1>
   <h3>
   	Seu chamado {{$titulo}} foi aberto com sucesso.
   </h3>

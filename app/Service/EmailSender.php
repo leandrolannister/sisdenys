@@ -9,13 +9,19 @@ use Illuminate\Support\Facades\Mail;
 
 class EmailSender{
 
+   private const VIEW_PATH_EMAIL_USER = 
+   'mail.chamado.user.novo';
+
+   private const VIEW_PATH_EMAIL_TECHNICIAN = 
+   'mail.chamado.tecnico.novo';  
+
    public function enviaEmailUsuario():void{
      $chamado = (new Chamado())
      ->getUltimoChamadoUsuario();
      
      self::sender($chamado->titulo, 
       auth()->user()->email, $chamado->id, 
-      'mail.chamado.user.novo');
+      self::VIEW_PATH_EMAIL_USER);
      
      $this->enviaEmailTecnicos($chamado);         
     }
@@ -28,7 +34,7 @@ class EmailSender{
       
       foreach($emails as $key => $e):
         self::sender($chamado->titulo, $e->email,
-        $chamado->id, 'mail.chamado.tecnico.novo');  
+        $chamado->id, self::VIEW_PATH_EMAIL_TECHNICIAN);  
       endforeach;	
     }
 
