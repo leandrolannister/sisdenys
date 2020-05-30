@@ -15,5 +15,9 @@ Route::group(['middleware' => 'auth'], function(){
 
    Route::post('/show', 'ChamadosController@show')
    ->name('chamado.show');
+
+   Route::get('/atendimento', 
+   	'ChamadosController@atendimento')
+    ->name('chamado.atendimento');
       
 });

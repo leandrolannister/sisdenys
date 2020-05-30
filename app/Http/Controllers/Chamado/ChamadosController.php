@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Mail;
 
 class ChamadosController extends Controller
 {
-    public function index(){
+    public function index():object{
       
       $chamados = (new Chamado())
       ->meusChamados(auth()->user()->id);
@@ -55,7 +55,7 @@ class ChamadosController extends Controller
         'descricao' => 'required']);  
     }
 
-    public function show(Request $req){      
+    public function show(Request $req):object{      
       $chamado = Movtochamado::where('id', 
       $req->chamado_id)->orderBy('id', 'desc')
       ->get()->last();
@@ -68,5 +68,18 @@ class ChamadosController extends Controller
       return view('chamado.show', 
         compact('chamado', 'grupoList', 
                 'statusAtual'));
+    }
+
+    public function atendimento():object{
+      $chamados = (new Movtochamado())
+      ->atendimentoChamado(
+        auth()->user()->grupochamado_id);
+
+      //dd($chamados);
+
+      $helper = (new Helper());
+
+      return view('chamado.atendimento', 
+      compact('chamados', 'helper'));     
     }
 }

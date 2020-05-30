@@ -264,6 +264,11 @@ return [
             'icon_color' => 'blue',
             'url' => 'chamado/'
         ],
+        [
+            'text'       => 'Atendimento',
+            'icon_color' => 'green',
+            'url' => 'chamado/atendimento'
+        ],
 
     ],
 
