@@ -31,18 +31,42 @@ class Movtochamado extends Model
    	 return true;
    } 
 
+   public function getUltimoChamado(int $chamado_id)
+   :object{
+
+     $chamado = $this::where('chamado_id', 
+     $chamado_id)->orderBy('id', 'desc')
+     ->get()->last();
+
+     return $chamado;
+   }
+
    public function atendimentoChamado(int $grupochamado_id):object{
      
-     /*$chamados = $this::where('grupochamado_id',
-     $grupochamado_id)->where('status', TECNICO)
-     ->get();*/
-
      $chamados = DB::table('movtoChamados as m')
      ->join('users as u', 'u.id', 'm.user_id')
-     ->select('m.chamado_id as id', 'm.tipo',
+     ->select('m.chamado_id', 'm.tipo',
       'm.status', 'm.descricao', 'm.created_at',
-      'm.titulo', 'u.name')->get();
+      'm.titulo', 'u.name', 'm.id')
+      ->where('m.status', TECNICO)
+      ->get();
 
      return $chamados;
+   }
+
+   public function atenderChamado(int $movto_id)
+   :object{
+
+     $chamado = DB::table('movtoChamados as m')
+     ->join('users as u', 'u.id', 'm.user_id')
+     ->select('m.chamado_id', 'm.tipo',
+      'm.status', 'm.descricao', 'm.created_at',
+      'm.titulo', 'm.id', 'm.grupochamado_id', 
+      'u.email')
+      ->where('m.id', $movto_id)
+      ->get();
+
+      return $chamado;
+      
    }  
 }

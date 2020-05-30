@@ -30,4 +30,13 @@ class Arquivo extends Model
      }   
      return true;
     }
+
+    public function list(int $chamado_id):object{
+      $arquivos = 
+      $this::where('chamado_id', $chamado_id)
+      ->select('path')
+      ->get();
+
+      return $arquivos;
+    }
 }

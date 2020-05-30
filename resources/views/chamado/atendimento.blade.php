@@ -22,7 +22,7 @@
       <tbody>
          @foreach($chamados as $key => $c)
            <tr>
-            <td>{{$c->id}}</td>
+            <td>{{$c->chamado_id}}</td>
              <td>{{$c->titulo}}</td>
              <td>{{$c->status}}</td>
              <td>
@@ -30,10 +30,10 @@
             </td>
             <td>{{$c->name}}</td>
             <td>
-            <form action="#"
-                  method="post">
-              {{csrf_field()}}
-              <input type="hidden" name="chamado_id"
+            <form method="post" 
+            action="{{route('chamado.atender')}}">
+              @csrf
+              <input type="hidden" name="movto_id"
                      value="{{$c->id}}">
               <button type="submit" 
                       class="btn btn-info btn-sm">

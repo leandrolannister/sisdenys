@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Chamado;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{GrupoChamado, Chamado, Arquivo, Movtochamado};
+use App\Models\{GrupoChamado, Chamado, 
+                Arquivo, Movtochamado};
 use App\Mail\Email;
 use App\Service\{Helper,EmailSender};
 use Illuminate\Support\Facades\Mail;
@@ -56,10 +57,9 @@ class ChamadosController extends Controller
     }
 
     public function show(Request $req):object{      
-      $chamado = Movtochamado::where('id', 
-      $req->chamado_id)->orderBy('id', 'desc')
-      ->get()->last();
-      
+      $chamado = (new Movtochamado())
+      ->getUltimoChamado($req->chamado_id);
+
       $grupoList = GrupoChamado::all();
 
       $statusAtual = 
@@ -81,5 +81,18 @@ class ChamadosController extends Controller
 
       return view('chamado.atendimento', 
       compact('chamados', 'helper'));     
+    }
+
+    public function atender(Request $req){
+      $chamado = (new Movtochamado())->
+      atenderChamado($req->movto_id)[0];
+
+      $files = (new Arquivo())
+      ->list($chamado->chamado_id);
+
+      $grupoList = GrupoChamado::all();
+      
+      return view('chamado.atender', 
+      compact('chamado', 'grupoList', 'files'));
     }
 }
