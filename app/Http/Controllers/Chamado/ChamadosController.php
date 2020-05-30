@@ -46,12 +46,27 @@ class ChamadosController extends Controller
 
       return redirect()->route('chamado.create')
       ->with('success', CHAMADO_ERRO);
-    }    
+    }
 
     private function validar(Request $req):void{
       $this->validate($req, [
         'titulo' => 'required',
         'grupochamado_id' => 'required',
         'descricao' => 'required']);  
+    }
+
+    public function show(Request $req){      
+      $chamado = Movtochamado::where('id', 
+      $req->chamado_id)->orderBy('id', 'desc')
+      ->get()->last();
+      
+      $grupoList = GrupoChamado::all();
+
+      $statusAtual = 
+      Helper::checkStatus($chamado->status);
+      
+      return view('chamado.show', 
+        compact('chamado', 'grupoList', 
+                'statusAtual'));
     }
 }

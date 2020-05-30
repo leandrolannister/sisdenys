@@ -37,8 +37,6 @@ class EmailSender{
         $chamado->id, 
         self::VIEW_PATH_EMAIL_TECHNICIAN);  
       endforeach;	
-
-      $this->atualizaStatusChamado($chamado->id);
     }
 
     public static function sender(String $titulo, 
@@ -47,12 +45,5 @@ class EmailSender{
 
       Mail::send(new Email($titulo, $email, 
                            $chamadoId, $viewpath));
-    }
-
-    public function atualizaStatusChamado(int 
-      $chamadoId):void{
-      
-      (new Movtochamado())
-      ->atualizaStatusChamado($chamadoId, TECNICO);
     }
 }

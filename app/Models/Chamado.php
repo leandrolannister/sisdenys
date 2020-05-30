@@ -31,7 +31,7 @@ class Chamado extends Model
         return $this->hasMany(Arquivo::class);
     }
 
-    public function store_c(Request $req): bool{      
+    public function store_c(Request $req):bool{      
       DB::beginTransaction();
 
       try{
@@ -45,6 +45,7 @@ class Chamado extends Model
          return false;
        }
 
+       $dados['status'] = TECNICO;
        $movtoChamados = (new Movtochamado())
        ->store_mc($chamado, $dados);
 
@@ -57,7 +58,8 @@ class Chamado extends Model
        return false;  
     }
 
-    public function storeWithFile(Request $req):bool{
+    public function storeWithFile(Request $req)
+    :bool{
       DB::beginTransaction();
 
       try{
@@ -73,7 +75,8 @@ class Chamado extends Model
 
        $arquivo = (new Arquivo())
        ->store_a($req, $chamado);
-
+        
+       $dados['status'] = TECNICO;
        $movtoChamados = (new Movtochamado())
        ->store_mc($chamado, $dados);
 
@@ -86,7 +89,8 @@ class Chamado extends Model
        return false;   
     }
 
-    public function getUltimoChamadoUsuario():object{
+    public function getUltimoChamadoUsuario()
+    :object{
       return $this::where('user_id',
       auth()->user()->id)->get()->last();
     }
@@ -97,26 +101,30 @@ class Chamado extends Model
       $meusChamados = DB::select("
         SELECT c.id AS id,
          (select m.titulo from movtochamados as m
-          where m.chamado_id = c.id order by m.id 
+          where m.chamado_id = c.id 
+          order by m.created_at 
           desc limit 1) AS Titulo, 
           
          (select m.tipo from movtochamados as m 
-          where m.chamado_id = c.id order by m.id 
+          where m.chamado_id = c.id 
+          order by m.created_at 
           desc limit 1) AS Tipo,
   
          (select m.status from movtochamados as m 
-          where m.chamado_id = c.id order by m.id 
+          where m.chamado_id = c.id 
+          order by m.created_at 
           desc limit 1) AS Status,
   
          (select m.descricao from movtochamados as 
-          m where m.chamado_id = c.id order by m.id 
-          desc limit 1) as Descricao,
+          m where m.chamado_id = c.id 
+          order by m.created_at 
+          desc limit 1) AS Descricao,
+
           c.data AS Data
         FROM Chamados AS c
         WHERE c.user_id = $user_id");
 
         return $meusChamados;      
     }
-
 }
 

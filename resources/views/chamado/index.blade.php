@@ -28,7 +28,21 @@
             <td>{{$c->id}}</td>
              <td>{{$c->Titulo}}</td>
              <td>{{$c->Status}}</td>
-             <td>{{$helper::formatDate($c->Data)}}</td>
+             <td>
+              {{$helper::formatDate($c->Data)}}
+            </td>
+            <td>
+            <form action="{{route('chamado.show')}}"
+                  method="post">
+              {{csrf_field()}}
+              <input type="hidden" name="chamado_id"
+                     value="{{$c->id}}">
+              <button type="submit" 
+                      class="btn btn-info btn-sm">
+                <i class="fas fa-search"></i> 
+              </button>       
+            </form>
+          </td> 
            </tr>
          @endforeach  
       </tbody>

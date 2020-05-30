@@ -12,5 +12,8 @@ Route::group(['middleware' => 'auth'], function(){
 
    Route::post('/store', 'ChamadosController@store')
    ->name('chamado.store'); 
+
+   Route::post('/show', 'ChamadosController@show')
+   ->name('chamado.show');
       
 });

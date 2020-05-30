@@ -23,25 +23,10 @@ class Movtochamado extends Model
      try{
    	   $chamado->movtoChamados()
    	   ->create($dados);
+
    	 }catch(\Exception $e){
    	   return false;
    	 }
    	 return true;
-   }
-
-   public function atualizaStatusChamado(int 
-      $chamado_id, string $status):void{
-      
-      $chamado = $this::find($chamado_id);
-      $this::create([
-      'titulo' => $chamado->titulo,
-      'tipo' => $chamado->tipo,
-      'status' => $status,
-      'descricao' => $chamado->descricao,
-      'user_id' => auth()->user()->id,
-      'chamado_id' => $chamado->id,
-      'grupochamado_id' => $chamado->grupochamado_id 
-      ]);      
-    }
-
+   }   
 }
