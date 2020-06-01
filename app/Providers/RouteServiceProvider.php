@@ -57,7 +57,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapWebRoutesGrupoChamado();
 
         $this->mapWebRoutesChamado();
-       
+               
         //
     }
 
@@ -121,8 +121,8 @@ class RouteServiceProvider extends ServiceProvider
         ->middleware('web')
         ->namespace('App\Http\Controllers\Chamado')
         ->group(base_path('routes/Chamado.php'));
-    }
-
+    }    
+    
     /**
      * Define the "api" routes for the application.
      *

@@ -75,8 +75,6 @@ class ChamadosController extends Controller
       ->atendimentoChamado(
         auth()->user()->grupochamado_id);
 
-      //dd($chamados);
-
       $helper = (new Helper());
 
       return view('chamado.atendimento', 
@@ -94,5 +92,19 @@ class ChamadosController extends Controller
       
       return view('chamado.atender', 
       compact('chamado', 'grupoList', 'files'));
+    }
+
+    public function updateTecnico(Request $req)
+    {
+       $update = (new Movtochamado())
+       ->updateTecnico($req->all());
+
+       $tecnico = ['success' => $update];
+
+       $update 
+       ? $tecnico['message'] = 'Técnico atualizado'
+       : $tecnico['message'] = 'Técnico não foi atualizado!';
+       
+       echo json_encode($tecnico);
     }
 }

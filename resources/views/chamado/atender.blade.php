@@ -3,16 +3,30 @@
 @section('title', 'Atendimento')
 
 @section('content_header')
-  <h1>Atendimento Chamado</h1>  
+  <div class="box">
+    <div class="box-header input-group">
+      <form name="frmtecnico">
+        @csrf
+        <input type="hidden" name="movtoId"
+               value="{{$chamado->id}}"> 
+        <button type="submit"  
+                class="btn btn-dark .text-white"
+                name="btnMeuChamado">
+                INICIAR ATENDIMENTO 
+        </button>       
+      </form> 
+    </div>
+  </div>         
 @stop
 
 @section('content')
 <div class="box">    
   <div class="container">
+    <div class="alert alert-success d-none messageBox" 
+         role="alert"></div>     
     @include('alerts.messages')
     <form action="#" 
-          method="post"
-          enctype="multipart/form-data">
+          method="post">          
           @csrf
 
       <div class="form-group">
@@ -23,12 +37,22 @@
                disabled>
       </div>
 
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="text" name="email" 
-               class="form-control"
-               value="{{$chamado->email}}"
-               disabled>
+      <div class="form-group mb-20">
+        <label for="grupo">Grupo</label>
+        <select name="grupochamado_id" 
+                class="form-control">                
+          <option>Selecione um Grupo</option>
+          @foreach($grupoList as $g) 
+            
+            <?=$selected = 
+            $chamado->grupochamado_id == $g->id
+            ? 'selected' : ''; ?>           
+           
+           <option value="{{$g->id}}" <?=$selected?>>
+              {{$g->descricao}}
+            </option>
+          @endforeach  
+        </select>                
       </div>
 
       <label name="descricao">Descrição</label>
@@ -56,13 +80,48 @@
                  name="atendimento"
                  aria-label="With textarea"
                  placeholder="Descreva o parecer técnico"></textarea>
-      </div>  
+      </div>
 
-      <button type="submit" 
-              class="btn btn-info">
-        Atualizar
-      </button>
+      <div class="box">
+        <div class="box-header input-group">
+          <span class="d-flex">
+            <button type="submit" 
+                    class="btn btn-info">
+                    FINALIZAR
+            </button>            
+          </span>  
+        </div>
+      </div>    
     </form>  
   </div>
 </div>    
 @stop
+<script src="{{asset('site/jquery.js')}}"></script> 
+<script>
+  $(function(){
+  $('form[name="frmtecnico"]').submit(
+    function(event){
+    event.preventDefault();
+    
+    const movtoId = $('input[name="movtoId"]').val();
+
+    $.ajax({
+      url: "{{route('chamado.updatetecnico')}}",
+      type: 'post',
+      data: $(this).serialize(),
+      dataType: 'json',
+        success: function(resp){
+          if(resp.success){
+            $('.messageBox').removeClass('d-none').html(resp.message);
+          }else{
+            alert(resp.message);
+          }
+
+        },
+        error: function(respError){
+           console.log(respError);  
+        } 
+    });    
+  });
+});
+</script>  

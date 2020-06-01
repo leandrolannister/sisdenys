@@ -26,7 +26,7 @@ class Movtochamado extends Model
    	   ->create($dados);
 
    	 }catch(\Exception $e){
-   	   return false;
+       return false;
    	 }
    	 return true;
    } 
@@ -47,7 +47,7 @@ class Movtochamado extends Model
      ->join('users as u', 'u.id', 'm.user_id')
      ->select('m.chamado_id', 'm.tipo',
       'm.status', 'm.descricao', 'm.created_at',
-      'm.titulo', 'u.name', 'm.id')
+      'm.titulo', 'u.name', 'm.id', 'm.tecnico')
       ->where('m.status', TECNICO)
       ->get();
 
@@ -66,7 +66,19 @@ class Movtochamado extends Model
       ->where('m.id', $movto_id)
       ->get();
 
-      return $chamado;
-      
+      return $chamado;      
    }  
+
+   public function updateTecnico(array $dados)
+   :bool{
+     
+     try{
+       $movto = $this::find($dados['movtoId']);
+       $movto->tecnico = auth()->user()->name;
+       $movto->save(); 
+     }catch(\Exception $e){
+      return false;
+     }  
+     return true;
+   }
 }

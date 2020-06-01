@@ -25,7 +25,11 @@ class CreateMovtochamados extends Migration
           $table->string('descricao');
           $table->integer('user_id');
 
-          $table->string('atendimento');
+          $table->string('atendimento')
+          ->nullable();
+
+          $table->string('tecnico', 50)
+          ->nullable();
 
           $table->integer('chamado_id');
           $table->foreign('chamado_id')

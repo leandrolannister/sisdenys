@@ -16,7 +16,8 @@
           <th>Titulo</th>
           <th>Status</th>
           <th>Data</th> 
-          <th>Usuário</th>         
+          <th>Usuário</th> 
+          <th>Técnico</th>        
         </tr>  
       </thead>
       <tbody>
@@ -29,9 +30,10 @@
               {{$helper::formatDate($c->created_at)}}
             </td>
             <td>{{$c->name}}</td>
+            <td>{{$c->tecnico}}</td>
             <td>
             <form method="post" 
-            action="{{route('chamado.atender')}}">
+                  action="{{route('chamado.atender')}}">
               @csrf
               <input type="hidden" name="movto_id"
                      value="{{$c->id}}">
