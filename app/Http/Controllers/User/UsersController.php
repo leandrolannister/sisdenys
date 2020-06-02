@@ -26,7 +26,7 @@ class UsersController extends Controller
       
     $checkUserType 
     = (new Helper())->typeOfUser($req->grupochamado_id);
-    
+
     if($checkUserType){ 
       if((new User())->update_u($req->all()))
         return redirect()->route('user.create')
