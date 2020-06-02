@@ -17,6 +17,10 @@ class Helper{
   	  case 'Pendente_Tecnico':
   	    return "disabled";	
   		break;
+
+      case 'Fechado':
+        return "disabled";  
+      break;
   	  default:
   	    return null;	
   	}  	

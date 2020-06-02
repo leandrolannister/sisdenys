@@ -60,14 +60,18 @@ class ChamadosController extends Controller
       $chamado = (new Movtochamado())
       ->getUltimoChamado($req->chamado_id);
 
+      $historico = (new Movtochamado())
+      ->historicoChamado($chamado->chamado_id);
+
+      
       $grupoList = GrupoChamado::all();
 
       $statusAtual = 
       Helper::checkStatus($chamado->status);
       
       return view('chamado.show', 
-        compact('chamado', 'grupoList', 
-                'statusAtual'));
+      compact('chamado', 'grupoList', 
+              'statusAtual', 'historico'));
     }
 
     public function atendimento():object{
@@ -91,10 +95,14 @@ class ChamadosController extends Controller
       $files = (new Arquivo())
       ->list($chamado->chamado_id);
 
+      $historico = (new Movtochamado())
+      ->historicoChamado($chamado->chamado_id);
+
       $grupoList = GrupoChamado::all();
       
       return view('chamado.atender', 
-      compact('chamado', 'grupoList', 'files'));
+      compact('chamado', 'grupoList', 
+        'files', 'historico'));
     }
 
     public function updateTecnico(Request $req)
@@ -112,7 +120,7 @@ class ChamadosController extends Controller
     }
 
     public function retornotecnico(Request $req)
-    {
+    :object {
        $atendimento = 
        (new Movtochamado())->retornotecnico($req);
 
@@ -127,5 +135,32 @@ class ChamadosController extends Controller
 
       return redirect()->route('chamado.atendimento')
         ->with('success', CHAMADO_ATENDIMENTO_ERRO);
+    }
+
+    public function reabrirchamado(Request $req)
+    :object {
+
+      $movtoChamado = (new Movtochamado())
+      ->getUltimoChamado($req->id);
+
+      $movtoChamado->descricao = $req->descricao;
+
+      $chamadoAberto = (new Movtochamado())
+      ->reabrirChamado($movtoChamado);
+
+      if($chamadoAberto):
+        (new EmailSender())->enviaEmailTecnico(
+          $movtoChamado->titulo,
+          $movtoChamado->tecnico,
+          $movtoChamado->chamado_id);
+
+        return redirect()
+        ->route('chamado.index')
+        ->with('success', CHAMADO_REABERTO_SUCESSO);
+      endif;
+
+      return redirect()
+        ->route('chamado.index')
+        ->with('success', CHAMADO_REABERTO_ERRO);
     }
 }

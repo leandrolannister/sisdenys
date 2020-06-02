@@ -19,6 +19,11 @@ class Movtochamado extends Model
    public function grupoChamado():object {
      return $this->belongsTo(GrupoChamado::class);
    }
+
+   public function setAttributeDescricao($desc):void{
+    $this->attributes['descricao'] = 
+    mb_strtoupper($desc);
+   }
    
    public function store_mc(Chamado $chamado, 
    	                        array $dados): bool{
@@ -32,12 +37,22 @@ class Movtochamado extends Model
    	 return true;
    } 
 
+   public function getUltimoMovto(int $chamado_id)
+   :?object{
+
+     $chamado = $this::where('id', 
+     $chamado_id)->orderBy('created_at', 'desc')
+     ->get()->first();
+
+     return $chamado;
+   }
+
    public function getUltimoChamado(int $chamado_id)
-   :object{
+   :?object{
 
      $chamado = $this::where('chamado_id', 
-     $chamado_id)->orderBy('id', 'desc')
-     ->get()->last();
+     $chamado_id)->orderBy('created_at', 'desc')
+     ->get()->first();
 
      return $chamado;
    }
@@ -50,6 +65,7 @@ class Movtochamado extends Model
       'm.status', 'm.descricao', 'm.created_at',
       'm.titulo', 'u.name', 'm.id', 'm.tecnico')
       ->where('m.status', TECNICO)
+      ->Orwhere('m.status', REABERTO)
       ->where('m.grupochamado_id', $grupochamado_id)
       ->get();
     
@@ -118,5 +134,36 @@ class Movtochamado extends Model
                   'result' => true];
 
       return $chamado;
+   }
+
+   public function historicoChamado(int $chamado_id)
+   :object{
+     $historico = 
+     $this::where('chamado_id',$chamado_id)
+     ->select('created_at', 'descricao', 
+     'atendimento')->get();
+
+     return $historico;
+   }
+
+   public function reabrirChamado(Movtochamado $movto)
+   :bool{
+      try{
+        Movtochamado::create([
+           "titulo" =>  $movto->titulo,
+           "tipo" =>  $movto->tipo,
+           "status" => REABERTO,
+           "descricao" =>  $movto->descricao,
+           "user_id" =>  $movto->user_id,
+           "atendimento" => $movto->atendimento,
+           "tecnico" =>  $movto->tecnico,
+           "chamado_id" =>  $movto->chamado_id,
+           "grupochamado_id" =>  $movto->grupochamado_id
+        ]);
+      }catch(Exception $e){
+        return false;
+      }  
+      return true;
+
    }
 }

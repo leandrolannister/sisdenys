@@ -58,16 +58,19 @@
           @endforeach  
         </select>                
       </div>
-
-      <label name="descricao">Descrição</label>
-      <div class="input-group">
-        <textarea class="form-control mb-2" rows="5"
-                 name="descricao"
-                 disabled 
-                 aria-label="With textarea"
-                 placeholder="Descreva a ocorrência"
-                 >{{$chamado->descricao}}</textarea>
-      </div>
+      @if($chamado->status == 'Reaberto') 
+        @include('chamado.historico')  
+      @else
+        <label name="descricao">Descrição</label>
+        <div class="input-group">
+          <textarea class="form-control mb-2" rows="5"
+                   name="descricao"
+                   disabled 
+                   aria-label="With textarea"
+                   placeholder="Descreva a ocorrência"
+                   >{{$chamado->descricao}}</textarea>
+        </div>
+      @endif  
 
       <div>
         @foreach($files as $key => $f)

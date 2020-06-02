@@ -13,8 +13,7 @@
     <form action="{{route('chamado.store')}}" 
           method="post"
           enctype="multipart/form-data">
-          @csrf
-
+          @csrf      
       <div class="form-group">
         <label for="titulo">Titulo</label>
         <input type="text" name="titulo" 
@@ -51,34 +50,20 @@
                 class="form-control"
                 <?=$statusAtual?>>
           <option>Selecione um Grupo</option>
-          @foreach($grupoList as $g) 
-            
+          @foreach($grupoList as $g)
             <?=$selected = 
             $chamado->grupochamado_id == $g->id
             ? 'selected' : ''; ?>           
            
            <option value="{{$g->id}}" <?=$selected?>>
               {{$g->descricao}}
-            </option>
+           </option>
           @endforeach  
         </select>                
       </div>
-
-      <label name="descricao">Descrição</label>
-      <div class="input-group">
-        <textarea class="form-control mb-2" rows="5"
-                  name="descricao"
-                  aria-label="With textarea"
-                  placeholder="Descreva a ocorrência"
-                  <?=$statusAtual?>
-                  >{{$chamado->descricao}}</textarea>
-      </div>  
-
-      <button type="submit" <?=$statusAtual?> 
-              class="btn btn-info">
-        Atualizar
-      </button>
-    </form>  
+      @include('chamado.historico')  
+    </form> 
+    @include('chamado.reabertura')
   </div>
 </div>    
 @stop

@@ -32,5 +32,10 @@ Route::group(['middleware' => 'auth'], function(){
    'ChamadosController@retornotecnico')
    ->name('chamado.retornotecnico');
 
+   Route::post('/rejeitado', 
+   'ChamadosController@reabrirchamado')
+   ->name('chamado.reabrir');
+
+
       
 });

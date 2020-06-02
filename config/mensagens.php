@@ -21,3 +21,9 @@ define('CHAMADO_ATENDIMENTO_ERRO',
 define('UPDATE_USER_GRUPOCHAMADO_ERROR', 
 	   'Usuário com perfil de técnico deve ter um grupo');
 
+define('CHAMADO_REABERTO_SUCESSO',
+'Chamado foi reaberto com sucesso.');
+
+define('CHAMADO_REABERTO_ERRO',
+'Chamado nao foi reaberto!');
+

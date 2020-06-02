@@ -16,7 +16,10 @@ class EmailSender{
    'mail.chamado.tecnico.novo';  
 
    private const VIEW_PATH_EMAIL_CHAMADO_FECHADO = 
-   'mail.chamado.fechado';  
+   'mail.chamado.fechado'; 
+
+   private const VIEW_PATH_EMAIL_TECHNICIAN_REABERTO = 
+   'mail.chamado.tecnico.reaberto'; 
 
    public function enviaEmailUsuario():void{
      $chamado = (new Chamado())
@@ -51,6 +54,20 @@ class EmailSender{
      self::sender($chamado->titulo, 
       $user->email, $chamado->id, 
       self::VIEW_PATH_EMAIL_CHAMADO_FECHADO);
+    }
+
+    public function enviaEmailTecnico(
+      string $titulo, string $nomeTecnico,
+      int $chamado_id):void{
+      
+      $emailTecnico = User::where('name', $nomeTecnico)
+      ->select('email')
+      ->get()->first();
+      
+      self::sender($titulo, $emailTecnico->email,
+        $chamado_id, 
+        self::VIEW_PATH_EMAIL_TECHNICIAN_REABERTO);  
+      
     }
 
     public static function sender(String $titulo, 

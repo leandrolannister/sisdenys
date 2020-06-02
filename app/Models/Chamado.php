@@ -31,6 +31,11 @@ class Chamado extends Model
         return $this->hasMany(Arquivo::class);
     }
 
+    public function setAttributeDescricao($desc):void{
+    $this->attributes['descricao'] = 
+    mb_strtoupper($desc);
+   }
+
     public function store_c(Request $req):bool{      
       DB::beginTransaction();
 
