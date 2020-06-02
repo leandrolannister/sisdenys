@@ -12,3 +12,9 @@ define('CHAMADO_SUCESSO',
 define('CHAMADO_ERRO', 
 	   'Erro na abertura do chamado');
 
+define('CHAMADO_ATENDIMENTO_SUCESSO', 
+	   'Atendimento realizado com sucesso.');
+
+define('CHAMADO_ATENDIMENTO_ERRO', 
+	   'Atendimento não foi realizado!');
+

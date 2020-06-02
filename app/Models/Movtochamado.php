@@ -4,12 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use DB;
+use Illuminate\Http\Request;
 
 class Movtochamado extends Model
 {
    protected $fillable = ['titulo','tipo','status',
    'descricao','user_id', 'chamado_id', 
-   'grupochamado_id'];
+   'grupochamado_id','atendimento', 'tecnico'];
 
    public function chamado():object{
      return $this->belongsTo(Chamado::class);
@@ -42,15 +43,16 @@ class Movtochamado extends Model
    }
 
    public function atendimentoChamado(int $grupochamado_id):object{
-     
+         
      $chamados = DB::table('movtoChamados as m')
      ->join('users as u', 'u.id', 'm.user_id')
      ->select('m.chamado_id', 'm.tipo',
       'm.status', 'm.descricao', 'm.created_at',
       'm.titulo', 'u.name', 'm.id', 'm.tecnico')
       ->where('m.status', TECNICO)
+      ->where('m.grupochamado_id', $grupochamado_id)
       ->get();
-
+    
      return $chamados;
    }
 
@@ -80,5 +82,41 @@ class Movtochamado extends Model
       return false;
      }  
      return true;
+   }
+
+   public function retornoTecnico(Request $req)
+   :array{
+     try{
+     
+       $movto = Movtochamado::where('id', 
+       $req->movtoId)->orderby('id','desc')
+       ->first();
+
+       $movto->status = FECHADO;
+       $movto->save();
+              
+       Movtochamado::create([
+         "titulo" => $movto->titulo,
+         "tipo" => $movto->tipo,
+         "status" => FECHADO,
+         "descricao" => $movto->descricao,
+         "user_id" => $movto->user_id,
+         "atendimento" => $req->atendimento,
+         "tecnico" => auth()->user()->name,
+         "chamado_id" => $movto->chamado_id,
+         "grupochamado_id" => $movto->grupochamado_id
+        ]);
+
+      }catch(\Exception $e){        
+        $chamado = ['id' => $movto->chamado_id,
+                    'result' => false];
+
+        return $chamado;
+      }
+      
+      $chamado = ['id' => $movto->chamado_id,
+                  'result' => true];
+
+      return $chamado;
    }
 }

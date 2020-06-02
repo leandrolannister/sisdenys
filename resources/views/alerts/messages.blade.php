@@ -16,3 +16,10 @@
   </div>
 @endif  
 
+@if(session('error_grupoid'))
+  <div class="alert alert-danger">
+    {{session('error_grupoid')}}
+  </div>
+@endif  
+
+

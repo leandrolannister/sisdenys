@@ -28,5 +28,9 @@ Route::group(['middleware' => 'auth'], function(){
    'ChamadosController@updateTecnico')
    ->name('chamado.updatetecnico');
 
+   Route::post('/retornotecnico',
+   'ChamadosController@retornotecnico')
+   ->name('chamado.retornotecnico');
+
       
 });

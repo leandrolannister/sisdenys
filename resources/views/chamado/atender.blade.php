@@ -19,15 +19,19 @@
   </div>         
 @stop
 
+  
 @section('content')
 <div class="box">    
   <div class="container">
     <div class="alert alert-success d-none messageBox" 
          role="alert"></div>     
     @include('alerts.messages')
-    <form action="#" 
+    <form action="{{route('chamado.retornotecnico')}}" 
           method="post">          
           @csrf
+
+      <input type="hidden" name="movtoId"
+               value="{{$chamado->id}}">    
 
       <div class="form-group">
         <label for="titulo">Titulo</label>

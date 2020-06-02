@@ -15,6 +15,9 @@ class EmailSender{
    private const VIEW_PATH_EMAIL_TECHNICIAN = 
    'mail.chamado.tecnico.novo';  
 
+   private const VIEW_PATH_EMAIL_CHAMADO_FECHADO = 
+   'mail.chamado.fechado';  
+
    public function enviaEmailUsuario():void{
      $chamado = (new Chamado())
      ->getUltimoChamadoUsuario();
@@ -37,6 +40,17 @@ class EmailSender{
         $chamado->id, 
         self::VIEW_PATH_EMAIL_TECHNICIAN);  
       endforeach;	
+    }
+
+    public function enviaEmailChamadoFechado(
+      int $chamadoId):void {
+     
+     $chamado = Chamado::find($chamadoId);
+     $user  = User::find($chamado->user_id);
+
+     self::sender($chamado->titulo, 
+      $user->email, $chamado->id, 
+      self::VIEW_PATH_EMAIL_CHAMADO_FECHADO);
     }
 
     public static function sender(String $titulo, 

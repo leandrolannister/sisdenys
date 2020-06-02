@@ -73,6 +73,7 @@ class User extends Authenticatable
         $user->save(); 
 
       }catch(\Exception $e){
+        dd($e->getMessage());
         return false;        
       }
       return true;      

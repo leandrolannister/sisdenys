@@ -16,7 +16,7 @@ class ChamadosController extends Controller
       
       $chamados = (new Chamado())
       ->meusChamados(auth()->user()->id);
-      
+            
       $helper = (new Helper());
 
       return view('chamado.index', 
@@ -71,10 +71,13 @@ class ChamadosController extends Controller
     }
 
     public function atendimento():object{
-      $chamados = (new Movtochamado())
-      ->atendimentoChamado(
-        auth()->user()->grupochamado_id);
+      
+      if(empty(auth()->user()->grupochamado_id))
+        return view('home');
 
+      $chamados = (new Movtochamado())
+      ->atendimentoChamado(auth()->user()->grupochamado_id);
+      
       $helper = (new Helper());
 
       return view('chamado.atendimento', 
@@ -106,5 +109,23 @@ class ChamadosController extends Controller
        : $tecnico['message'] = 'Técnico não foi atualizado!';
        
        echo json_encode($tecnico);
+    }
+
+    public function retornotecnico(Request $req)
+    {
+       $atendimento = 
+       (new Movtochamado())->retornotecnico($req);
+
+      if($atendimento['result']):
+        (new EmailSender())
+        ->enviaEmailChamadoFechado(
+          $atendimento['id']);
+
+        return redirect()->route('chamado.atendimento')
+        ->with('success', CHAMADO_ATENDIMENTO_SUCESSO);
+      endif;  
+
+      return redirect()->route('chamado.atendimento')
+        ->with('success', CHAMADO_ATENDIMENTO_ERRO);
     }
 }
