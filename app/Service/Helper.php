@@ -2,6 +2,7 @@
 
 namespace App\Service;
 use Illuminate\Support\Carbon;
+use App\User;
 
 class Helper{
 
@@ -20,4 +21,16 @@ class Helper{
   	    return null;	
   	}  	
   }
+
+  public function typeOfUser(String $grupo):bool{     
+     
+     $typeUser = 
+     auth()->user()->tipousuarios[0]->descricao; 
+     
+     $userGroup = (int) $grupo;
+     if($typeUser == "Tecnico" and $userGroup == 0)
+       return false;
+       
+     return true;   
+  }   
 }

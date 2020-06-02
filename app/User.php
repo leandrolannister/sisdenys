@@ -63,13 +63,21 @@ class User extends Authenticatable
         if(is_null($dados['password'])):
           unset($dados['password']);
         else:
-          $user->password = Hash::make($dados['password']);
-        endif;
-               
+          $user->password = 
+          Hash::make($dados['password']);
+        endif;  
+                       
         $user->name  = $dados['name'];
         $user->email = $dados['email'];
-        $user->grupochamado_id = 
-        $dados['grupochamado_id'];
+                
+        if($dados['grupochamado_id'] == 
+          'Selecione um Grupo'):
+            unset($dados['grupochamado_id']);
+        else:
+          $user->grupochamado_id = 
+          $dados['grupochamado_id'];
+        endif;  
+        
         $user->save(); 
 
       }catch(\Exception $e){

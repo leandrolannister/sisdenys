@@ -54,8 +54,9 @@ class Tipousuario extends Model
     }
   }
 
-  public function seekType(int $user_id, string $type): ?int
-  {
+  public function seekType(int $user_id, string $type)
+  : ?int{
+    
      $query = 
      $this::where('user_id', $user_id)
      ->select('id')
