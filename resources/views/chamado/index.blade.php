@@ -24,7 +24,8 @@
       </thead>
       <tbody>
          @foreach($chamados as $key => $c)
-           <tr>
+           <tr class="{{$c->Status == 'Fechado' ? 
+              'text text-danger' : ''}}">
             <td>{{$c->id}}</td>
              <td>{{$c->Titulo}}</td>
              <td>{{$c->Status}}</td>
