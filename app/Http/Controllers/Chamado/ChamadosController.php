@@ -50,6 +50,7 @@ class ChamadosController extends Controller
     }
 
     private function validar(Request $req):void{
+      
       $this->validate($req, [
         'titulo' => 'required',
         'grupochamado_id' => 'required',
@@ -88,6 +89,7 @@ class ChamadosController extends Controller
     }
 
     public function atender(Request $req){
+
       $chamado = (new Movtochamado())->
       atenderChamado($req->movto_id)[0];
 
@@ -120,6 +122,11 @@ class ChamadosController extends Controller
 
     public function retornotecnico(Request $req)
     :object {
+      
+      if(is_null($req->atendimento))
+        return redirect()->route('chamado.atendimento')
+        ->with('error', CHAMADO_SEM_PARECER_TECNICO);
+
        $atendimento = 
        (new Movtochamado())->retornotecnico($req);
 
@@ -135,7 +142,7 @@ class ChamadosController extends Controller
       return redirect()->route('chamado.atendimento')
         ->with('success', CHAMADO_ATENDIMENTO_ERRO);
     }
-
+    
     public function reabrirchamado(Request $req)
     :object {
 

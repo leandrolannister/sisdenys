@@ -18,7 +18,6 @@
     </div>
   </div>         
 @stop
-
   
 @section('content')
 <div class="box">    

@@ -27,3 +27,6 @@ define('CHAMADO_REABERTO_SUCESSO',
 define('CHAMADO_REABERTO_ERRO',
 'Chamado nao foi reaberto!');
 
+define('CHAMADO_SEM_PARECER_TECNICO',
+'Um parecer técnico deve ser informado');
+
