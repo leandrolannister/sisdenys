@@ -138,8 +138,10 @@ class Movtochamado extends Model
 
    public function historicoChamado(int $chamado_id)
    :object{
+     
      $historico = 
      $this::where('chamado_id',$chamado_id)
+     ->whereNotNull('atendimento')
      ->select('created_at', 'descricao', 
      'atendimento')->get();
 

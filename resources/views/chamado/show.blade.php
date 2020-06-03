@@ -20,8 +20,7 @@
                class="form-control"
                value="{{$chamado->titulo}}"
                <?=$statusAtual?>>         
-      </div>
-      
+      </div>      
       <div>
         <label name="status">Status</label>
         <input type="" name="status" 

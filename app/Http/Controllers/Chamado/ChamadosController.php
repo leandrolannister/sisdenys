@@ -62,7 +62,6 @@ class ChamadosController extends Controller
 
       $historico = (new Movtochamado())
       ->historicoChamado($chamado->chamado_id);
-
       
       $grupoList = GrupoChamado::all();
 
