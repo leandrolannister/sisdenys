@@ -33,7 +33,7 @@
                  placeholder="Senha" 
                  class="form-control">
         </div> 
-
+        @if($userType == 'Admin' || $userType == 'Tecnico')
         <div class="form-group mb-20">
           <label for="grupo">Grupo</label>
           <select name="grupochamado_id" 
@@ -45,9 +45,10 @@
                ? "selected" : "";?> >
               {{$g->descricao}}
             </option>
-          @endforeach  
+            @endforeach         
         </select>                
-      </div>  
+      </div>
+      @endif  
         
       <div>
         <button type="submit" class="btn btn-info">Atualizar

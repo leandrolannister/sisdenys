@@ -69,14 +69,14 @@ class User extends Authenticatable
                        
         $user->name  = $dados['name'];
         $user->email = $dados['email'];
-                
+            
         if($dados['grupochamado_id'] == 
           'Selecione um Grupo'):
             unset($dados['grupochamado_id']);
         else:
           $user->grupochamado_id = 
           $dados['grupochamado_id'];
-        endif;  
+        endif; 
         
         $user->save(); 
 
@@ -85,6 +85,28 @@ class User extends Authenticatable
         return false;        
       }
       return true;      
+    }
+
+    public function updateUserComum(array $dados)
+    :bool{
+      try{
+         $user = self::find(auth()->user()->id);
+
+         if(is_null($dados['password'])):
+           unset($dados['password']);
+         else:
+           $user->password = $dados['password'];
+         endif;
+
+         $user->name = $dados['name'];
+         $user->email = $dados['email'];
+         $user->save();         
+
+      }catch(\Exception $e){
+        dd($e->getMessage());
+        return false;
+      }
+      return true;
     }
 
     public function listar():?object{

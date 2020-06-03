@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\User;
+use App\Models\Tipousuario;
 
 class UserSeeder extends Seeder
 {
@@ -13,17 +14,15 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::create([
-        	'name' => 'Leandro',
-        	'email' => 'leandrohendrix@gmail.com',
-        	'password' => Hash::make('123'),
-        	'equipamento_id' => 1	
-        ]);
-
-        User::create([
             'name' => 'super',
             'email' => 'super@gmail.com',
             'password' => Hash::make('123'),
             'equipamento_id' => 1   
+        ]);
+
+        Tipousuario::create([
+          'descricao' => 'Admin',
+          'user_id' => 1    
         ]);
     }
 }

@@ -26,9 +26,18 @@ class Helper{
   	}  	
   }
 
+  public function recuperaTipoUsuario():string{
+     return 
+     auth()->user()
+     ->tipousuarios[0]->descricao;   
+  }
+
   public function typeOfUser(String $grupo):bool{     
      
      if(!isset((auth()->user()->tipousuarios[0])))
+       return true;
+
+     if(empty((auth()->user()->tipousuarios[0])))
        return true;
 
      $typeUser = 
