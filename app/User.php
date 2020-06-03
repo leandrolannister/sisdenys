@@ -69,14 +69,8 @@ class User extends Authenticatable
                        
         $user->name  = $dados['name'];
         $user->email = $dados['email'];
-            
-        if($dados['grupochamado_id'] == 
-          'Selecione um Grupo'):
-            unset($dados['grupochamado_id']);
-        else:
-          $user->grupochamado_id = 
+        $user->grupochamado_id = 
           $dados['grupochamado_id'];
-        endif; 
         
         $user->save(); 
 
@@ -109,8 +103,7 @@ class User extends Authenticatable
       return true;
     }
 
-    public function listar():?object{
-      
+    public function listar():?object{      
       $users = $this::query()->orderBy('id', 'desc')
       ->paginate();
 
@@ -118,10 +111,10 @@ class User extends Authenticatable
     }
 
     public function getUsuariosGrupo(
-        int $grupochamado_id):object{
+    int $grupochamado_id):object{
         
-        return $this::where('grupochamado_id',
-        $grupochamado_id)->select('email')
-        ->get();
+      return $this::where('grupochamado_id',
+      $grupochamado_id)->select('email')
+      ->get();
     }
 }

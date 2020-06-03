@@ -34,11 +34,8 @@ class Helper{
 
   public function typeOfUser(String $grupo):bool{     
      
-     if(!isset((auth()->user()->tipousuarios[0])))
-       return true;
-
-     if(empty((auth()->user()->tipousuarios[0])))
-       return true;
+     if($grupo == "Selecione um Grupo")
+       return false; 
 
      $typeUser = 
      auth()->user()->tipousuarios[0]->descricao;
