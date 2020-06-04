@@ -12,4 +12,12 @@ Route::group(['middleware' => 'auth'], function(){
 
    route::post('/store', 'InstituicoesController@store')
    ->name('instituicao.store');
+
+   route::get('/upgrade/{id}', 
+   	'InstituicoesController@upgrade')
+   ->name('instituicao.upgrade');
+
+   route::post('/update', 
+   	'InstituicoesController@update')
+    ->name('instituicao.update');
 });

@@ -30,4 +30,10 @@ define('CHAMADO_REABERTO_ERRO',
 define('CHAMADO_SEM_PARECER_TECNICO',
 'Um parecer técnico deve ser informado');
 
+define('MENSAGEM_SUCESSO_UPDATE', 
+	   'Registro atualizado com com sucesso.');
+
+define('MENSAGEM_ERRO_UPDATE', 
+	   'Registro não foi atualizado!');
+
 

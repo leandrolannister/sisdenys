@@ -14,14 +14,16 @@ class Instituicao extends Model
      return $this->hasMany(Equipamento::class);	
   }
 
-  public function store_i(array $dados):bool{
-     
+  public function setSiglaAttribute($sigla):void{
+    $this->attributes['sigla'] = mb_strtoupper($sigla);
+  }
+
+  public function store_i(array $dados):bool{     
     try{
       $this::create($dados);
     }catch(\Exception $e){      
       return false;
-    }
-    
+    }    
     return true;
   }
 
@@ -30,6 +32,19 @@ class Instituicao extends Model
     ->get();
 
     return $instituicoes;
+  }
+
+  public function update_i(array $dados):bool{
+    $instituicao = self::find($dados['id']);
+    try{
+       $instituicao->sigla = $dados['sigla'];
+       $instituicao->nome = $dados['nome'];
+       $instituicao->save();
+    }catch(\Exception $e){
+      dd($e->getMessage());
+      return false;
+    }
+    return true;
   }
 
 }

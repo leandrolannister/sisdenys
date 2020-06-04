@@ -1,4 +1,4 @@
-<?php
+    <?php
  
 return [
 
@@ -268,6 +268,17 @@ return [
             'text'       => 'Atendimento',
             'icon_color' => 'green',
             'url' => 'chamado/atendimento'
+        ],
+        [
+            'text'    => 'Manutenção',
+            'icon'    => 'fas fa-fw fa-share',
+            'submenu' => [
+                [
+                  'text' => 'Instituição',
+                  'url'  => 'instituicao/',
+                ],
+                
+            ],
         ],
 
     ],
