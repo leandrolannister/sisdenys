@@ -123,7 +123,8 @@ class Movtochamado extends Model
          "grupochamado_id" => $movto->grupochamado_id
         ]);
 
-      }catch(\Exception $e){        
+      }catch(\Exception $e){ 
+        dd($e->getMessage());       
         $chamado = ['id' => $movto->chamado_id,
                     'result' => false];
 
@@ -136,12 +137,57 @@ class Movtochamado extends Model
       return $chamado;
    }
 
+   public function retornoTecnicoComArquivo(
+   Request $req): array{
+
+      try{
+        $movto = Movtochamado::where('id', 
+        $req->movtoId)->orderby('id','desc')
+        ->first();
+
+        $movto->status = FECHADO;
+        $movto->save();
+              
+        Movtochamado::create([
+           "titulo" => $movto->titulo,
+           "tipo" => $movto->tipo,
+           "status" => FECHADO,
+           "descricao" => $movto->descricao,
+           "user_id" => $movto->user_id,
+           "atendimento" => $req->atendimento,
+           "tecnico" => auth()->user()->name,
+           "chamado_id" => $movto->chamado_id,
+           "grupochamado_id" => $movto->grupochamado_id
+        ]);
+
+      }catch(\Exception $e){ 
+        dd($e->getMessage());       
+        
+        return ['id' => $movto->chamado_id,
+                'result' => false];        
+      }
+      
+      //Xura
+      $arquivo = (new Arquivo())
+       ->store_a($req, $movto->chamado);
+
+      if($movto and $arquivo):
+         DB::commit();
+         return ['id' => $movto->chamado_id,
+                 'result' => true];
+       endif;
+       
+       DB::rollback();
+       
+       return ['id' => $movto->chamado_id,
+               'result' => false];  
+   }
+
    public function historicoChamado(int $chamado_id)
    :object{
      
      $historico = 
      $this::where('chamado_id',$chamado_id)
-     ->whereNotNull('atendimento')
      ->select('created_at', 'descricao', 
      'atendimento')->get();
 

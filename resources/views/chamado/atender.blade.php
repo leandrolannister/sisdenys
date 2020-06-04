@@ -18,7 +18,7 @@
     </div>
   </div>         
 @stop
-  
+
 @section('content')
 <div class="box">    
   <div class="container">
@@ -26,7 +26,8 @@
          role="alert"></div>     
     @include('alerts.messages')
     <form action="{{route('chamado.retornotecnico')}}" 
-          method="post">          
+          method="post"
+          enctype="multipart/form-data">          
           @csrf
 
       <input type="hidden" name="movtoId"
@@ -57,28 +58,15 @@
           @endforeach  
         </select>                
       </div>
-      @if($chamado->status == 'Reaberto') 
-        @include('chamado.historico')  
-      @else
-        <label name="descricao">Descrição</label>
-        <div class="input-group">
-          <textarea class="form-control mb-2" rows="5"
-                   name="descricao"
-                   disabled 
-                   aria-label="With textarea"
-                   placeholder="Descreva a ocorrência"
-                   >{{$chamado->descricao}}</textarea>
-        </div>
-      @endif  
+      
+      @include('chamado.historico')  
+      @include('chamado.arquivos') 
 
       <div>
-        @foreach($files as $key => $f)
-          <a href='{{url("storage/{$f->path}")}}'
-          target="_blank">
-          Arquivo_{{++$key}}<br/>
-        </a>
-        @endforeach
-      </div>      
+        <input type="file" name="arquivo[]"
+               class="form-control mb-2" 
+               multiple>
+      </div>     
 
       <label name="atendimento">Atendimento</label>
       <div class="input-group">

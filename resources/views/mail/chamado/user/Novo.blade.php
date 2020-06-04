@@ -1,10 +1,11 @@
 @component('mail::message')
   <h1> Mr(a) {{auth()->user()->name}}</h1>
   <h3>
-  	Seu chamado {{$titulo}} foi aberto com sucesso.
+  	Seu chamado {{$titulo}} foi ABERTO com sucesso.
   </h3>
 
-  @component('mail::button', ['url' => ''])
+  @component('mail::button', ['url' => 
+    USUARIO_URL])
     Acompanhar
   @endcomponent
 @endcomponent

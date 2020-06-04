@@ -63,15 +63,18 @@ class ChamadosController extends Controller
 
       $historico = (new Movtochamado())
       ->historicoChamado($chamado->chamado_id);
-      
+
       $grupoList = GrupoChamado::all();
+
+      $files = (new Arquivo())
+      ->list($chamado->chamado_id);
 
       $statusAtual = 
       Helper::checkStatus($chamado->status);
       
       return view('chamado.show', 
       compact('chamado', 'grupoList', 
-              'statusAtual', 'historico'));
+              'statusAtual', 'historico', 'files'));
     }
 
     public function atendimento():object{
@@ -81,11 +84,18 @@ class ChamadosController extends Controller
 
       $chamados = (new Movtochamado())
       ->atendimentoChamado(auth()->user()->grupochamado_id);
+
+      if(empty($chamados[0]->id))
+        return view('home');
+      
+
+       $historico = (new Movtochamado())
+      ->historicoChamado($chamados[0]->id);
       
       $helper = (new Helper());
 
       return view('chamado.atendimento', 
-      compact('chamados', 'helper'));     
+      compact('chamados', 'helper', 'historico'));     
     }
 
     public function atender(Request $req){
@@ -122,13 +132,17 @@ class ChamadosController extends Controller
 
     public function retornotecnico(Request $req)
     :object {
-      
+
       if(is_null($req->atendimento))
         return redirect()->route('chamado.atendimento')
         ->with('error', CHAMADO_SEM_PARECER_TECNICO);
 
-       $atendimento = 
-       (new Movtochamado())->retornotecnico($req);
+
+      $atendimento = $req->arquivo 
+      ? (new Movtochamado())
+        ->retornoTecnicoComArquivo($req)
+      : (new Movtochamado())->retornotecnico($req);
+       
 
       if($atendimento['result']):
         (new EmailSender())
@@ -147,9 +161,11 @@ class ChamadosController extends Controller
     :object {
 
       $movtoChamado = (new Movtochamado())
-      ->getUltimoChamado($req->id);
+      ->getUltimoMovto($req->id);
 
       $movtoChamado->descricao = $req->descricao;
+
+      $movtoChamado->atendimento = null;
 
       $chamadoAberto = (new Movtochamado())
       ->reabrirChamado($movtoChamado);

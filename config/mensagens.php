@@ -30,3 +30,4 @@ define('CHAMADO_REABERTO_ERRO',
 define('CHAMADO_SEM_PARECER_TECNICO',
 'Um parecer técnico deve ser informado');
 
+

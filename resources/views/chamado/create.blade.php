@@ -53,7 +53,6 @@
         <input type="file" name="arquivo[]"
                class="form-control mb-2" 
                multiple>
-
       </div>     
       <div>
         <button type="submit" class="btn btn-info">

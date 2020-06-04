@@ -60,7 +60,8 @@
           @endforeach  
         </select>                
       </div>
-      @include('chamado.historico')  
+      @include('chamado.historico')
+      @include('chamado.arquivos')
     </form> 
     @include('chamado.reabertura')
   </div>
