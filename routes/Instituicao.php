@@ -17,7 +17,7 @@ Route::group(['middleware' => 'auth'], function(){
    	'InstituicoesController@upgrade')
    ->name('instituicao.upgrade');
 
-   route::post('/update', 
+   route::put('/update', 
    	'InstituicoesController@update')
     ->name('instituicao.update');
 });

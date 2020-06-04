@@ -3,22 +3,26 @@
 @section('title', 'Equipamento')
 
 @section('content_header')
-  <h1>Cadastro->Equipamento</h1>  
+  <h1>Manutenção->Equipamento</h1>  
 @stop
 
 @section('content')
 <div class="box">    
   <div class="container">
     @include('alerts.messages')
-    <form action="{{route('equipamento.store')}}" 
+    <form action="{{route('equipamento.update')}}" 
           method="post">
-      {!! csrf_field() !!}
+      @csrf
+      @method('PUT')
 
+      <input type="hidden" name="id" 
+             value="{{$equipamento->id}}">  
       <div class="form-group">
         <label for="nome">Nome</label>
         <input type="text" name="nome" 
                placeholder="Nome do Equipamento" 
-               class="form-control">
+               class="form-control"
+               value="{{$equipamento->nome}}">
                               
       </div>
 
@@ -27,8 +31,8 @@
         <div class="input-group mb-3" style="width: 220px">
           <input type="text" name="cep" 
                  placeholder="Cep da Instituição" 
-                 class="form-control">
-                
+                 class="form-control"
+                 value="{{$equipamento->cep}}">
 
           <button type="submit"  
                   class="btn btn-success"
@@ -41,14 +45,16 @@
         <label for="logradouro">Logradouro</label>
         <input type="text" name="logradouro" 
                placeholder="Logradouro da Instituição" 
-               class="form-control">               
+               class="form-control"
+               value="{{$equipamento->logradouro}}">               
       </div>   
 
       <div class="form-group">
         <label for="bairro">Bairro</label>
         <input type="text" name="bairro" 
                placeholder="Bairro da Instituição" 
-               class="form-control">               
+               class="form-control"
+               value="{{$equipamento->bairro}}">               
       </div> 
 
       <div class="form-group">
@@ -56,7 +62,8 @@
         <input type="text" name="numero" 
                placeholder="Número da Instituição" 
                class="form-control"
-               style="width: 220px">
+               style="width: 220px"
+               value="{{$equipamento->numero}}">
                              
       </div>  
 
@@ -64,20 +71,23 @@
         <label for="complemento">Complemento</label>
         <input type="text" name="complemento" 
                placeholder="Complemento da Instituição" 
-               class="form-control">               
+               class="form-control"
+               value="{{$equipamento->complemento}}">               
       </div> 
       <label name="instituicao_id">Instituição</label>
-      <select name="instituicao_id" 
+      <select name="instituicao_id"
               class="form-control mb-2">
-        @foreach($instituicoes as $key => $i)      
-          <option value="{{$i->id}}">
+        @foreach($instituicoes as $key => $i)  
+          <?=$selected = $i->id == $equipamento->id
+           ? "selected" : "";?>    
+          <option value="{{$i->id}}" <?=$selected?>>
             {{$i->nome}}
           </option>
         @endforeach  
       </select>
       <div>
         <button type="submit" class="btn btn-success">
-          Gravar
+          Atualizar
         </button>
       </div>
     </form>

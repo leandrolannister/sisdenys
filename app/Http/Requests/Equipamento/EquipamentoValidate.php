@@ -26,7 +26,7 @@ class EquipamentoValidate extends FormRequest
         return [
             'nome' => 'required|min:5|max:50',
             'logradouro' => 'required|min:5|max:70',
-            'cep' => 'required|min:9|max:9',
+            'cep' => 'required|min:8|max:9',
             'bairro' => 'required|min:5|max:50',
         ];
     }

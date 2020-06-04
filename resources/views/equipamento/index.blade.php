@@ -9,22 +9,33 @@
 
 @section('content')
   @include('alerts.messages')
-  <table id="instituicaoTb" class="table table-borderred table-hover">
+  <table id="equipamentoTb" 
+         class="table table-borderred table-hover">
     <thead>
       <tr>
         <td>Id</td>
-        <th>Sigla</th>
         <th>Nome</th>
+        <th>Cep</th>
+        <th>Logradouro</th>
+        <th>Bairro</th>
+        <th>Número</th>
+        <th>Instituição</th>
       </tr>
     </thead>
     <tbody>
-      @forelse($instituicaoList as $i)
+      @forelse($equipamentoList as $e)  
         <tr>
           <td>
-            <a href="instituicao/upgrade/{{$i->id}}">{{$i->id}}</a>
+            <a href="equipamento/upgrade/{{$e->id}}">
+              {{$e->id}}
+            </a>
           </td>
-          <td>{{$i->sigla}}</td>
-          <td>{{$i->nome}}</td>
+         <td>{{$e->nome}}</td>
+         <td>{{$e->cep}}</td>
+         <td>{{$e->logradouro}}</td>
+         <td>{{$e->bairro}}</td>
+         <td>{{$e->numero}}</td>
+         <td>{{$e->instituicao->nome}}</td>
         </tr>
       @empty
         <p>sem Registro</p>
@@ -37,7 +48,7 @@
  <script>
    $(document).ready(function () {
       $.noConflict();
-      $('#instituicaoTb').DataTable();
+      $('#equipamentoTb').DataTable();
    });
  </script>
 @stop

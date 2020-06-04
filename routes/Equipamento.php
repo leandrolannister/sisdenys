@@ -12,5 +12,13 @@ Route::group(['middleware' => 'auth'], function(){
 
    route::post('/store', 'EquipamentosController@store')
    ->name('equipamento.store');
+
+   route::get('/upgrade/{id}', 
+   	'EquipamentosController@upgrade')
+   ->name('equipamento.upgrade');
+
+   route::put('/equipamento', 
+   	'EquipamentosController@update')
+   ->name('equipamento.update');
    
 });

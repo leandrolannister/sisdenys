@@ -277,6 +277,10 @@ return [
                   'text' => 'Instituição',
                   'url'  => 'instituicao/',
                 ],
+                [
+                  'text' => 'Equipamento',
+                  'url'  => 'equipamento/',
+                ],
                 
             ],
         ],

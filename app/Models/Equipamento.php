@@ -29,7 +29,26 @@ class Equipamento extends Model
     return true;  
   }
 
+  public function list():object{
+    $equipamentos = $this::query()->orderBy('id', 'desc')
+    ->get();
+
+    return $equipamentos;
+  }
+
   public function setCepAttribute($cep){
     $this->attributes['cep'] = str_replace('-', '', $cep);
+  }
+
+  public function update_e(array $dados):bool{
+    $equipamento = self::find($dados['id']);
+    try{
+      $equipamento->fill($dados);
+      $equipamento->save();
+    }catch(\Exception $e){
+      dd($e->getMessage());
+      return false;
+    }
+    return true;
   }
 }

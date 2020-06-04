@@ -37,8 +37,7 @@ class Instituicao extends Model
   public function update_i(array $dados):bool{
     $instituicao = self::find($dados['id']);
     try{
-       $instituicao->sigla = $dados['sigla'];
-       $instituicao->nome = $dados['nome'];
+       $instituicao->fill($dados);
        $instituicao->save();
     }catch(\Exception $e){
       dd($e->getMessage());

@@ -13,6 +13,7 @@
     <form action="{{route('instituicao.update')}}" 
           method="post">
       @csrf
+      @method('PUT')
       <input type="hidden" name="id" 
              value="{{$instituicao->id}}">
 
