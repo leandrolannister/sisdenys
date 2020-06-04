@@ -281,6 +281,10 @@ return [
                   'text' => 'Equipamento',
                   'url'  => 'equipamento/',
                 ],
+                [
+                  'text' => 'Grupo Chamados',
+                  'url'  => 'grupochamado/',
+                ],
                 
             ],
         ],

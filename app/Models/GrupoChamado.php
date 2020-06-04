@@ -36,6 +36,23 @@ class GrupoChamado extends Model
      $this->attributes['descricao'] = mb_strtoupper($grupo);
    }
 
-   
+   public function list():object{
+      return 
+      $this::query()->orderby('id', 'desc')
+      ->get();
+   }
+
+   public function update_g(array $dados):bool{
+      $grupo = self::find($dados['id']);
+
+      try{
+         $grupo->fill($dados);
+         $grupo->save();
+      }catch(\Exception $e){
+         dd($e->getMessage());
+         return false;
+      }
+      return true;
+   }  
 
 }
