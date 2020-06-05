@@ -48,6 +48,11 @@
            </tr>
          @endforeach  
       </tbody>
-    </table>   
+    </table> 
+    @if(isset($chamadosPaginate))
+      {{$chamados->appends($chamadosPaginate)}}
+    @else  
+      {{$chamados->links()}}  
+    @endif  
   </div>
 @stop 

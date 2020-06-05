@@ -36,7 +36,7 @@ Route::group(['middleware' => 'auth'], function(){
    'ChamadosController@reabrirchamado')
    ->name('chamado.reabrir');
 
-   route::post('/filtro', 'ChamadosController@filtro')
+   route::any('/filtro', 'ChamadosController@filtro')
    ->name('chamado.filtro');
 
 

@@ -14,6 +14,8 @@ class Movtochamado extends Model
    'grupochamado_id','atendimento', 'tecnico',
    'ativo'];
 
+   protected $perPage = 2;
+
    public function chamado():object{
      return $this->belongsTo(Chamado::class);
    }
@@ -74,7 +76,7 @@ class Movtochamado extends Model
       ->where('ativo', true)
       ->where('m.status', '<>', FECHADO)
       ->where('m.grupochamado_id', $grupochamado_id)
-      ->get();
+      ->paginate($this->perPage);
     
      return $chamados;
    }
@@ -233,7 +235,7 @@ class Movtochamado extends Model
         ->where('titulo', 'like', '%'.$dados['titulo'].'%')
         ->where('status', '!=', FECHADO)
         ->orderby('created_at', 'desc')
-        ->get();
+        ->paginate();
        break;
 
        case isset($dados['status']):
@@ -242,7 +244,7 @@ class Movtochamado extends Model
          ->where('status', $dados['status'])
          ->where('status', '!=', FECHADO)
          ->orderby('created_at', 'desc')
-         ->get();
+         ->paginate();
        break;
 
        case isset($dados['data']):
@@ -250,7 +252,7 @@ class Movtochamado extends Model
          return $this::where('ativo', true)
          ->where(DB::raw('DATE_FORMAT(created_at, "%d/%m/%Y")'), $dt)
          ->where('status', '!=', FECHADO)
-         ->get(); 
+         ->paginate(); 
        break;  
 
       case isset($dados['name']):
@@ -260,7 +262,7 @@ class Movtochamado extends Model
         ->where('u.name', 'like', '%'.$dados['name'].'%')
         ->where('m.ativo', true)
         ->where('status', '!=', FECHADO)
-        ->get(); 
+        ->paginate(); 
        break; 
 
       case isset($dados['tecnico']):
@@ -269,13 +271,13 @@ class Movtochamado extends Model
        ->where('tecnico', 'like', '%'.$dados['tecnico'].'%')
        ->where('status', '!=', FECHADO)
        ->orderby('created_at', 'desc')
-       ->get();
+       ->paginate();
        break;  
 
        case is_null($dados['status']):
          return $this::where('ativo', true)
          ->where('status', '!=', FECHADO)
-         ->get(); 
+         ->paginate(); 
        break;        
       }
     }

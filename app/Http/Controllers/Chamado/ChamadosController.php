@@ -95,7 +95,8 @@ class ChamadosController extends Controller
       $helper = (new Helper());
 
       return view('chamado.atendimento', 
-      compact('chamados', 'helper', 'historico'));     
+      compact('chamados', 'helper', 
+        'historico'));     
     }
 
     public function atender(Request $req){
@@ -184,13 +185,15 @@ class ChamadosController extends Controller
 
     public function filtro(Request $req){
      
-      //dd($req->all());
       $chamados = (new Movtochamado())
       ->filtrarAtendimento($req->all()); 
       
       $helper = (new Helper()); 
+
+      $chamadosPaginate = $req->all();
       
       return view('chamado.atendimento', 
-      compact('chamados','helper')); 
+      compact('chamados','helper', 
+        'chamadosPaginate')); 
     }
 }
