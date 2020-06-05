@@ -161,6 +161,10 @@ class ChamadosController extends Controller
     public function reabrirchamado(Request $req)
     :object {
       
+      if(is_null($req->descricao))
+        return redirect()->route('chamado.index')
+        ->with('error', CHAMADO_SEM_DESCRICAO_USUARIO);
+
       $chamadoReaberto = (new movtoChamado())
       ->reabrirChamado($req);
 
