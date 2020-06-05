@@ -177,18 +177,18 @@ class Movtochamado extends Model
       }
       
       $arquivo = (new Arquivo())
-       ->store_a($req, $movto->chamado);
+      ->store_a($req, $movto->chamado);
 
       if($movto and $arquivo):
-         DB::commit();
-         return ['id' => $movto->chamado_id,
-                 'result' => true];
-       endif;
+        DB::commit();
+        return ['id' => $movto->chamado_id,
+                'result' => true];
+      endif;
        
-       DB::rollback();
+      DB::rollback();
        
-       return ['id' => $movto->chamado_id,
-               'result' => false];  
+      return ['id' => $movto->chamado_id,
+              'result' => false];  
    }
 
    public function historicoChamado(int $chamado_id)
@@ -210,7 +210,7 @@ class Movtochamado extends Model
       $movto->save();
 
       try{
-        Movtochamado::create([
+        $newmovto = Movtochamado::create([
            "titulo" =>  $movto->titulo,
            "tipo" =>  $movto->tipo,
            "status" => REABERTO,
@@ -222,12 +222,23 @@ class Movtochamado extends Model
         ]);   
       }catch(Exception $e){
         return false;
-      }  
-      return true;
+      } 
+
+      $arquivo = (new Arquivo())
+      ->store_a($req, $movto->chamado);
+
+      if($newmovto and $arquivo):
+        DB::commit();
+        return true;
+      endif;
+       
+      DB::rollback(); 
+      return false;
    }
 
    public function filtrarAtendimento(array $dados)
    :object{
+     
      $grupo = auth()->user()->grupochamado_id;
 
      switch ($dados) {

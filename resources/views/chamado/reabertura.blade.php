@@ -1,9 +1,16 @@
 @if($chamado->status == 'Fechado')
   <form action="{{route('chamado.reabrir')}}"
-        method="post">
+        method="post"
+        enctype="multipart/form-data">
         @csrf    
     <input type="hidden" name="id" 
            value="{{$chamado->id}}">  
+
+    <div>
+      <input type="file" name="arquivo[]"
+             class="form-control mb-2" 
+             multiple>
+    </div>          
             
     <label name="descricao">Descrição</label>
       <div class="input-group">
