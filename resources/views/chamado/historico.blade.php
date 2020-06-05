@@ -9,17 +9,17 @@
     </div>
 @else
   <label style="margin-right: 530px">Usuário</label>
-  <label>Técnico</label> 
+    <label>Técnico</label> 
   @foreach($historico as $h)
     <div class="input-group">
       <textarea rows="3" disabled 
         class="form-control mb-2 text-danger" 
         aria-label="With textarea">{{$h->descricao}}&#013;{{$h->created_at}}</textarea> 
-
-      <textarea rows="3" disabled
-        class="form-control mb-2 text-primary" 
-        aria-label="With textarea">{{$h->atendimento}}&#013;{{$h->created_at}}
-      </textarea>
+            
+        <textarea rows="3" disabled
+          class="form-control mb-2 text-primary" 
+          aria-label="With textarea">{{$h->atendimento}}&#013;{{$h->created_at}}
+        </textarea>
     </div>
  @endforeach
 @endif 

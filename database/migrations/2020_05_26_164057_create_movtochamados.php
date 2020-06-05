@@ -28,6 +28,9 @@ class CreateMovtochamados extends Migration
           $table->string('atendimento')
           ->nullable();
 
+          $table->boolean('ativo')
+          ->default(true);
+
           $table->string('tecnico', 50)
           ->nullable();
 

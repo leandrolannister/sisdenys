@@ -5,12 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 use Illuminate\Http\Request;
+use App\Service\Helper;
 
 class Movtochamado extends Model
 {
    protected $fillable = ['titulo','tipo','status',
    'descricao','user_id', 'chamado_id', 
-   'grupochamado_id','atendimento', 'tecnico'];
+   'grupochamado_id','atendimento', 'tecnico',
+   'ativo'];
 
    public function chamado():object{
      return $this->belongsTo(Chamado::class);
@@ -20,8 +22,13 @@ class Movtochamado extends Model
      return $this->belongsTo(GrupoChamado::class);
    }
 
-   public function setAttributeDescricao($desc):void{
+   public function setDescricaoAttribute($desc):void{
     $this->attributes['descricao'] = 
+    mb_strtoupper($desc);
+   }
+
+   public function setAtendimentoAttribute($desc):void{
+    $this->attributes['atendimento'] = 
     mb_strtoupper($desc);
    }
    
@@ -64,8 +71,8 @@ class Movtochamado extends Model
      ->select('m.chamado_id', 'm.tipo',
       'm.status', 'm.descricao', 'm.created_at',
       'm.titulo', 'u.name', 'm.id', 'm.tecnico')
-      ->where('m.status', TECNICO)
-      ->Orwhere('m.status', REABERTO)
+      ->where('ativo', true)
+      ->where('m.status', '<>', FECHADO)
       ->where('m.grupochamado_id', $grupochamado_id)
       ->get();
     
@@ -108,7 +115,7 @@ class Movtochamado extends Model
        $req->movtoId)->orderby('id','desc')
        ->first();
 
-       $movto->status = FECHADO;
+       $movto->ativo = false;
        $movto->save();
               
        Movtochamado::create([
@@ -144,10 +151,10 @@ class Movtochamado extends Model
         $movto = Movtochamado::where('id', 
         $req->movtoId)->orderby('id','desc')
         ->first();
-
-        $movto->status = FECHADO;
+        
+        $movto->ativo = false;
         $movto->save();
-              
+
         Movtochamado::create([
            "titulo" => $movto->titulo,
            "tipo" => $movto->tipo,
@@ -167,7 +174,6 @@ class Movtochamado extends Model
                 'result' => false];        
       }
       
-      //Xura
       $arquivo = (new Arquivo())
        ->store_a($req, $movto->chamado);
 
@@ -194,24 +200,83 @@ class Movtochamado extends Model
      return $historico;
    }
 
-   public function reabrirChamado(Movtochamado $movto)
+   public function reabrirChamado(Request $req)
    :bool{
+      
+      $movto = $this::getUltimoMovto($req->id);
+      $movto->ativo = false;
+      $movto->save();
+
       try{
         Movtochamado::create([
            "titulo" =>  $movto->titulo,
            "tipo" =>  $movto->tipo,
            "status" => REABERTO,
-           "descricao" =>  $movto->descricao,
+           "descricao" =>  $req->descricao,
            "user_id" =>  $movto->user_id,
-           "atendimento" => $movto->atendimento,
            "tecnico" =>  $movto->tecnico,
            "chamado_id" =>  $movto->chamado_id,
            "grupochamado_id" =>  $movto->grupochamado_id
-        ]);
+        ]);   
       }catch(Exception $e){
         return false;
       }  
       return true;
-
    }
+
+   public function filtrarAtendimento(array $dados){
+
+     switch ($dados) {
+       case isset($dados['titulo']):
+        return $this->query()
+        ->where('ativo', true)
+        ->where('titulo', 'like', '%'.$dados['titulo'].'%')
+        ->where('status', '!=', FECHADO)
+        ->orderby('created_at', 'desc')
+        ->get();
+       break;
+
+       case isset($dados['status']):
+         return $this->query()
+         ->where('ativo', true)
+         ->where('status', $dados['status'])
+         ->where('status', '!=', FECHADO)
+         ->orderby('created_at', 'desc')
+         ->get();
+       break;
+
+       case isset($dados['data']):
+         $dt = date('d/m/Y', strtotime($dados['data']));
+         return $this::where('ativo', true)
+         ->where(DB::raw('DATE_FORMAT(created_at, "%d/%m/%Y")'), $dt)
+         ->where('status', '!=', FECHADO)
+         ->get(); 
+       break;  
+
+      case isset($dados['name']):
+       return DB::table('movtoChamados as m')
+        ->join('users as u', 'u.id', 'm.user_id')
+        ->select('m.id', 'm.titulo', 'm.status', 'm.chamado_id as chamado_id','m.created_at', 'u.name', 'm.tecnico')
+        ->where('u.name', 'like', '%'.$dados['name'].'%')
+        ->where('m.ativo', true)
+        ->where('status', '!=', FECHADO)
+        ->get(); 
+       break; 
+
+      case isset($dados['tecnico']):
+       return $this->query()
+       ->where('ativo', true)
+       ->where('tecnico', 'like', '%'.$dados['tecnico'].'%')
+       ->where('status', '!=', FECHADO)
+       ->orderby('created_at', 'desc')
+       ->get();
+       break;  
+
+       case is_null($dados['status']):
+         return $this::where('ativo', true)
+         ->where('status', '!=', FECHADO)
+         ->get(); 
+       break;        
+      }
+    }
 }

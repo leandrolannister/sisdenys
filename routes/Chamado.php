@@ -4,37 +4,40 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth'], function(){
    
-   Route::get('/', 'ChamadosController@index')
+   route::get('/', 'ChamadosController@index')
    ->name('chamado.index');
    
-   Route::get('/create', 'ChamadosController@create')
+   route::get('/create', 'ChamadosController@create')
    ->name('chamado.create'); 
 
-   Route::post('/store', 'ChamadosController@store')
+   route::post('/store', 'ChamadosController@store')
    ->name('chamado.store'); 
 
-   Route::post('/show', 'ChamadosController@show')
+   route::post('/show', 'ChamadosController@show')
    ->name('chamado.show');
 
    Route::get('/atendimento', 
    	'ChamadosController@atendimento')
     ->name('chamado.atendimento');
 
-   Route::post('/atender', 
+   route::post('/atender', 
    'ChamadosController@atender')
    ->name('chamado.atender'); 
 
-   Route::post('/updatetecnico', 
+   route::post('/updatetecnico', 
    'ChamadosController@updateTecnico')
    ->name('chamado.updatetecnico');
 
-   Route::post('/retornotecnico',
+   route::post('/retornotecnico',
    'ChamadosController@retornotecnico')
    ->name('chamado.retornotecnico');
 
-   Route::post('/rejeitado', 
+   route::post('/rejeitado', 
    'ChamadosController@reabrirchamado')
    ->name('chamado.reabrir');
+
+   route::post('/filtro', 'ChamadosController@filtro')
+   ->name('chamado.filtro');
 
 
       

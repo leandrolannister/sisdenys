@@ -7,6 +7,7 @@
 @stop
 
 @section('content')
+   @include('chamado.filtros')
   <div class="box-body">  
     @include('alerts.messages') 
     <table class="table table-borderred table-hover table-striped">
@@ -21,7 +22,7 @@
         </tr>  
       </thead>
       <tbody>
-         @foreach($chamados as $key => $c)
+        @foreach($chamados as $key => $c)
            <tr>
             <td>{{$c->chamado_id}}</td>
              <td>{{$c->titulo}}</td>
@@ -37,6 +38,7 @@
               @csrf
               <input type="hidden" name="movto_id"
                      value="{{$c->id}}">
+
               <button type="submit" 
                       class="btn btn-info btn-sm">
                 <i class="fas fa-search"></i> 

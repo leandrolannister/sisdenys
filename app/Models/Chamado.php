@@ -15,6 +15,8 @@ class Chamado extends Model
 
     public $timestamps = false;
 
+    protected $perPage = 1;
+
     public function user():object {
     	return $this->belongsTo(User::class);
     }
@@ -131,5 +133,7 @@ class Chamado extends Model
 
         return $meusChamados;      
     }
+
+    
 }
 

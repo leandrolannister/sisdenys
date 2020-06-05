@@ -83,11 +83,11 @@ class ChamadosController extends Controller
         return view('home');
 
       $chamados = (new Movtochamado())
-      ->atendimentoChamado(auth()->user()->grupochamado_id);
+      ->atendimentoChamado(auth()->user()
+      ->grupochamado_id);
 
       if(empty($chamados[0]->id))
-        return view('home');
-      
+        return view('home');      
 
        $historico = (new Movtochamado())
       ->historicoChamado($chamados[0]->id);
@@ -136,8 +136,8 @@ class ChamadosController extends Controller
       if(is_null($req->atendimento))
         return redirect()->route('chamado.atendimento')
         ->with('error', CHAMADO_SEM_PARECER_TECNICO);
-
-
+    
+      
       $atendimento = $req->arquivo 
       ? (new Movtochamado())
         ->retornoTecnicoComArquivo($req)
@@ -159,18 +159,14 @@ class ChamadosController extends Controller
     
     public function reabrirchamado(Request $req)
     :object {
+      
+      $chamadoReaberto = (new movtoChamado())
+      ->reabrirChamado($req);
 
       $movtoChamado = (new Movtochamado())
       ->getUltimoMovto($req->id);
 
-      $movtoChamado->descricao = $req->descricao;
-
-      $movtoChamado->atendimento = null;
-
-      $chamadoAberto = (new Movtochamado())
-      ->reabrirChamado($movtoChamado);
-
-      if($chamadoAberto):
+      if($chamadoReaberto):
         (new EmailSender())->enviaEmailTecnico(
           $movtoChamado->titulo,
           $movtoChamado->tecnico,
@@ -184,5 +180,17 @@ class ChamadosController extends Controller
       return redirect()
         ->route('chamado.index')
         ->with('success', CHAMADO_REABERTO_ERRO);
+    }
+
+    public function filtro(Request $req){
+     
+      //dd($req->all());
+      $chamados = (new Movtochamado())
+      ->filtrarAtendimento($req->all()); 
+      
+      $helper = (new Helper()); 
+      
+      return view('chamado.atendimento', 
+      compact('chamados','helper')); 
     }
 }
