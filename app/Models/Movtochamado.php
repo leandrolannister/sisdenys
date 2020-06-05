@@ -14,7 +14,7 @@ class Movtochamado extends Model
    'grupochamado_id','atendimento', 'tecnico',
    'ativo'];
 
-   protected $perPage = 2;
+   protected $perPage = 8;
 
    public function chamado():object{
      return $this->belongsTo(Chamado::class);
@@ -226,7 +226,9 @@ class Movtochamado extends Model
       return true;
    }
 
-   public function filtrarAtendimento(array $dados){
+   public function filtrarAtendimento(array $dados)
+   :object{
+     $grupo = auth()->user()->grupochamado_id;
 
      switch ($dados) {
        case isset($dados['titulo']):
@@ -234,6 +236,7 @@ class Movtochamado extends Model
         ->where('ativo', true)
         ->where('titulo', 'like', '%'.$dados['titulo'].'%')
         ->where('status', '!=', FECHADO)
+        ->where('grupoChamado_id', $grupo)
         ->orderby('created_at', 'desc')
         ->paginate();
        break;
@@ -243,6 +246,7 @@ class Movtochamado extends Model
          ->where('ativo', true)
          ->where('status', $dados['status'])
          ->where('status', '!=', FECHADO)
+         ->where('grupoChamado_id', $grupo)
          ->orderby('created_at', 'desc')
          ->paginate();
        break;
@@ -252,6 +256,7 @@ class Movtochamado extends Model
          return $this::where('ativo', true)
          ->where(DB::raw('DATE_FORMAT(created_at, "%d/%m/%Y")'), $dt)
          ->where('status', '!=', FECHADO)
+         ->where('grupoChamado_id', $grupo)
          ->paginate(); 
        break;  
 
@@ -262,6 +267,7 @@ class Movtochamado extends Model
         ->where('u.name', 'like', '%'.$dados['name'].'%')
         ->where('m.ativo', true)
         ->where('status', '!=', FECHADO)
+        ->where('grupoChamado_id', $grupo)
         ->paginate(); 
        break; 
 
@@ -270,6 +276,7 @@ class Movtochamado extends Model
        ->where('ativo', true)
        ->where('tecnico', 'like', '%'.$dados['tecnico'].'%')
        ->where('status', '!=', FECHADO)
+       ->where('grupoChamado_id', $grupo)
        ->orderby('created_at', 'desc')
        ->paginate();
        break;  
@@ -277,8 +284,44 @@ class Movtochamado extends Model
        case is_null($dados['status']):
          return $this::where('ativo', true)
          ->where('status', '!=', FECHADO)
+         ->where('grupoChamado_id', $grupo)
          ->paginate(); 
        break;        
+      }
+    }
+
+    public function filtrarMeusChamados(array $dados)
+   :object{
+     
+     $user = auth()->user()->id;
+
+     switch ($dados) {
+       case isset($dados['titulo']):
+        return $this->query()
+        ->where('ativo', true)
+        ->where('titulo', 'like', '%'.$dados['titulo'].'%')
+        ->where('user_id', $user)
+        ->orderby('created_at', 'desc')
+        ->paginate();
+       break;
+
+       case isset($dados['status']):
+         return $this->query()
+         ->where('ativo', true)
+         ->where('status', $dados['status'])
+         ->where('user_id', $user)
+         ->orderby('created_at', 'desc')
+         ->paginate();
+       break;
+
+       case isset($dados['data']):
+         $dt = date('d/m/Y', strtotime($dados['data']));
+         return $this::where('ativo', true)
+         ->where(DB::raw('DATE_FORMAT(created_at, "%d/%m/%Y")'), $dt)
+         ->where('user_id', $user)
+         ->paginate(); 
+       break;  
+
       }
     }
 }

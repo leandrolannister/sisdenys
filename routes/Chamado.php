@@ -39,6 +39,10 @@ Route::group(['middleware' => 'auth'], function(){
    route::any('/filtro', 'ChamadosController@filtro')
    ->name('chamado.filtro');
 
+   route::any('/filtroMeusChamados', 
+      'ChamadosController@filtrarMeusChamados')
+   ->name('chamado.filtroMeusChamados');
+
 
       
 });

@@ -13,6 +13,7 @@
       Novo Chamado</a>
     </div> 
     @include('alerts.messages') 
+    @include('chamado.filtroMeusChamados')
     <table class="table table-borderred table-hover table-striped">
       <thead>
         <tr>
@@ -35,7 +36,7 @@
             <td>
             <form action="{{route('chamado.show')}}"
                   method="post">
-              {{csrf_field()}}
+              @csrf
               <input type="hidden" name="chamado_id"
                      value="{{$c->id}}">
               <button type="submit" 

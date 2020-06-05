@@ -183,7 +183,8 @@ class ChamadosController extends Controller
         ->with('success', CHAMADO_REABERTO_ERRO);
     }
 
-    public function filtro(Request $req){
+    public function filtro(Request $req)
+    :object{
      
       $chamados = (new Movtochamado())
       ->filtrarAtendimento($req->all()); 
@@ -195,5 +196,19 @@ class ChamadosController extends Controller
       return view('chamado.atendimento', 
       compact('chamados','helper', 
         'chamadosPaginate')); 
+    }
+
+    public function filtrarMeusChamados(Request $req)
+    {
+       $chamados = (new Movtochamado())
+      ->filtrarMeusChamados($req->all()); 
+      
+      $helper = (new Helper()); 
+
+      $chamadosPaginate = $req->all();
+      
+      return view('chamado.atendimento', 
+      compact('chamados','helper', 
+        'chamadosPaginate'));  
     }
 }
