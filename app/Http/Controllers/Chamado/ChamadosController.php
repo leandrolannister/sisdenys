@@ -69,6 +69,8 @@ class ChamadosController extends Controller
       $files = (new Arquivo())
       ->list($chamado->chamado_id);
 
+      //dd($files);
+
       $statusAtual = 
       Helper::checkStatus($chamado->status);
       
@@ -160,9 +162,7 @@ class ChamadosController extends Controller
     
     public function reabrirchamado(Request $req)
     :object {
-
-      //dd($req->all());
-      
+  
       if(is_null($req->descricao))
         return redirect()->route('chamado.index')
         ->with('error', CHAMADO_SEM_DESCRICAO_USUARIO);

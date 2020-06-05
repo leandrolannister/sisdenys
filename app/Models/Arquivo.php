@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use DB;
 
 class Arquivo extends Model
 {
@@ -34,9 +35,10 @@ class Arquivo extends Model
     public function list(int $chamado_id):object{
       $arquivos = 
       $this::where('chamado_id', $chamado_id)
-      ->select('path')
+      ->select('path','created_at')
+      ->orderby('created_at')
       ->get();
-
+      
       return $arquivos;
     }
 }
