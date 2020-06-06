@@ -9,6 +9,7 @@
         @csrf
         <input type="hidden" name="movtoId"
                value="{{$chamado->id}}"> 
+               
         <button type="submit"  
                 class="btn btn-dark .text-white"
                 name="btnMeuChamado">
@@ -39,6 +40,20 @@
                class="form-control"
                value="{{$chamado->titulo}}"
                disabled>
+      </div>
+      
+      <div>
+        <label name="tipochamado_id">Tipo</label>
+        <select name="tipochamado_id"
+                class="form-control mb-1">Tipo
+          @foreach($tipoList as $t)
+          {{$selected = $chamado->tipochamado_id == 
+            $t->id ? 'selected' : ''}}
+            <option value="{{$t->id}}" <?=$selected?>>
+              {{$t->descricao}}
+            </option>
+          @endforeach
+        </select>  
       </div>
       
       @include('chamado.historico')  

@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Chamado;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Chamado, Arquivo, Movtochamado};
+use App\Models\{Chamado, Arquivo, Movtochamado, 
+Tipochamado};
 use App\Mail\Email;
 use App\Service\{Helper,EmailSender};
 use Illuminate\Support\Facades\Mail;
@@ -23,7 +24,12 @@ class ChamadosController extends Controller
     }
 
     public function create(): object{
-      return view('chamado.create');    		
+      
+      $tipoList = (new Tipochamado())
+      ->list();
+
+      return view('chamado.create', 
+        compact('tipoList'));    		
     }
 
     public function store(Request $req):object{
@@ -61,13 +67,15 @@ class ChamadosController extends Controller
 
       $files = (new Arquivo())
       ->list($chamado->chamado_id);
+
+      $tipoList = (new Tipochamado())->list();
       
       $statusAtual = 
       Helper::checkStatus($chamado->status);
-      
+
       return view('chamado.show', 
       compact('chamado', 'statusAtual', 
-        'historico', 'files'));
+        'historico', 'files', 'tipoList'));
     }
 
     public function atendimento():object{
@@ -98,9 +106,12 @@ class ChamadosController extends Controller
 
       $historico = (new Movtochamado())
       ->historicoChamado($chamado->chamado_id);
+
+      $tipoList = (new Tipochamado())->list();
   
       return view('chamado.atender', 
-      compact('chamado', 'files', 'historico'));
+      compact('chamado', 'files', 
+        'historico', 'tipoList'));
     }
 
     public function updateTecnico(Request $req)
@@ -120,6 +131,8 @@ class ChamadosController extends Controller
 
     public function retornotecnico(Request $req)
     :object {
+
+      //dd($req->all());
 
       if(is_null($req->atendimento))
         return redirect()->route('chamado.atendimento')
@@ -147,7 +160,7 @@ class ChamadosController extends Controller
     
     public function reabrirchamado(Request $req)
     :object {
-  
+      
       if(is_null($req->descricao))
         return redirect()->route('chamado.index')
         ->with('error', CHAMADO_SEM_DESCRICAO_USUARIO);

@@ -25,9 +25,12 @@
 
       <div class="form-group">
         <label for="tipo">Tipo</label>
-        <select name="tipo" class="form-control">
-          <option value="Normal">Normal</option>
-          <option value="Urgente">Urgente</option> 
+        <select name="tipochamado_id" class="form-control">
+          @foreach($tipoList as $t)
+            <option value="{{$t->id}}">
+              {{$t->descricao}}
+            </option>
+          @endforeach
         </select>          
       </div>
       

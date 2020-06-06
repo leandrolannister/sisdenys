@@ -30,16 +30,13 @@
       </div>         
 
       <div class="form-group">
-        <label for="tipo">Tipo</label>
-        <select name="tipo" class="form-control"
+        <label for="tipochamado_id">Tipo</label>
+        <select name="tipochamado_id" 
+                class="form-control"
                 <?=$statusAtual?>>
-          <option value="Normal" 
-          <?=$chamado->tipo == 'Normal' 
-           ?'selected':''?>>Normal</option>
-          
-          <option value="Urgente"
-          <?=$chamado->tipo == 'Urgente' 
-           ?'selected':''?>>Urgente</option> 
+            <option value="{{$chamado->tipochamado_id}}">
+              {{$chamado->tipochamado->descricao}}
+            </option>
         </select>          
       </div>
       @include('chamado.historico')

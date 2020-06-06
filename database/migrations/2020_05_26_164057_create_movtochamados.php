@@ -17,7 +17,6 @@ class CreateMovtochamados extends Migration
         function (Blueprint $table) {
           $table->integer('id')->autoIncrement();
           $table->string('titulo', 50);
-          $table->string('tipo', 10);
           $table->enum('status', 
                 ['Aberto', 'Pendente_usuario',
                  'Pendente_Tecnico', 'Fechado',

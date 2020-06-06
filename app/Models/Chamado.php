@@ -9,9 +9,8 @@ use Illuminate\Http\Request;
 
 class Chamado extends Model
 {
-    protected $fillable = ['titulo', 'tipo', 
-    'descricao','status','data','user_id',
-    'tipochamado_id'];
+    protected $fillable = ['titulo', 'descricao',
+    'status','data','user_id', 'tipochamado_id'];
 
     public $timestamps = false;
 
@@ -39,6 +38,7 @@ class Chamado extends Model
    }
 
     public function store_c(Request $req):bool{      
+      
       DB::beginTransaction();
 
       try{
@@ -118,11 +118,6 @@ class Chamado extends Model
           order by m.created_at 
           desc limit 1) AS Titulo, 
           
-         (select m.tipo from movtochamados as m 
-          where m.chamado_id = c.id 
-          order by m.created_at 
-          desc limit 1) AS Tipo,
-  
          (select m.status from movtochamados as m 
           where m.chamado_id = c.id 
           order by m.created_at 
