@@ -39,10 +39,6 @@ class CreateMovtochamados extends Migration
           ->on('chamados')
           ->references('id');
 
-          $table->integer('grupochamado_id');
-          $table->foreign('grupochamado_id')
-          ->on('grupochamados')
-          ->references('id');  
           $table->timestamps();
       });
     }

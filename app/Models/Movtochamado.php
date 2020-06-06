@@ -11,8 +11,7 @@ class Movtochamado extends Model
 {
    protected $fillable = ['titulo','tipo','status',
    'descricao','user_id', 'chamado_id', 
-   'grupochamado_id','atendimento', 'tecnico',
-   'ativo'];
+   'atendimento', 'tecnico', 'ativo', 'tipochamado_id'];
 
    protected $perPage = 8;
 
@@ -20,10 +19,10 @@ class Movtochamado extends Model
      return $this->belongsTo(Chamado::class);
    }
 
-   public function grupoChamado():object {
-     return $this->belongsTo(GrupoChamado::class);
+   public function tipochamado():object{
+     return $this->belongsTo(TipoChamado::class);
    }
-
+   
    public function setDescricaoAttribute($desc):void{
     $this->attributes['descricao'] = 
     mb_strtoupper($desc);
@@ -66,7 +65,7 @@ class Movtochamado extends Model
      return $chamado;
    }
 
-   public function atendimentoChamado(int $grupochamado_id):object{
+   public function atendimentoChamado():object{
          
      $chamados = DB::table('movtoChamados as m')
      ->join('users as u', 'u.id', 'm.user_id')
@@ -75,7 +74,6 @@ class Movtochamado extends Model
       'm.titulo', 'u.name', 'm.id', 'm.tecnico')
       ->where('ativo', true)
       ->where('m.status', '<>', FECHADO)
-      ->where('m.grupochamado_id', $grupochamado_id)
       ->paginate($this->perPage);
     
      return $chamados;
@@ -88,8 +86,7 @@ class Movtochamado extends Model
      ->join('users as u', 'u.id', 'm.user_id')
      ->select('m.chamado_id', 'm.tipo',
       'm.status', 'm.descricao', 'm.created_at',
-      'm.titulo', 'm.id', 'm.grupochamado_id', 
-      'u.email')
+      'm.titulo', 'm.id','u.email')
       ->where('m.id', $movto_id)
       ->get();
 

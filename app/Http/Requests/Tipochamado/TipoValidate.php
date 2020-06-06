@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\GrupoChamado;
+namespace App\Http\Requests\Tipochamado;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class GrupoValidate extends FormRequest
+class TipoValidate extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,8 @@ class GrupoValidate extends FormRequest
     public function rules()
     {
         return [
-            'descricao' => 'required|min:2max:20'
+            'descricao' => 'required|min:3|max:20',
+
         ];
     }
 }

@@ -29,10 +29,10 @@ class EmailSender{
       auth()->user()->email, $chamado->id, 
       self::VIEW_PATH_EMAIL_USER);
      
-     $this->enviaEmailTecnicos($chamado);         
+     //$this->enviaEmailTecnicos($chamado);         
     }
 
-    public function enviaEmailTecnicos(Chamado 
+    /*public function enviaEmailTecnicos(Chamado 
     	$chamado):void{
       
       $emails = (new User())
@@ -43,7 +43,7 @@ class EmailSender{
         $chamado->id, 
         self::VIEW_PATH_EMAIL_TECHNICIAN);  
       endforeach;	
-    }
+    }*/
 
     public function enviaEmailChamadoFechado(
       int $chamadoId):void {

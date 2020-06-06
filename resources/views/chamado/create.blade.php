@@ -30,18 +30,7 @@
           <option value="Urgente">Urgente</option> 
         </select>          
       </div>
-
-      <div class="form-group mb-20">
-        <label for="grupo">Grupo</label>
-        <select name="grupochamado_id" class="form-control">
-          <option>Selecione um Grupo</option>
-          @foreach($grupoList as $key => $g)            
-            <option value="{{$g->id}}">
-              {{$g->descricao}}
-            </option>
-          @endforeach  
-        </select>                
-      </div>  
+      
       <label name="descricao">Descrição</label>
       <div class="input-group">
         <textarea class="form-control mb-2" rows="5"

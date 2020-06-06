@@ -10,8 +10,8 @@ use Illuminate\Http\Request;
 class Chamado extends Model
 {
     protected $fillable = ['titulo', 'tipo', 
-    'descricao','status','data', 
-    'user_id', 'grupochamado_id'];
+    'descricao','status','data','user_id',
+    'tipochamado_id'];
 
     public $timestamps = false;
 
@@ -23,15 +23,15 @@ class Chamado extends Model
 
     public function movtoChamados():object{
      return $this->hasMany(MovtoChamado::class);
-    } 
-
-    public function grupoChamado():object {
-    	return $this->belongsTo(GrupoChamado::class);
-    } 
-
+    }
+    
     public function arquivos():object{
         return $this->hasMany(Arquivo::class);
     }
+
+    public function tipochamado():object{
+     return $this->belongsTo(TipoChamado::class);
+   }
 
     public function setAttributeDescricao($desc):void{
     $this->attributes['descricao'] = 
@@ -138,8 +138,6 @@ class Chamado extends Model
         WHERE c.user_id = $user_id");
 
         return $meusChamados;      
-    }
-
-    
+    }    
 }
 

@@ -248,8 +248,8 @@ return [
                   'url'  => 'tipousuario/',
                 ],
                 [
-                  'text' => 'Grupo Chamados',
-                  'url'  => 'grupochamado/create',
+                  'text' => 'Tipo de Chamado',
+                  'url'  => 'tipochamado/create',
                 ],
             ],
         ],
@@ -287,8 +287,8 @@ return [
                   'url'  => 'unidade/',
                 ],
                 [
-                  'text' => 'Grupo Chamados',
-                  'url'  => 'grupochamado/',
+                  'text' => 'Tipo de Chamados',
+                  'url'  => 'tipochamado/',
                 ],
 
             ],

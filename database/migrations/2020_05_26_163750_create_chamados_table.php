@@ -31,12 +31,7 @@ class CreateChamadosTable extends Migration
             $table->foreign('user_id')
             ->on('users')
             ->references('id');
-
-            $table->integer('grupochamado_id');
-            $table->foreign('grupochamado_id')
-            ->on('grupochamados')
-            ->references('id');
-
+            
             $table->index(['data']);            
         });
     }

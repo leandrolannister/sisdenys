@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Chamado;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{GrupoChamado, Chamado, 
-                Arquivo, Movtochamado};
+use App\Models\{Chamado, Arquivo, Movtochamado};
 use App\Mail\Email;
 use App\Service\{Helper,EmailSender};
 use Illuminate\Support\Facades\Mail;
@@ -24,10 +23,7 @@ class ChamadosController extends Controller
     }
 
     public function create(): object{
-    	$grupoList = GrupoChamado::all();
-
-    	return view('chamado.create', 
-    		compact('grupoList'));
+      return view('chamado.create');    		
     }
 
     public function store(Request $req):object{
@@ -53,7 +49,6 @@ class ChamadosController extends Controller
       
       $this->validate($req, [
         'titulo' => 'required',
-        'grupochamado_id' => 'required',
         'descricao' => 'required']);  
     }
 
@@ -64,29 +59,21 @@ class ChamadosController extends Controller
       $historico = (new Movtochamado())
       ->historicoChamado($chamado->chamado_id);
 
-      $grupoList = GrupoChamado::all();
-
       $files = (new Arquivo())
       ->list($chamado->chamado_id);
-
-      //dd($files);
-
+      
       $statusAtual = 
       Helper::checkStatus($chamado->status);
       
       return view('chamado.show', 
-      compact('chamado', 'grupoList', 
-              'statusAtual', 'historico', 'files'));
+      compact('chamado', 'statusAtual', 
+        'historico', 'files'));
     }
 
     public function atendimento():object{
       
-      if(empty(auth()->user()->grupochamado_id))
-        return view('home');
-
       $chamados = (new Movtochamado())
-      ->atendimentoChamado(auth()->user()
-      ->grupochamado_id);
+      ->atendimentoChamado();
 
       if(empty($chamados[0]->id))
         return view('home');      
@@ -111,12 +98,9 @@ class ChamadosController extends Controller
 
       $historico = (new Movtochamado())
       ->historicoChamado($chamado->chamado_id);
-
-      $grupoList = GrupoChamado::all();
-      
+  
       return view('chamado.atender', 
-      compact('chamado', 'grupoList', 
-        'files', 'historico'));
+      compact('chamado', 'files', 'historico'));
     }
 
     public function updateTecnico(Request $req)
@@ -128,7 +112,8 @@ class ChamadosController extends Controller
 
        $update 
        ? $tecnico['message'] = 'Técnico atualizado'
-       : $tecnico['message'] = 'Técnico não foi atualizado!';
+       : $tecnico['message'] = 'Técnico não foi atualizado!
+       ';
        
        echo json_encode($tecnico);
     }
@@ -221,8 +206,6 @@ class ChamadosController extends Controller
     public function movtoChamado(){
       $chamados = (new Movtochamado())
       ->movtoChamados();
-
-      //dd($chamados);
 
       return view('chamado.movto', 
       compact('chamados'));

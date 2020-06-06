@@ -33,7 +33,20 @@
                  placeholder="Senha" 
                  class="form-control">
         </div> 
-              
+        <div>
+          <label name="unidade_id">Unidade</label>
+          <select name="unidade_id" 
+                  class="form-control mb-1">Unidade
+            <option value="">Selecione uma Unidade</option>
+              @foreach($unidadeList as $key => $u)
+                {{$selected = $u->id == $user->unidade_id 
+                ? 'selected' : ''}}  
+                <option value="{{$u->id}}" <?=$selected?>>
+                  {{$u->nome}}
+                </option>
+              @endforeach
+          </select>
+        </div> 
       <div>
         <button type="submit" class="btn btn-info">Atualizar
         </button>

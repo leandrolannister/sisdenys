@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Manutenção Grupo Chamados')
+@section('title', 'Manutenção Tipo Chamado')
 
 @section('content_header')
   <link rel="stylesheet" type="text/css" 
@@ -9,23 +9,21 @@
 
 @section('content')
   @include('alerts.messages')
-  <table id="grupoTb" 
+  <table id="tipochamadoTb" 
          class="table table-borderred table-hover">
     <thead>
       <tr>
         <td>Id</td>
-        <th>Nome</th>
+        <th>Descrição</th>
       </tr>
     </thead>
     <tbody>
-      @forelse($grupoList as $g)  
+      @forelse($tipoList as $t)
         <tr>
-          <td>
-            <a href="grupochamado/upgrade/{{$g->id}}">
-              {{$g->id}}
-            </a>
+          <td id="id">
+            <a href="tipochamado/upgrade/{{$t->id}}">{{$t->id}}</a>
           </td>
-         <td>{{$g->descricao}}</td>
+          <td>{{$t->descricao}}</td>
         </tr>
       @empty
         <p>sem Registro</p>
@@ -38,7 +36,9 @@
  <script>
    $(document).ready(function () {
       $.noConflict();
-      $('#grupoTb').DataTable();
+      $('#tipochamadoTb').DataTable(
+        
+        );
    });
  </script>
 @stop

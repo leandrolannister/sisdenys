@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\User\UserValidate;
 use App\User;
-use App\Models\{GrupoChamado};
+use App\Models\{Unidade};
 use App\Service\Helper;
 
 class UsersController extends Controller
@@ -14,9 +14,11 @@ class UsersController extends Controller
   public function create():object 
   {
     $user = auth()->user();
-    
+
+    $unidadeList = (new Unidade())->list();
+
     return view('usuario.create', 
-      compact('user'));
+      compact('user', 'unidadeList'));
   }  
   
   public function update(UserValidate $req):object

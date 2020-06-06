@@ -40,24 +40,6 @@
                value="{{$chamado->titulo}}"
                disabled>
       </div>
-
-      <div class="form-group mb-20">
-        <label for="grupo">Grupo</label>
-        <select name="grupochamado_id" 
-                class="form-control">                
-          <option>Selecione um Grupo</option>
-          @foreach($grupoList as $g) 
-            
-            <?=$selected = 
-            $chamado->grupochamado_id == $g->id
-            ? 'selected' : ''; ?>           
-           
-           <option value="{{$g->id}}" <?=$selected?>>
-              {{$g->descricao}}
-            </option>
-          @endforeach  
-        </select>                
-      </div>
       
       @include('chamado.historico')  
       @include('chamado.arquivos') 

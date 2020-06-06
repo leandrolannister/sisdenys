@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Grupochamados extends Migration
+class CreateTipochamados extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class Grupochamados extends Migration
      */
     public function up()
     {
-      Schema::create('grupochamados', 
-        function (Blueprint $table) {
-          $table->integer('id')->autoIncrement();
-          $table->string('descricao',20);
-          $table->index(['descricao']);
+        Schema::create('tipochamados', function (Blueprint $table) {
+            $table->integer('id')->autoIncrement();
+            $table->string('descricao', 20);
+            
+            $table->index(['descricao']);
         });
     }
 
@@ -28,6 +28,6 @@ class Grupochamados extends Migration
      */
     public function down()
     {
-      Schema::dropIfExists('grupochamados');
+        Schema::dropIfExists('tipochamados');
     }
 }

@@ -65,7 +65,8 @@ class User extends Authenticatable
         endif;
 
         $user->name  = $dados['name'];
-        $user->email = $dados['email'];        
+        $user->email = $dados['email']; 
+        $user->unidade_id = $dados['unidade_id'];       
         $user->save();
 
       }catch(\Exception $e){
