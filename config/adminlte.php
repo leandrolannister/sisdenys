@@ -270,6 +270,11 @@ return [
             'url' => 'chamado/atendimento'
         ],
         [
+            'text'       => 'Histórico',
+            'icon_color' => 'gray',
+            'url' => 'chamado/movto'
+        ],
+        [
             'text'    => 'Manutenção',
             'icon'    => 'fas fa-fw fa-share',
             'submenu' => [

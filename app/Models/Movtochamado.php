@@ -331,8 +331,22 @@ class Movtochamado extends Model
          ->where(DB::raw('DATE_FORMAT(created_at, "%d/%m/%Y")'), $dt)
          ->where('user_id', $user)
          ->paginate(); 
-       break;  
-
+       break; 
       }
+    }
+
+    public function movtoChamados():object{
+      $movtos = DB::table('movtoChamados as m')
+      ->join('chamados as c', 'c.id', 'm.chamado_id')
+      ->select('m.chamado_id as id', 'm.titulo', 
+       'm.status', 'c.data')
+      ->where('c.data', date('Y/m/d'))
+      ->orderby('m.chamado_id')
+      ->orderby('created_at')
+      ->orderby('m.status')
+      ->limit(30)
+      ->get();
+
+      return $movtos;
     }
 }

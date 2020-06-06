@@ -47,16 +47,19 @@ class Chamado extends Model
         $dados['data'] = Date('Y:m:d');
         
         $chamado = $this::create($dados);
-        
+
        }catch(\Exception $e){
          return false;
        }
 
        $dados['status'] = TECNICO;
-       $movtoChamados = (new Movtochamado())
-       ->store_mc($chamado, $dados);
+       $chamado->movtoChamados()->create($dados);
 
-       if($chamado and $movtoChamados):
+       $dados['ativo'] = false;
+       $dados['status'] = 'ABERTO';
+       $chamado->movtoChamados()->create($dados);
+
+       if($chamado):
          DB::commit();
          return true;
        endif;
@@ -82,12 +85,15 @@ class Chamado extends Model
 
        $arquivo = (new Arquivo())
        ->store_a($req, $chamado);
-        
-       $dados['status'] = TECNICO;
-       $movtoChamados = (new Movtochamado())
-       ->store_mc($chamado, $dados);
 
-       if($chamado and $arquivo and $movtoChamados):
+       $dados['status'] = TECNICO;
+       $chamado->movtoChamados()->create($dados);
+
+       $dados['ativo'] = false;
+       $dados['status'] = 'ABERTO';
+       $chamado->movtoChamados()->create($dados);       
+       
+       if($chamado and $arquivo):
          DB::commit();
          return true;
        endif;

@@ -217,4 +217,14 @@ class ChamadosController extends Controller
       compact('chamados','helper', 
         'chamadosPaginate'));  
     }
+
+    public function movtoChamado(){
+      $chamados = (new Movtochamado())
+      ->movtoChamados();
+
+      //dd($chamados);
+
+      return view('chamado.movto', 
+      compact('chamados'));
+    }
 }

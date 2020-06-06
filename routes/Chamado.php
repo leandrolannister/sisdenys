@@ -43,6 +43,11 @@ Route::group(['middleware' => 'auth'], function(){
       'ChamadosController@filtrarMeusChamados')
    ->name('chamado.filtroMeusChamados');
 
+   route::get('/movto', 
+   'ChamadosController@movtochamado')
+   ->name('chamado.movto');
+
+
 
       
 });
