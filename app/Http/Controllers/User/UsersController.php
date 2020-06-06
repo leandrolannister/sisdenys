@@ -14,36 +14,21 @@ class UsersController extends Controller
   public function create():object 
   {
     $user = auth()->user();
-
-    $userType =
-    $user->tipousuarios[0]->descricao;
-
-    $grupoList = GrupoChamado::all();
     
     return view('usuario.create', 
-      compact('user', 'grupoList', 'userType'));
+      compact('user'));
+  }  
   
-  public function update(UserValidate $req)
+  public function update(UserValidate $req):object
   {       
-    $tipo = (new Helper())->recuperaTipoUsuario();
+    $updateUser = (new User())->update_u($req->all());
 
-    if($tipo == 'Comum')
-      return $this->atualizaUsuarioComum($req); 
-
-    $checkUserType 
-    = (new Helper())->typeOfUser($req->grupochamado_id);
-
-    if($checkUserType){ 
-      if((new User())->update_u($req->all()))
-        return redirect()->route('user.create')
-        ->with('success', MENSAGEM_SUCESSO);    
+    if($updateUser)
+      return redirect()->route('user.create')
+      ->with('success', MENSAGEM_SUCESSO);    
     
         return redirect()->route('user.create')
         ->with('error', MENSAGEM_ERRO);
-    }else{
-      return redirect()->route('user.create')
-      ->with('error', UPDATE_USER_GRUPOCHAMADO_ERROR);
-    } 
   }
 
   public function atualizaUsuarioComum(Request $req

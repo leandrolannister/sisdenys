@@ -25,25 +25,4 @@ class Helper{
   	    return null;	
   	}  	
   }
-
-  public function recuperaTipoUsuario():string{
-     return 
-     auth()->user()
-     ->tipousuarios[0]->descricao;   
-  }
-
-  public function typeOfUser(String $grupo):bool{     
-     
-     if($grupo == "Selecione um Grupo")
-       return false; 
-
-     $typeUser = 
-     auth()->user()->tipousuarios[0]->descricao;
-
-     $userGroup = (int) $grupo;
-     if($typeUser == "Tecnico" and $userGroup == 0)
-       return false;
-       
-     return true;   
-  }   
 }

@@ -11,7 +11,7 @@
     <div class="container"> 
       @include('alerts.messages')  
       <form action="{{route('user.update')}}" method="post">
-        {!! csrf_field() !!}        
+        @csrf       
         <div class="form-group">
           <label for="name">Nome</label>
           <input type="text" name="name" 
@@ -33,23 +33,7 @@
                  placeholder="Senha" 
                  class="form-control">
         </div> 
-        @if($userType == 'Admin' || $userType == 'Tecnico')
-        <div class="form-group mb-20">
-          <label for="grupo">Grupo</label>
-          <select name="grupochamado_id" 
-                  class="form-control">
-          <option>Selecione um Grupo</option>
-            @foreach($grupoList as $g) 
-              <option value="{{$g->id}}" 
-              <?=$user->grupochamado_id == $g->id
-               ? "selected" : "";?> >
-              {{$g->descricao}}
-            </option>
-            @endforeach         
-        </select>                
-      </div>
-      @endif  
-        
+              
       <div>
         <button type="submit" class="btn btn-info">Atualizar
         </button>

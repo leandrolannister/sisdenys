@@ -8,6 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use App\Models\Unidade;
 use App\Models\Tipousuario;
 use App\Models\Chamado;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -19,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = ['name', 'email',
-    'password', 'unidade_id', 'grupochamado_id'];
+    'password', 'unidade_id'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -50,11 +51,7 @@ class User extends Authenticatable
     public function chamados():object{
         return $this->hasMany(Chamado::class);
     }
-
-    public function GrupoChamado():object{
-        return $this->belongsTo(GrupoChamado::class);
-    }
-
+    
     public function update_u(array $dados):bool{
       try{
 
@@ -63,15 +60,12 @@ class User extends Authenticatable
         if(is_null($dados['password'])):
           unset($dados['password']);
         else:
-          $user->password =
+          $user->password = 
           Hash::make($dados['password']);
         endif;
 
         $user->name  = $dados['name'];
-        $user->email = $dados['email'];
-        $user->grupochamado_id =
-          $dados['grupochamado_id'];
-
+        $user->email = $dados['email'];        
         $user->save();
 
       }catch(\Exception $e){
@@ -80,29 +74,7 @@ class User extends Authenticatable
       }
       return true;
     }
-
-    public function updateUserComum(array $dados)
-    :bool{
-      try{
-         $user = self::find(auth()->user()->id);
-
-         if(is_null($dados['password'])):
-           unset($dados['password']);
-         else:
-           $user->password = $dados['password'];
-         endif;
-
-         $user->name = $dados['name'];
-         $user->email = $dados['email'];
-         $user->save();
-
-      }catch(\Exception $e){
-        dd($e->getMessage());
-        return false;
-      }
-      return true;
-    }
-
+    
     public function listar():?object{
       $users = $this::query()->orderBy('id', 'desc')
       ->paginate();

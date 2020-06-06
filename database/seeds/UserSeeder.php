@@ -17,8 +17,7 @@ class UserSeeder extends Seeder
             'name' => 'super',
             'email' => 'super@gmail.com',
             'password' => Hash::make('123'),
-            'Unidade_id' => 1,
-            'grupochamado_id' => 1
+            'unidade_id' => 1,            
         ]);
 
         Tipousuario::create([

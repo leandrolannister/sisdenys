@@ -18,9 +18,6 @@ define('CHAMADO_ATENDIMENTO_SUCESSO',
 define('CHAMADO_ATENDIMENTO_ERRO', 
 	   'Atendimento não foi realizado!');
 
-define('UPDATE_USER_GRUPOCHAMADO_ERROR', 
-	   'Usuário com perfil de técnico deve ter um grupo');
-
 define('CHAMADO_REABERTO_SUCESSO',
 'Chamado foi reaberto com sucesso.');
 
