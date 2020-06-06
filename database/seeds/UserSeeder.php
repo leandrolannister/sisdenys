@@ -17,13 +17,13 @@ class UserSeeder extends Seeder
             'name' => 'super',
             'email' => 'super@gmail.com',
             'password' => Hash::make('123'),
-            'equipamento_id' => 1,
-            'grupochamado_id' => 1   
+            'Unidade_id' => 1,
+            'grupochamado_id' => 1
         ]);
 
         Tipousuario::create([
           'descricao' => 'Tecnico',
-          'user_id' => 1    
+          'user_id' => 1
         ]);
     }
 }

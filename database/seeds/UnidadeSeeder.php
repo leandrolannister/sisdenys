@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\Equipamento;
+use App\Models\Unidade;
 
-class EquipamentoSeeder extends Seeder
+class UnidadeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,13 +12,13 @@ class EquipamentoSeeder extends Seeder
      */
     public function run()
     {
-      Equipamento::create([
+      Unidade::create([
         'nome' => 'Unidade 1',
         'logradouro' => 'Rua 15 de Maior',
         'numero' => '100',
         'bairro' => 'Centro',
         'cep' => '03664-030',
-        'instituicao_id' => 1,		
-      ]);    
+        'instituicao_id' => 1,
+      ]);
     }
 }

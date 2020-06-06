@@ -22,8 +22,7 @@ class UsersController extends Controller
     
     return view('usuario.create', 
       compact('user', 'grupoList', 'userType'));
-  }
-
+  
   public function update(UserValidate $req)
   {       
     $tipo = (new Helper())->recuperaTipoUsuario();

@@ -3,13 +3,13 @@
 @section('title', 'Manutenção Instituicao')
 
 @section('content_header')
-  <link rel="stylesheet" type="text/css" 
+  <link rel="stylesheet" type="text/css"
         href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
 @stop
 
 @section('content')
   @include('alerts.messages')
-  <table id="equipamentoTb" 
+  <table id="UnidadeTb"
          class="table table-borderred table-hover">
     <thead>
       <tr>
@@ -23,10 +23,10 @@
       </tr>
     </thead>
     <tbody>
-      @forelse($equipamentoList as $e)  
+      @forelse($unidadeList as $e)
         <tr>
           <td>
-            <a href="equipamento/upgrade/{{$e->id}}">
+            <a href="unidade/upgrade/{{$e->id}}">
               {{$e->id}}
             </a>
           </td>
@@ -43,12 +43,12 @@
     </tbody>
 </table>
  <script src="{{asset('site/jquery.js')}}"></script>
- <script type="text/javascript" charset="utf8" 
+ <script type="text/javascript" charset="utf8"
         src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
  <script>
    $(document).ready(function () {
       $.noConflict();
-      $('#equipamentoTb').DataTable();
+      $('#UnidadeTb').DataTable();
    });
  </script>
 @stop

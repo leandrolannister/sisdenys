@@ -10,20 +10,20 @@ class Instituicao extends Model
   protected $table = "instituicoes";
   protected $fillable = ['nome', 'sigla'];
 
-  public function equipamentos():object {
-     return $this->hasMany(Equipamento::class);	
+  public function unidades():object {
+     return $this->hasMany(Unidade::class);
   }
 
   public function setSiglaAttribute($sigla):void{
     $this->attributes['sigla'] = mb_strtoupper($sigla);
   }
 
-  public function store_i(array $dados):bool{     
+  public function store_i(array $dados):bool{
     try{
       $this::create($dados);
-    }catch(\Exception $e){      
+    }catch(\Exception $e){
       return false;
-    }    
+    }
     return true;
   }
 

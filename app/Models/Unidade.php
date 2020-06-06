@@ -5,35 +5,35 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use User;
 
-class Equipamento extends Model
+class Unidade extends Model
 {
   public $timestamps = false;
   protected $fillable = ['nome', 'logradouro', 'numero',
-    'bairro', 'cep', 'complemento', 'instituicao_id'];  
+    'bairro', 'cep', 'complemento', 'instituicao_id'];
 
   public function instituicao():object {
-     return $this->belongsTo(Instituicao::class);	
-  }  
+     return $this->belongsTo(Instituicao::class);
+  }
 
   public function users():object {
   	return $this->hasMany(User::class);
-  }  
+  }
 
-  public function store_e(array $dados):bool{     
+  public function store_e(array $dados):bool{
     try{
       $this::create($dados);
     }catch(\Exception $e){
       return false;
     }
-    
-    return true;  
+
+    return true;
   }
 
   public function list():object{
-    $equipamentos = $this::query()->orderBy('id', 'desc')
+    $Unidades = $this::query()->orderBy('id', 'desc')
     ->get();
 
-    return $equipamentos;
+    return $Unidades;
   }
 
   public function setCepAttribute($cep){
@@ -41,10 +41,10 @@ class Equipamento extends Model
   }
 
   public function update_e(array $dados):bool{
-    $equipamento = self::find($dados['id']);
+    $Unidade = self::find($dados['id']);
     try{
-      $equipamento->fill($dados);
-      $equipamento->save();
+      $Unidade->fill($dados);
+      $Unidade->save();
     }catch(\Exception $e){
       dd($e->getMessage());
       return false;

@@ -13,17 +13,17 @@ class CreateUsers extends Migration
      */
     public function up()
     {
-        Schema::create('users', 
+        Schema::create('users',
             function (Blueprint $table) {
               $table->integer('id')->autoIncrement();
               $table->string('name');
               $table->string('email')->unique();
-              $table->string('password');            
+              $table->string('password');
               $table->index(['email']);
 
-              $table->integer('equipamento_id');
-              $table->foreign('equipamento_id')
-              ->on('equipamentos')
+              $table->integer('unidade_id');
+              $table->foreign('unidade_id')
+              ->on('unidades')
               ->references('id');
 
               $table->integer('grupochamado_id')

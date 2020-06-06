@@ -48,7 +48,7 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutesInstituicao();
 
-        $this->mapWebRoutesEquipamento();
+        $this->mapWebRoutesUnidade();
 
         $this->mapWebRoutesUser();
 
@@ -83,12 +83,12 @@ class RouteServiceProvider extends ServiceProvider
         ->group(base_path('routes/Instituicao.php'));
     }
 
-    protected function mapWebRoutesEquipamento()
+    protected function mapWebRoutesUnidade()
     {
-      Route::prefix('equipamento')
+      Route::prefix('unidade')
         ->middleware('web')
-        ->namespace('App\Http\Controllers\Equipamento')
-        ->group(base_path('routes/Equipamento.php'));
+        ->namespace('App\Http\Controllers\Unidade')
+        ->group(base_path('routes/Unidade.php'));
     }
 
     protected function mapWebRoutesUser()

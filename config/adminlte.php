@@ -1,5 +1,5 @@
     <?php
- 
+
 return [
 
     /*
@@ -240,8 +240,8 @@ return [
                   'url'  => 'instituicao/create',
                 ],
                 [
-                  'text' => 'Equipamento',
-                  'url'  => 'equipamento/create',
+                  'text' => 'Unidade',
+                  'url'  => 'unidade/create',
                 ],
                 [
                   'text' => 'Usuário Tipo',
@@ -283,14 +283,14 @@ return [
                   'url'  => 'instituicao/',
                 ],
                 [
-                  'text' => 'Equipamento',
-                  'url'  => 'equipamento/',
+                  'text' => 'Unidade',
+                  'url'  => 'unidade/',
                 ],
                 [
                   'text' => 'Grupo Chamados',
                   'url'  => 'grupochamado/',
                 ],
-                
+
             ],
         ],
 
