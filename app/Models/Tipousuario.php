@@ -8,65 +8,64 @@ use App\User;
 class Tipousuario extends Model
 {
   public $timestamps = false;
-  protected $fillable = ['descricao', 'user_id'];
-  protected $perPage = 1;
+  protected $fillable = ['tipo', 'user_id'];
   private const ADMIN = 'Admin';
   private const TECNICO = 'Tecnico';
   private const COMUM = 'Comum';
-
 
   public function user():object {
     return $this->belongsTo(User::class);
   }
 
-  public function store_t(array $dados):void {
-     
-     if(empty($dados['Admin'])):
-       $this::destroy(
-         $this->seekType($dados['user_id'], self::ADMIN));
-     else:
-       $this->create_t($dados['user_id'], $dados['Admin']);
-     endif;
+  public function store_t(array $dados): bool{
+    
+    $tipo = $this::find($dados['user_id']);
 
-     if(empty($dados['Tecnico'])):
-       $this::destroy(
-         $this->seekType($dados['user_id'], self::TECNICO));
-     else:
-       $this->create_t($dados['user_id'], 
-                       $dados['Tecnico']);
-     endif;  
+    if($tipo->tipo == $dados['tipo'])
+      return true; 
 
-     if(empty($dados['Comum'])):
-       $this::destroy(
-         $this->seekType($dados['user_id'], self::COMUM));
-     else:
-       $this->create_t($dados['user_id'], 
-                       $dados['Comum']);
-     endif;
-  }
-
-  public function create_t($user_id, $desc): void{
+    if($tipo->tipo != $dados['tipo'])
+      return $this->update_t($dados, $tipo->id);
+    
     try{  
-       $this::create(['descricao' => $desc,
-                      'user_id'   => $user_id]);  
+       
+       $this::create($dados);       
     }catch(\Exception $e){
-      echo $e->getMessage();  
+      dd($e->getMessage()); 
+      return false; 
     }
+    return true;
+  }  
+
+  public function update_t(array $dados, int $id):bool{
+    $tipo = $this::find($id);    
+    try{
+      $tipo->fill($dados);
+      $tipo->save();
+    }catch(\Exception $e){
+       dd($e->getMessage()); 
+      return false;
+    }
+    return true;
   }
 
-  public function seekType(int $user_id, string $type)
-  : ?int{
+  public function seekType(int $user_id, string $tipo)
+  :?int{
     
      $query = 
      $this::where('user_id', $user_id)
-     ->select('id')
-     ->where('descricao', $type)
+     ->where('tipo', $tipo)
+     ->select('tipo')
      ->first();
 
      if(isset($query->id))
        return $query->id;
 
      return null;                   
+  }
+
+  public function getTipos():array{
+    return ['Comum', 'Tecnico', 'Admin'];
   }
 
 }

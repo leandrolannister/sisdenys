@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
         ]);
 
         Tipousuario::create([
-          'descricao' => 'Tecnico',
+          'tipo' => 'Tecnico',
           'user_id' => 1
         ]);
     }

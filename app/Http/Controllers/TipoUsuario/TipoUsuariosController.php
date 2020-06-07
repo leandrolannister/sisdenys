@@ -11,16 +11,24 @@ class TipoUsuariosController extends Controller
 {
     public function index():object {
        $usersList = (new User())->listar();
-       $tipousuario = (new Tipousuario());       
+       $tipoList = (new Tipousuario())->getTipos();
 
        return view('tipousuario.create', 
-    		compact('usersList', 'tipousuario'));
+    		compact('usersList', 'tipoList'));
     }
 
     public function store(Request $req){
-      (new Tipousuario())->store_t($req->all());
+      $create = (new Tipousuario())->store_t($req->all());
 
-      return redirect()->route('tipousuario.index')
-      ->with('success', MENSAGEM_SUCESSO);
+      if($create)
+        return redirect()->route('tipousuario.index')
+        ->with('success', MENSAGEM_SUCESSO);
+
+       return redirect()->route('tipousuario.index')
+        ->with('error', MENSAGEM_SUCESSO);       
+    }
+
+    public function getTipos():array{
+      return ['Admin', 'Tecnico', 'Comum'];
     }
 }

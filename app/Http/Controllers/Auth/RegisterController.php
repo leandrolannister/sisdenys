@@ -8,8 +8,8 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Tipousuario;
-use App\Models\Unidade;
+use App\Models\{Unidade, Tipousuario};
+
 
 class RegisterController extends Controller
 {
@@ -70,13 +70,15 @@ class RegisterController extends Controller
         'name' => $data['name'],
         'email' => $data['email'],
         'password' => Hash::make($data['password']),
-        'Unidade_id' =>
-           Unidade::where('id', 1)->first()->id,]);
+        'unidade_id' =>
+         Unidade::where('id', 1)->first()->id]);
 
-      (new Tipousuario())
-      ->create_t(User::where('email', $data['email'])
-      ->first()->id, 'Comum');
-
+      $data = ['user_id' => 
+      User::where('email', $data['email'])->first()->id,
+      'tipo' => 'Comum'];
+      
+      (new Tipousuario())->create($data);
+      
       return $usuario;
     }
 }

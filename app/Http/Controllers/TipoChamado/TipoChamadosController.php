@@ -17,7 +17,9 @@ class TipoChamadosController extends Controller
     }
 
     public function create():object{
-      return view('TipoChamado.create');      
+      $tipoList = (new Tipochamado())->list();
+      return view('tipochamado.create', 
+        compact('tipoList'));      
     }
 
     public function store(TipoValidate $req):object{

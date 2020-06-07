@@ -11,7 +11,8 @@
     <div class="container"> 
       @include('alerts.messages')  
       <form action="{{route('tipochamado.store')}}" 
-            method="post">
+            method="post"
+            class="mb-3">
         @csrf       
         <div class="form-group">
           <label for="name">Descrição</label>
@@ -25,5 +26,6 @@
         </button>
       </div>
     </form>
-  </div>    
+  </div>
 @stop 
+

@@ -14,9 +14,7 @@
       <thead>
         <tr>
           <th>Nome</th>  
-          <th>Admin</th> 
-          <th>Técnico</th> 
-          <th>Comum</th>      
+          <th>Perfil</th> 
         </tr>  
       </thead>
       <tbody>
@@ -25,29 +23,19 @@
           <td>{{$u->name}}</td>
           <form action="{{route('tipousuario.store')}}"
                 method="post">
-          {{csrf_field()}}      
+          @csrf
+
+          <input type="hidden" name="user_id" 
+                 value="{{$u->id}}">
           <td>
-            <input type="checkbox" value="Admin" 
-                   name="Admin"
-            <?=$tipousuario->seekType($u->id, 'Admin') 
-             ? 'checked' : '' ?>>
-          </td>
-          <td>
-            <input type="checkbox" value="Tecnico"
-                    name="Tecnico"
-            <?=$tipousuario->seekType($u->id, 'Tecnico') 
-             ? 'checked' : '' ?>>
-          </td>
-          <td>
-            <input type="checkbox" value="Comum"
-                    name="Comum"
-            <?=$tipousuario->seekType($u->id, 'Comum') 
-             ? 'checked' : '' ?>>        
-          </td>
-          <td>
-            <input type="hidden" value="{{$u->id}}"
-                   name="user_id">
-          </td>
+            <select name="tipo" class="form-control">
+              @foreach($tipoList as $t) 
+              {{$selected = $t == $u->tipo ? 'selected':''}} 
+                <option value="{{$t}}" <?=$selected?>>{{$t}}</option>
+              @endforeach
+            </select>
+          </td>      
+          
           <td>
             <button type="submit" 
                     class="btn btn-primary">Salvar</button>

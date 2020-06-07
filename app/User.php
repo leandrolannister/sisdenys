@@ -9,6 +9,7 @@ use App\Models\Unidade;
 use App\Models\Tipousuario;
 use App\Models\Chamado;
 use Illuminate\Support\Facades\Hash;
+use DB;
 
 class User extends Authenticatable
 {
@@ -39,6 +40,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected $perPage = 10;
 
     public function unidade():object {
       return $this->belongsTo(Unidade::class);
@@ -77,8 +80,12 @@ class User extends Authenticatable
     }
     
     public function listar():?object{
-      $users = $this::query()->orderBy('id', 'desc')
-      ->paginate();
+      $users = 
+      DB::table('users as u')
+      ->join('tipousuarios as t', 't.user_id', 'u.id')
+      ->select('u.id', 'u.name', 't.tipo')
+      ->orderBy('u.id', 'desc')
+      ->paginate($this->perPage);
 
       return $users;
     }
