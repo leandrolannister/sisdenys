@@ -8,7 +8,7 @@ use App\User;
 class Tipousuario extends Model
 {
   public $timestamps = false;
-  protected $fillable = ['tipo', 'user_id', 'instituicao_id'];
+  protected $fillable = ['tipo', 'user_id', 'unidade_id'];
   private const ADMIN = 'Admin';
   private const TECNICO = 'Tecnico';
   
@@ -16,8 +16,8 @@ class Tipousuario extends Model
     return $this->belongsTo(User::class);
   }
 
-  public function instituicao():object {
-    return $this->belongsTo(Instituicao::class);
+  public function unidade():object {
+    return $this->belongsTo(Unidade::class);
   }
 
   public function storeBefore(array $dados):bool{
@@ -33,6 +33,7 @@ class Tipousuario extends Model
 
   public function store_t(array $dados):bool{
     
+    //dd($dados);
     try{  
       $this::create($dados);       
     }catch(\Exception $e){
@@ -62,11 +63,11 @@ class Tipousuario extends Model
   
   public function searchData(array $dados)
   :?int{
-    
+     
      $query = 
      $this::where('user_id', $dados['user_id'])
      ->where('tipo', $dados['tipo'])
-     ->where('instituicao_id', $dados['instituicao_id'])
+     ->where('unidade_id', $dados['unidade_id'])
      ->first();
 
      if(isset($query->id))
@@ -98,6 +99,19 @@ class Tipousuario extends Model
 
   public function getTipos():array{
     return ['Tecnico', 'Admin'];
+  }
+
+  public function userType(int $user_id): bool{
+      $user = $this::where('user_id', $user_id)
+      ->select('tipo')
+      ->first();
+
+      if(is_null($user))
+        return false;
+          
+      if($user->tipo == 'Tecnico' || $user->tipo == 'Admin')
+        return true;
+
   }
 
 }

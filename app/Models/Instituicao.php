@@ -14,10 +14,6 @@ class Instituicao extends Model
      return $this->hasMany(Unidade::class);
   }
 
-  public function tipousuarios():object {
-    return $this->hasMany(TipoUsuario::class);
-  }
-
   public function setSiglaAttribute($sigla):void{
     $this->attributes['sigla'] = mb_strtoupper($sigla);
   }

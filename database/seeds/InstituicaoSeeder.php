@@ -13,7 +13,7 @@ class InstituicaoSeeder extends Seeder
     public function run()
     {
         Instituicao::create([
-          'nome' => 'PrefeituraSP',
+          'nome' => 'Prefeitura',
           'sigla' => 'PSP'
         ]);
     }

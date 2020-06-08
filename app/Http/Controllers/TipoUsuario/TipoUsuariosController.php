@@ -5,18 +5,19 @@ namespace App\Http\Controllers\TipoUSuario;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
-use App\Models\{Tipousuario, Instituicao};
+use App\Models\{Tipousuario, Unidade};
 
 class TipoUsuariosController extends Controller
 {
     public function index():object {
        $usersList = (new User())->listar();
        $tiposUserList = Tipousuario::all();
-       $instituicaoList = (new Instituicao())->list('id');
+       $unidadeList = (new Unidade())->list();
+
        $tipos = (new Tipousuario())->getTipos();
-       
+
        return view('tipousuario.create', 
-        compact('usersList', 'tipos', 'instituicaoList'));     		
+        compact('usersList', 'tipos', 'unidadeList'));     		
     }
 
     public function store(Request $req){
@@ -38,11 +39,11 @@ class TipoUsuariosController extends Controller
     public function delete():object{
        $usersList = (new User())->listToDestroy();
        $tiposUserList = Tipousuario::all();
-       $instituicaoList = (new Instituicao())->list('id');
+       $unidadeList = (new Unidade())->list();
        $tipos = (new Tipousuario())->getTipos();
        
        return view('tipousuario.destroy', 
-        compact('usersList', 'tipos', 'instituicaoList'));
+        compact('usersList', 'tipos', 'unidadeList'));
     }
 
     public function destroy(Request $req){
@@ -66,4 +67,5 @@ class TipoUsuariosController extends Controller
       return view('tipousuario.create', 
        compact('usersList', 'tipos', 'instituicaoList'));   
     }
+    
 }

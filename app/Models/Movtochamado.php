@@ -11,7 +11,8 @@ class Movtochamado extends Model
 {
    protected $fillable = ['titulo','status',
    'descricao','user_id', 'chamado_id', 
-   'atendimento', 'tecnico', 'ativo', 'tipochamado_id'];
+   'atendimento', 'tecnico', 'ativo', 'tipochamado_id',
+   'unidade_id'];
 
    protected $perPage = 8;
 
@@ -35,7 +36,7 @@ class Movtochamado extends Model
    
    public function store_mc(Chamado $chamado, 
    	                        array $dados): bool{
-     try{
+    try{
    	   $chamado->movtoChamados()
    	   ->create($dados);
 
@@ -65,14 +66,16 @@ class Movtochamado extends Model
      return $chamado;
    }
 
-   public function atendimentoChamado():object{
+   public function atendimentoChamado(array $unidades):object{
          
      $chamados = DB::table('movtoChamados as m')
-     ->join('users as u', 'u.id', 'm.user_id')
+     ->join('users as u', 'u.id', 'm.user_id')     
      ->select('m.chamado_id', 'm.status', 'm.descricao', 
-      'm.created_at', 'm.titulo', 'u.name', 'm.id', 'm.tecnico')
+      'm.created_at', 'm.titulo', 'u.name', 'm.id', 'm.tecnico',
+      'm.unidade_id')
       ->where('ativo', true)
       ->where('m.status', '<>', FECHADO)
+      ->whereIn('m.unidade_id',  $unidades)
       ->paginate($this->perPage);
     
      return $chamados;
@@ -108,7 +111,7 @@ class Movtochamado extends Model
    public function retornoTecnico(Request $req)
    :array{
      try{
-     
+      
        $movto = Movtochamado::where('id', 
        $req->movtoId)->orderby('id','desc')
        ->first();
@@ -124,6 +127,7 @@ class Movtochamado extends Model
          "user_id" => $movto->user_id,
          "atendimento" => $req->atendimento,
          "tecnico" => auth()->user()->name,
+         "unidade_id" => $movto->unidade_id,
          "chamado_id" => $movto->chamado_id,
          "tipochamado_id" => $req->tipochamado_id
         ]);     
@@ -162,6 +166,7 @@ class Movtochamado extends Model
            "user_id" => $movto->user_id,
            "atendimento" => $req->atendimento,
            "tecnico" => auth()->user()->name,
+           "unidade_id" => $movto->unidade_id,
            "chamado_id" => $movto->chamado_id,
            "tipochamado_id" => $req->tipochamado_id
         ]);     
@@ -194,7 +199,7 @@ class Movtochamado extends Model
      $historico = 
      $this::where('chamado_id',$chamado_id)
      ->select('created_at', 'descricao', 
-     'atendimento')->get();
+     'atendimento')->distinct()->get();
 
      return $historico;
    }
@@ -214,6 +219,7 @@ class Movtochamado extends Model
            "descricao" =>  $req->descricao,
            "user_id" =>  $movto->user_id,
            "tecnico" =>  $movto->tecnico,
+           "unidade_id" => $movto->unidade_id,
            "chamado_id" =>  $movto->chamado_id,
            "tipochamado_id" => $movto->tipochamado_id
         ]);   
@@ -306,18 +312,15 @@ class Movtochamado extends Model
      switch ($dados) {
        case isset($dados['titulo']):
         return $this->query()
-        ->where('ativo', true)
         ->where('titulo', 'like', '%'.$dados['titulo'].'%')
-        ->where('user_id', $user)
-        ->orderby('created_at', 'desc')
+        ->orderby('status')
+        ->orderby('created_at')
         ->paginate();
        break;
 
        case isset($dados['status']):
          return $this->query()
-         ->where('ativo', true)
          ->where('status', $dados['status'])
-         ->where('user_id', $user)
          ->orderby('created_at', 'desc')
          ->paginate();
        break;

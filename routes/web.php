@@ -6,7 +6,7 @@ Auth::routes();
 
 Route::get('/home', function () {
     return view('home');    
-})->middleware('auth');
+})->middleware('auth')->name('home');
 
 Route::get('/', function() {
     return view('auth.login');

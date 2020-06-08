@@ -9,12 +9,19 @@
 
       <select name="status" class="form-control">
         <option value=''>Selecione um Status</option>  
+        <option value="Aberto">
+          Aberto
+        </option>
         <option value="Pendente_Tecnico">
           Pendente_Tecnico
         </option>
         <option value="Reaberto">
           Reaberto
         </option>
+        <option value="Reaberto">
+          Fechado
+        </option>
+        
       </select>     
 
        <input type="date" name="data" 

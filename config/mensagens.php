@@ -43,5 +43,13 @@ define('MESSAGE_DESTROY_USER_PERFIL',
   'Cadastro não foi deletado, 
           verifique se o técnico possui chamados.');
 
+define('USER_SEM_PERFIL_TECNICO_ADMIN', 
+  'Seu usuário não possui perfil técnico ou de administrador');
+
+define('TECNICO_SEM_CHAMADO', 
+  'Não existe chamados pendentes');
+
+
+
 
 

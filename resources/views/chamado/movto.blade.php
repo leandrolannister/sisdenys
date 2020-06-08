@@ -20,7 +20,7 @@
           <th>Número</th>
           <th>Titulo</th>
           <th>Status</th>
-          <th>Data</th>          
+          <th>Data Movto</th>          
         </tr>  
       </thead>
       <tbody>
@@ -29,7 +29,11 @@
             <td>{{$c->id}}</td>
             <td>{{$c->titulo}}</td>
             <td>{{$c->status}}</td>
-            <td>{{$c->data}}</td>
+            @if(isset($c->data))
+              <td>{{$helper::formatDate($c->data)}}</td>
+            @else
+              <td>{{$helper::formatDate($c->created_at)}}</td>  
+            @endif  
           </td> 
            </tr>
          @endforeach  

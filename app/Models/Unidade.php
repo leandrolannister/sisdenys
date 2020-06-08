@@ -19,6 +19,10 @@ class Unidade extends Model
   	return $this->hasMany(User::class);
   }
 
+  public function tipousuarios():object {
+    return $this->hasMany(TipoUsuario::class);
+  }
+
   public function store_e(array $dados):bool{
     try{
       $this::create($dados);

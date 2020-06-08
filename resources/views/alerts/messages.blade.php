@@ -14,6 +14,10 @@
   <div class="alert alert-danger">
   	{{session('error')}}
   </div>
+@elseif(session('info'))
+  <div class="alert alert-warning">
+    {{session('info')}}
+  </div>  
 @endif  
 
 @if(session('error_grupoid'))

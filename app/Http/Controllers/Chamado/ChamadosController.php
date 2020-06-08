@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Chamado;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\{Chamado, Arquivo, Movtochamado, 
-Tipochamado};
+Tipochamado, Tipousuario};
 use App\Mail\Email;
 use App\Service\{Helper,EmailSender};
 use Illuminate\Support\Facades\Mail;
@@ -78,13 +78,32 @@ class ChamadosController extends Controller
         'historico', 'files', 'tipoList'));
     }
 
+    public function getUnidadesUser():array{
+       $tipoUnidadesUser = [];
+       
+       foreach(auth()->user()->tipousuarios as $key => $u):
+        array_push($tipoUnidadesUser, auth()->user()->tipousuarios[$key]->unidade_id);        
+       endforeach;    
+
+       return $tipoUnidadesUser;
+    }
+
     public function atendimento():object{
-      
+ 
+      $checkTypeUser = 
+      (new Tipousuario())->userType(auth()->user()->id);
+
+      if(!$checkTypeUser)
+        return redirect()->route('home')
+        ->with('info', USER_SEM_PERFIL_TECNICO_ADMIN);
+        
       $chamados = (new Movtochamado())
-      ->atendimentoChamado();
+      ->atendimentoChamado(
+        (new Helper())->getUnidadesAtendimento());
 
       if(empty($chamados[0]->id))
-        return view('home');      
+        return redirect()->route('home')
+        ->with('info', TECNICO_SEM_CHAMADO);  
 
        $historico = (new Movtochamado())
       ->historicoChamado($chamados[0]->id);
@@ -93,10 +112,10 @@ class ChamadosController extends Controller
 
       return view('chamado.atendimento', 
       compact('chamados', 'helper', 
-        'historico'));     
+        'historico'));
     }
 
-    public function atender(Request $req){
+    public function atender(Request $req):object{
 
       $chamado = (new Movtochamado())->
       atenderChamado($req->movto_id)[0];
@@ -106,7 +125,7 @@ class ChamadosController extends Controller
 
       $historico = (new Movtochamado())
       ->historicoChamado($chamado->chamado_id);
-
+      
       $tipoList = (new Tipochamado())->list();
   
       return view('chamado.atender', 
@@ -114,26 +133,22 @@ class ChamadosController extends Controller
         'historico', 'tipoList'));
     }
 
-    public function updateTecnico(Request $req)
-    {
-       $update = (new Movtochamado())
-       ->updateTecnico($req->all());
+    public function updateTecnico(Request $req):void{
+     $update = (new Movtochamado())
+     ->updateTecnico($req->all());
 
-       $tecnico = ['success' => $update];
+     $tecnico = ['success' => $update];
 
-       $update 
-       ? $tecnico['message'] = 'Técnico atualizado'
-       : $tecnico['message'] = 'Técnico não foi atualizado!
-       ';
+     $update 
+     ? $tecnico['message'] = 'Técnico atualizado'
+     : $tecnico['message'] = 'Técnico não foi atualizado!';
        
        echo json_encode($tecnico);
     }
 
     public function retornotecnico(Request $req)
     :object {
-
-      //dd($req->all());
-
+      
       if(is_null($req->atendimento))
         return redirect()->route('chamado.atendimento')
         ->with('error', CHAMADO_SEM_PARECER_TECNICO);
@@ -206,12 +221,12 @@ class ChamadosController extends Controller
     {
        $chamados = (new Movtochamado())
       ->filtrarMeusChamados($req->all()); 
-      
+
       $helper = (new Helper()); 
 
       $chamadosPaginate = $req->all();
       
-      return view('chamado.atendimento', 
+      return view('chamado.movto', 
       compact('chamados','helper', 
         'chamadosPaginate'));  
     }
@@ -220,7 +235,9 @@ class ChamadosController extends Controller
       $chamados = (new Movtochamado())
       ->movtoChamados();
 
+      $helper = (new Helper()); 
+
       return view('chamado.movto', 
-      compact('chamados'));
+      compact('chamados', 'helper'));
     }
 }

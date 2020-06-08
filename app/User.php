@@ -83,8 +83,9 @@ class User extends Authenticatable
      $users = 
      DB::table('users as u')
      ->leftjoin('tipousuarios as t', 't.user_id', 'u.id')
-     ->select('u.id', 'u.name', 't.tipo', 't.instituicao_id')
-     ->orderby('u.name')
+     ->select('u.id', 'u.name', 't.tipo', 'u.unidade_id',
+      't.unidade_id as tUndId')
+     ->orderby('u.name', 'desc')
      ->paginate();
 
       return $users;
@@ -94,7 +95,8 @@ class User extends Authenticatable
      $users = 
      DB::table('users as u')
      ->join('tipousuarios as t', 't.user_id', 'u.id')
-     ->select('u.id', 'u.name', 't.tipo', 't.instituicao_id')
+     ->select('u.id', 'u.name', 't.tipo', 't.unidade_id',
+     't.unidade_id as tUndId')
      ->orderby('u.name')
      ->paginate();
 

@@ -26,9 +26,9 @@ class CreateTipousuariosTable extends Migration
             ->on('users')
             ->references('id');
 
-            $table->integer('instituicao_id');
-            $table->foreign('instituicao_id')
-            ->on('instituicoes')
+            $table->integer('unidade_id');
+            $table->foreign('unidade_id')
+            ->on('unidades')
             ->references('id');
 
         });

@@ -16,7 +16,7 @@
         <tr>
           <th>Nome</th>  
           <th>Perfil</th> 
-          <th>Instituição</th>
+          <th>Unidade</th>
         </tr>  
       </thead>
       <tbody>
@@ -31,7 +31,7 @@
           <input type="hidden" name="user_id" 
                  value="{{$u->id}}">
 
-          <input type="hidden" name="name" value="{{$u->name}}">     
+          <input type="hidden" name="name" value="{{$u->name}}">
 
           <td>
             <select name="tipo" class="form-control">
@@ -44,12 +44,12 @@
           </td>
 
           <td>
-            <select name="instituicao_id" class="form-control">
+            <select name="unidade_id" class="form-control">
               <option></option>
-              @foreach($instituicaoList as $i)
-              {{$selected = $i->id == $u->instituicao_id 
+              @foreach($unidadeList as $und)
+              {{$selected = $und->id == $u->tUndId 
               ? 'selected' : ''}}
-                <option value="{{$i->id}}" <?=$selected?>>{{$i->nome}}</option>
+                <option value="{{$und->id}}" <?=$selected?>>{{$und->nome}}</option>
               @endforeach  
             </select>
           </td>         

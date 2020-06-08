@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
         Tipousuario::create([
           'tipo' => 'Tecnico',
           'user_id' => 1,
-          'instituicao_id' => 1
+          'unidade_id' => 1
         ]);
     }
 }

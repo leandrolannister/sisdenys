@@ -52,7 +52,9 @@ class Chamado extends Model
          return false;
        }
 
-       $dados['status'] = TECNICO;
+       $dados['unidade_id'] = auth()->user()->unidade->id;
+       
+       $dados['status'] = TECNICO;      
        $chamado->movtoChamados()->create($dados);
 
        $dados['ativo'] = false;
@@ -86,11 +88,12 @@ class Chamado extends Model
        $arquivo = (new Arquivo())
        ->store_a($req, $chamado);
 
+       $dados['unidade_id'] = auth()->user()->unidade->id;
        $dados['status'] = TECNICO;
        $chamado->movtoChamados()->create($dados);
 
        $dados['ativo'] = false;
-       $dados['status'] = 'ABERTO';
+       $dados['status'] = 'ABERTO';       
        $chamado->movtoChamados()->create($dados);       
        
        if($chamado and $arquivo):
