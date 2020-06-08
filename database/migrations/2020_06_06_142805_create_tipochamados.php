@@ -15,7 +15,7 @@ class CreateTipochamados extends Migration
     {
         Schema::create('tipochamados', function (Blueprint $table) {
             $table->integer('id')->autoIncrement();
-            $table->string('descricao', 20);
+            $table->string('descricao', 20)->unique();
             
             $table->index(['descricao']);
         });
