@@ -36,4 +36,12 @@ define('MENSAGEM_SUCESSO_UPDATE',
 define('MENSAGEM_ERRO_UPDATE', 
 	   'Registro não foi atualizado!');
 
+define('MESSAGE_DESTROY', 
+  'Registro foi deletado com sucesso');
+
+define('MESSAGE_DESTROY_USER_PERFIL', 
+  'Cadastro não foi deletado, 
+          verifique se o técnico possui chamados.');
+
+
 

@@ -346,4 +346,15 @@ class Movtochamado extends Model
 
       return $movtos;
     }
+
+    public function searchTechnician(string $userName):bool{
+      $query = 
+      $this::where('tecnico', $userName)
+      ->first();
+      
+      if(is_null($query))
+        return false;
+        
+      return true;     
+    }
 }

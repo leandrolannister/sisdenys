@@ -14,6 +14,10 @@ class Instituicao extends Model
      return $this->hasMany(Unidade::class);
   }
 
+  public function tipousuarios():object {
+    return $this->hasMany(TipoUsuario::class);
+  }
+
   public function setSiglaAttribute($sigla):void{
     $this->attributes['sigla'] = mb_strtoupper($sigla);
   }
@@ -28,7 +32,7 @@ class Instituicao extends Model
   }
 
   public function list(string $campo):object{
-    $instituicoes = $this::query()->orderby($campo)
+    $instituicoes = $this::query()->orderby($campo, 'desc')
     ->get();
 
     return $instituicoes;

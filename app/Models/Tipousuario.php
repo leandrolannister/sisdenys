@@ -8,28 +8,33 @@ use App\User;
 class Tipousuario extends Model
 {
   public $timestamps = false;
-  protected $fillable = ['tipo', 'user_id'];
+  protected $fillable = ['tipo', 'user_id', 'instituicao_id'];
   private const ADMIN = 'Admin';
   private const TECNICO = 'Tecnico';
-  private const COMUM = 'Comum';
-
+  
   public function user():object {
     return $this->belongsTo(User::class);
   }
 
-  public function store_t(array $dados): bool{
-    
-    $tipo = $this::find($dados['user_id']);
+  public function instituicao():object {
+    return $this->belongsTo(Instituicao::class);
+  }
 
-    if($tipo->tipo == $dados['tipo'])
-      return true; 
+  public function storeBefore(array $dados):bool{
+     $data = $this->searchData($dados);
 
-    if($tipo->tipo != $dados['tipo'])
-      return $this->update_t($dados, $tipo->id);
+     if(is_null($data))
+       return $this->store_t($dados); 
+
+     if(!is_null($data))
+       return $this->update_t($dados);     
+
+  }
+
+  public function store_t(array $dados):bool{
     
     try{  
-       
-       $this::create($dados);       
+      $this::create($dados);       
     }catch(\Exception $e){
       dd($e->getMessage()); 
       return false; 
@@ -37,8 +42,14 @@ class Tipousuario extends Model
     return true;
   }  
 
-  public function update_t(array $dados, int $id):bool{
-    $tipo = $this::find($id);    
+  public function update_t(array $dados):bool{
+        
+    $tipousuario = $this::where('user_id', $dados['user_id'])
+    ->select('id')
+    ->first();
+
+    $tipo = $this::find($tipousuario->id);    
+
     try{
       $tipo->fill($dados);
       $tipo->save();
@@ -48,14 +59,14 @@ class Tipousuario extends Model
     }
     return true;
   }
-
-  public function seekType(int $user_id, string $tipo)
+  
+  public function searchData(array $dados)
   :?int{
     
      $query = 
-     $this::where('user_id', $user_id)
-     ->where('tipo', $tipo)
-     ->select('tipo')
+     $this::where('user_id', $dados['user_id'])
+     ->where('tipo', $dados['tipo'])
+     ->where('instituicao_id', $dados['instituicao_id'])
      ->first();
 
      if(isset($query->id))
@@ -64,8 +75,29 @@ class Tipousuario extends Model
      return null;                   
   }
 
+  public function destroy_t(array $dados):bool{
+    $tecnico 
+      = (new Movtochamado())->searchTechnician($dados['name']);
+
+    if($tecnico)
+      return false;
+
+    try{
+      
+      $tipousuario = $this::where('user_id', $dados['user_id'])
+      ->select('id')
+      ->first();      
+
+      $this::destroy($tipousuario->id);
+    }catch(\Exception $e){
+      dd($e->getmessage());
+      return false;
+    }    
+    return true;    
+  }
+
   public function getTipos():array{
-    return ['Comum', 'Tecnico', 'Admin'];
+    return ['Tecnico', 'Admin'];
   }
 
 }

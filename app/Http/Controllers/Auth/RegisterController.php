@@ -73,11 +73,11 @@ class RegisterController extends Controller
         'unidade_id' =>
          Unidade::where('id', 1)->first()->id]);
 
-      $data = ['user_id' => 
+      /*$data = ['user_id' => 
       User::where('email', $data['email'])->first()->id,
       'tipo' => 'Comum'];
       
-      (new Tipousuario())->create($data);
+      (new Tipousuario())->create($data);*/
       
       return $usuario;
     }

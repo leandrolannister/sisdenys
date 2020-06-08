@@ -23,12 +23,15 @@
         @forelse($usersList as $u)
          <tr>
           <td>{{$u->name}}</td>
-          <form action="{{route('tipousuario.store')}}"
+          <form action="{{route('tipousuario.destroy')}}"
                 method="post">
           @csrf
+          @method('DELETE')
 
           <input type="hidden" name="user_id" 
                  value="{{$u->id}}">
+
+          <input type="hidden" name="name" value="{{$u->name}}">     
 
           <td>
             <select name="tipo" class="form-control">
@@ -52,8 +55,8 @@
           </td>         
           
           <td>
-            <button type="submit" class="btn btn-primary mr-2">
-              <i class="fa fa-plus" aria-hidden="true"></i>
+            <button type="submit" class="btn btn-danger mr-2">
+              <i class="fa fa-trash" aria-hidden="true"></i>
             </button>
           </td>
         </form>

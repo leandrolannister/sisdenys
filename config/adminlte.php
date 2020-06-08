@@ -232,6 +232,11 @@ return [
             'icon' => 'fas fa-fw fa-user',
         ],
         [
+            'text' => 'Usuário Perfil',
+            'url'  => 'tipousuario/',
+            'icon' => 'fas fa-users-cog',
+        ],
+        [
             'text'    => 'Cadastro',
             'icon'    => 'fas fa-fw fa-share',
             'submenu' => [
@@ -242,10 +247,6 @@ return [
                 [
                   'text' => 'Unidade',
                   'url'  => 'unidade/create',
-                ],
-                [
-                  'text' => 'Usuário Tipo',
-                  'url'  => 'tipousuario/',
                 ],
                 [
                   'text' => 'Tipo de Chamado',
@@ -285,6 +286,10 @@ return [
                 [
                   'text' => 'Unidade',
                   'url'  => 'unidade/',
+                ],
+                [
+                  'text' => 'Perfil Usuário',
+                  'url'  => 'tipousuario/delete',
                 ],
                 [
                   'text' => 'Tipo de Chamados',

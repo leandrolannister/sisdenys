@@ -80,12 +80,35 @@ class User extends Authenticatable
     }
     
     public function listar():?object{
-      $users = 
-      DB::table('users as u')
-      ->join('tipousuarios as t', 't.user_id', 'u.id')
-      ->select('u.id', 'u.name', 't.tipo')
-      ->orderBy('u.id', 'desc')
-      ->paginate($this->perPage);
+     $users = 
+     DB::table('users as u')
+     ->leftjoin('tipousuarios as t', 't.user_id', 'u.id')
+     ->select('u.id', 'u.name', 't.tipo', 't.instituicao_id')
+     ->orderby('u.name')
+     ->paginate();
+
+      return $users;
+    }
+
+    public function listToDestroy():?object{
+     $users = 
+     DB::table('users as u')
+     ->join('tipousuarios as t', 't.user_id', 'u.id')
+     ->select('u.id', 'u.name', 't.tipo', 't.instituicao_id')
+     ->orderby('u.name')
+     ->paginate();
+
+      return $users;
+    }
+
+    public function filtroTipoUsuario(string $name):?object{
+     $users = 
+     DB::table('users as u')
+     ->leftjoin('tipousuarios as t', 't.user_id', 'u.id')
+     ->select('u.id', 'u.name', 't.tipo', 't.instituicao_id')
+     ->where('u.name', 'like', "%$name%")
+     ->orderby('u.name')
+     ->paginate();
 
       return $users;
     }

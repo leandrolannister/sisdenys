@@ -133,6 +133,8 @@ class Chamado extends Model
         WHERE c.user_id = $user_id");
 
         return $meusChamados;      
-    }    
+    } 
+
+      
 }
 

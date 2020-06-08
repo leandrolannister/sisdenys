@@ -17,13 +17,18 @@ class CreateTipousuariosTable extends Migration
           function (Blueprint $table) {
             $table->integer('id')->autoIncrement();
             $table->enum('tipo',['Admin', 
-            'Tecnico', 'Comum']);
+            'Tecnico']);
             
             $table->index(['tipo']); 
 
             $table->integer('user_id');
             $table->foreign('user_id')
             ->on('users')
+            ->references('id');
+
+            $table->integer('instituicao_id');
+            $table->foreign('instituicao_id')
+            ->on('instituicoes')
             ->references('id');
 
         });

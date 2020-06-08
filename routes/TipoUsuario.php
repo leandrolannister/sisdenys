@@ -4,12 +4,19 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth'], function(){
    
-   Route::get('/', 'TipoUsuariosController@index')
+   route::get('/', 'TipoUsuariosController@index')
    ->name('tipousuario.index');
 
-   Route::post('/store', 'TipoUsuariosController@store')
-   ->name('tipousuario.store');    
+   route::post('/store', 'TipoUsuariosController@store')
+   ->name('tipousuario.store');
 
-       
+   route::get('/delete', 'TipoUsuariosController@delete')
+   ->name('tipousuario.delete');
+
+   route::delete('/delete', 'TipoUsuariosController@destroy')
+   ->name('tipousuario.destroy'); 
+
+   route::post('/filtro', 'TipoUsuariosController@filtro')
+   ->name('tipousuario.filtro');       
 
 });
