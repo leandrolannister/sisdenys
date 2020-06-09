@@ -33,8 +33,7 @@ class Tipousuario extends Model
 
   public function store_t(array $dados):bool{
     
-    //dd($dados);
-    try{  
+   try{  
       $this::create($dados);       
     }catch(\Exception $e){
       dd($e->getMessage()); 
@@ -77,9 +76,9 @@ class Tipousuario extends Model
   }
 
   public function destroy_t(array $dados):bool{
-    $tecnico 
-      = (new Movtochamado())->searchTechnician($dados['name']);
-
+    $tecnico = (new Movtochamado())
+    ->searchTechnician($dados);
+    
     if($tecnico)
       return false;
 

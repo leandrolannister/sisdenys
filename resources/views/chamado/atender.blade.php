@@ -72,7 +72,6 @@
                  aria-label="With textarea"
                  placeholder="Descreva o parecer técnico"></textarea>
       </div>
-
       <div class="box">
         <div class="box-header input-group">
           <span class="d-flex">
@@ -83,7 +82,7 @@
           </span>  
         </div>
       </div>    
-    </form>  
+    </form> 
   </div>
 </div>    
 @stop
@@ -95,7 +94,6 @@
     event.preventDefault();
     
     const movtoId = $('input[name="movtoId"]').val();
-
     $.ajax({
       url: "{{route('chamado.updatetecnico')}}",
       type: 'post',
@@ -107,7 +105,6 @@
           }else{
             alert(resp.message);
           }
-
         },
         error: function(respError){
            console.log(respError);  

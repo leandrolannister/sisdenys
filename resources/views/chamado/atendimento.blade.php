@@ -33,18 +33,23 @@
             <td>{{$c->name}}</td>
             <td>{{$c->tecnico}}</td>
             <td>
-            <form method="post" 
-                  action="{{route('chamado.atender')}}">
-              @csrf
-              <input type="hidden" name="movto_id"
-                     value="{{$c->id}}">
+              <form method="post" 
+                    action="{{route('chamado.atender')}}">
+                @csrf
+                <input type="hidden" name="movto_id"
+                       value="{{$c->id}}">
 
-              <button type="submit" 
-                      class="btn btn-info btn-sm">
-                <i class="fas fa-search"></i> 
-              </button>       
-            </form>
-          </td> 
+                <button type="submit" 
+                        class="btn btn-info btn-sm">
+                  <i class="fas fa-search"></i> 
+                </button>       
+              </form>
+            </td>
+            <td>
+              @if($c->status == 'Pendente_usuario')
+                @include('chamado.fechar')
+              @endif
+            </td>  
            </tr>
          @endforeach  
       </tbody>

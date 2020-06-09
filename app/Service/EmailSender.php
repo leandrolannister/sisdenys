@@ -22,28 +22,28 @@ class EmailSender{
    'mail.chamado.tecnico.reaberto'; 
 
    public function enviaEmailUsuario():void{
-     $chamado = (new Chamado())
+     $chamado = (new Movtochamado())
      ->getUltimoChamadoUsuario();
      
      self::sender($chamado->titulo, 
       auth()->user()->email, $chamado->id, 
       self::VIEW_PATH_EMAIL_USER);
      
-     //$this->enviaEmailTecnicos($chamado);         
+     $this->enviaEmailTecnicos($chamado);         
     }
 
-    /*public function enviaEmailTecnicos(Chamado 
+    public function enviaEmailTecnicos(Movtochamado 
     	$chamado):void{
       
       $emails = (new User())
-      ->getUsuariosGrupo($chamado->grupochamado_id);
+      ->getTecnicosUnidades($chamado->unidade_id);
       
       foreach($emails as $key => $e):
         self::sender($chamado->titulo, $e->email,
         $chamado->id, 
         self::VIEW_PATH_EMAIL_TECHNICIAN);  
       endforeach;	
-    }*/
+    }
 
     public function enviaEmailChamadoFechado(
       int $chamadoId):void {

@@ -9,6 +9,7 @@ Tipochamado, Tipousuario};
 use App\Mail\Email;
 use App\Service\{Helper,EmailSender};
 use Illuminate\Support\Facades\Mail;
+use App\User;
 
 class ChamadosController extends Controller
 {
@@ -34,11 +35,9 @@ class ChamadosController extends Controller
 
     public function store(Request $req):object{
 
-      $this->validar($req);
+      $this->validar($req);      
 
-      $chamadoAberto = $req->arquivo 
-      ?(new Chamado())->storeWithFile($req)
-      :(new Chamado())->store_c($req); 
+      $chamadoAberto = (new Chamado())->store_c($req);
 
       if($chamadoAberto):
         (new EmailSender())->enviaEmailUsuario();
@@ -89,7 +88,7 @@ class ChamadosController extends Controller
     }
 
     public function atendimento():object{
- 
+     
       $checkTypeUser = 
       (new Tipousuario())->userType(auth()->user()->id);
 
@@ -152,13 +151,9 @@ class ChamadosController extends Controller
       if(is_null($req->atendimento))
         return redirect()->route('chamado.atendimento')
         ->with('error', CHAMADO_SEM_PARECER_TECNICO);
-    
-      
-      $atendimento = $req->arquivo 
-      ? (new Movtochamado())
-        ->retornoTecnicoComArquivo($req)
-      : (new Movtochamado())->retornotecnico($req);
-       
+
+      $atendimento = 
+      (new Movtochamado())->retornotecnico($req);       
 
       if($atendimento['result']):
         (new EmailSender())
@@ -175,13 +170,13 @@ class ChamadosController extends Controller
     
     public function reabrirchamado(Request $req)
     :object {
-      
+
       if(is_null($req->descricao))
         return redirect()->route('chamado.index')
         ->with('error', CHAMADO_SEM_DESCRICAO_USUARIO);
-
+      
       $chamadoReaberto = (new movtoChamado())
-      ->reabrirChamado($req);
+      ->reabrirChamado($req);     
 
       $movtoChamado = (new Movtochamado())
       ->getUltimoMovto($req->id);
@@ -218,7 +213,7 @@ class ChamadosController extends Controller
     }
 
     public function filtrarMeusChamados(Request $req)
-    {
+    :object {
        $chamados = (new Movtochamado())
       ->filtrarMeusChamados($req->all()); 
 
@@ -239,5 +234,20 @@ class ChamadosController extends Controller
 
       return view('chamado.movto', 
       compact('chamados', 'helper'));
+    }
+
+    public function fechar(Request $req){
+      
+      $fechar = (new Movtochamado())
+      ->fecharChamado($req->all());
+
+      if($fechar)
+        return redirect()
+        ->route('chamado.index')
+        ->with('success', CHAMADO_FECHADO_SUCESSO);
+    
+      return redirect()
+        ->route('chamado.index')
+        ->with('success', CHAMADO_FECHADO_ERRO);
     }
 }

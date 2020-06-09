@@ -66,6 +66,15 @@ class Movtochamado extends Model
      return $chamado;
    }
 
+   public function getUltimoChamadoUsuario()
+    :object{
+      return $this::where('user_id',
+      auth()->user()->id)
+      ->where('ativo', true)
+      ->get()->last();
+    }
+
+
    public function atendimentoChamado(array $unidades):object{
          
      $chamados = DB::table('movtoChamados as m')
@@ -111,6 +120,8 @@ class Movtochamado extends Model
    public function retornoTecnico(Request $req)
    :array{
      try{
+
+      //dd($req);
       
        $movto = Movtochamado::where('id', 
        $req->movtoId)->orderby('id','desc')
@@ -118,11 +129,14 @@ class Movtochamado extends Model
 
        $movto->ativo = false;
        $movto->save();
+
+       if($req->arquivo)
+         DB::beginTransaction(); 
               
-       $r = Movtochamado::create([
+       $newMovto = Movtochamado::create([
          "titulo" => $movto->titulo,
          "tipo" => $movto->tipo,
-         "status" => FECHADO,
+         "status" => USUARIO,
          "descricao" => $movto->descricao,
          "user_id" => $movto->user_id,
          "atendimento" => $req->atendimento,
@@ -139,78 +153,38 @@ class Movtochamado extends Model
 
         return $chamado;
       }
+
+      if(isset($req->arquivo)){
+        
+        $arquivo = (new Arquivo())
+        ->store_a($req, $movto->chamado);
+
+        if($newMovto and $arquivo):
+          DB::commit();
+          return ['id' => $movto->chamado_id,
+                  'result' => true];
+        else:             
+          DB::rollback();
+          return false;
+        endif;
+      }    
       
       $chamado = ['id' => $movto->chamado_id,
                   'result' => true];
 
       return $chamado;
-   }
-
-   public function retornoTecnicoComArquivo(
-   Request $req): array{
-      DB::beginTransaction();
-     
-      try{
-        $movto = Movtochamado::where('id', 
-        $req->movtoId)->orderby('id','desc')
-        ->first();
-        
-        $movto->ativo = false;
-        $movto->save();
-
-       $r =  Movtochamado::create([
-           "titulo" => $movto->titulo,
-           "tipo" => $movto->tipo,
-           "status" => FECHADO,
-           "descricao" => $movto->descricao,
-           "user_id" => $movto->user_id,
-           "atendimento" => $req->atendimento,
-           "tecnico" => auth()->user()->name,
-           "unidade_id" => $movto->unidade_id,
-           "chamado_id" => $movto->chamado_id,
-           "tipochamado_id" => $req->tipochamado_id
-        ]);     
-
-      }catch(\Exception $e){ 
-        dd($e->getMessage());       
-        
-        return ['id' => $movto->chamado_id,
-                'result' => false];        
-      }
-
-      $arquivo = (new Arquivo())
-      ->store_a($req, $movto->chamado);
-
-      if($movto and $arquivo):
-        DB::commit();
-        return ['id' => $movto->chamado_id,
-                'result' => true];
-      endif;
-             
-      DB::rollback();
-       
-      return ['id' => $movto->chamado_id,
-              'result' => false];  
-   }
-
-   public function historicoChamado(int $chamado_id)
-   :object{
-     
-     $historico = 
-     $this::where('chamado_id',$chamado_id)
-     ->select('created_at', 'descricao', 
-     'atendimento')->distinct()->get();
-
-     return $historico;
-   }
+   }   
 
    public function reabrirChamado(Request $req)
    :bool{
-      
+
+      if(isset($req->arquivo))
+        DB::beginTransaction();  
+            
       $movto = $this::getUltimoMovto($req->id);
       $movto->ativo = false;
       $movto->save();
-
+      
       try{
         $newmovto = Movtochamado::create([
            "titulo" =>  $movto->titulo,
@@ -225,32 +199,47 @@ class Movtochamado extends Model
         ]);   
       }catch(Exception $e){
         return false;
+      }
+
+      if(isset($req->arquivo)){
+        $arquivo = (new Arquivo())
+        ->store_a($req, $movto->chamado);
+
+        if($newmovto and $arquivo):
+          DB::commit();
+          return true;
+        else:
+           DB::rollback();
+           return false;
+        endif;
       } 
+      
+      return true;
+   }
 
-      $arquivo = (new Arquivo())
-      ->store_a($req, $movto->chamado);
+   public function historicoChamado(int $chamado_id)
+   :object{
+     
+     $historico = 
+     $this::where('chamado_id',$chamado_id)
+     ->select('created_at', 'descricao', 
+     'atendimento')->distinct()->get();
 
-      if($newmovto and $arquivo):
-        DB::commit();
-        return true;
-      endif;
-       
-      DB::rollback(); 
-      return false;
+     return $historico;
    }
 
    public function filtrarAtendimento(array $dados)
    :object{
      
-     $grupo = auth()->user()->grupochamado_id;
+     $unidadesAtend = (new Helper())->getUnidadesAtendimento();
 
      switch ($dados) {
        case isset($dados['titulo']):
         return $this->query()
         ->where('ativo', true)
         ->where('titulo', 'like', '%'.$dados['titulo'].'%')
-        ->where('status', '!=', FECHADO)
-        ->where('grupoChamado_id', $grupo)
+        ->where('status', '!=', FECHADO) 
+        ->whereIn('unidade_id', $unidadesAtend)       
         ->orderby('created_at', 'desc')
         ->paginate();
        break;
@@ -260,7 +249,7 @@ class Movtochamado extends Model
          ->where('ativo', true)
          ->where('status', $dados['status'])
          ->where('status', '!=', FECHADO)
-         ->where('grupoChamado_id', $grupo)
+         ->whereIn('unidade_id', $unidadesAtend)        
          ->orderby('created_at', 'desc')
          ->paginate();
        break;
@@ -270,7 +259,7 @@ class Movtochamado extends Model
          return $this::where('ativo', true)
          ->where(DB::raw('DATE_FORMAT(created_at, "%d/%m/%Y")'), $dt)
          ->where('status', '!=', FECHADO)
-         ->where('grupoChamado_id', $grupo)
+         ->whereIn('unidade_id', $unidadesAtend)         
          ->paginate(); 
        break;  
 
@@ -281,7 +270,7 @@ class Movtochamado extends Model
         ->where('u.name', 'like', '%'.$dados['name'].'%')
         ->where('m.ativo', true)
         ->where('status', '!=', FECHADO)
-        ->where('grupoChamado_id', $grupo)
+        ->whereIn('unidade_id', $unidadesAtend)
         ->paginate(); 
        break; 
 
@@ -290,7 +279,7 @@ class Movtochamado extends Model
        ->where('ativo', true)
        ->where('tecnico', 'like', '%'.$dados['tecnico'].'%')
        ->where('status', '!=', FECHADO)
-       ->where('grupoChamado_id', $grupo)
+       ->whereIn('unidade_id', $unidadesAtend)
        ->orderby('created_at', 'desc')
        ->paginate();
        break;  
@@ -298,7 +287,7 @@ class Movtochamado extends Model
        case is_null($dados['status']):
          return $this::where('ativo', true)
          ->where('status', '!=', FECHADO)
-         ->where('grupoChamado_id', $grupo)
+         ->whereIn('unidade_id', $unidadesAtend)
          ->paginate(); 
        break;        
       }
@@ -331,7 +320,15 @@ class Movtochamado extends Model
          ->where(DB::raw('DATE_FORMAT(created_at, "%d/%m/%Y")'), $dt)
          ->where('user_id', $user)
          ->paginate(); 
-       break; 
+       break;
+
+       default:
+         return $this->query()
+         ->orderby('status')
+         ->orderby('created_at', 'desc')
+         ->limit(30)
+         ->paginate();
+
       }
     }
 
@@ -350,14 +347,31 @@ class Movtochamado extends Model
       return $movtos;
     }
 
-    public function searchTechnician(string $userName):bool{
+    public function searchTechnician(array $dados):bool{
       $query = 
-      $this::where('tecnico', $userName)
+      $this::where('tecnico', $dados['name'])
+      ->where('unidade_id', $dados['unidade_id'])
+      ->where('ativo', true)
+      ->where('status', '<>', FECHADO)
       ->first();
-      
+           
       if(is_null($query))
         return false;
         
       return true;     
+    }
+
+    public function fecharChamado(array $dados):bool{
+      $movto = $this->getUltimoMovto($dados['id']);
+
+      try{
+        $movto->status = FECHADO;
+        $movto->save();
+      }catch(\Exception $e){
+        dd($e->getMessage());
+        return false;
+      }
+      return true;
+
     }
 }

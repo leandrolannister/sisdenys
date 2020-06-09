@@ -47,7 +47,6 @@ Route::group(['middleware' => 'auth'], function(){
    'ChamadosController@movtochamado')
    ->name('chamado.movto');
 
-
-
-      
+   route::post('/fecharChamado', 'ChamadosController@fechar')
+   ->name('chamado.fechar');     
 });

@@ -1,4 +1,4 @@
-@if($chamado->status == 'Fechado')
+@if($chamado->status == 'Pendente_usuario')
   <form action="{{route('chamado.reabrir')}}"
         method="post"
         enctype="multipart/form-data">
@@ -20,9 +20,14 @@
         aria-label="With textarea"
         placeholder="Descreva a ocorrência"></textarea>
       </div>         
+       <span class="d-flex">
       <button type="submit" 
               class="btn btn-danger ml-2">
-              Reabrir
+              Rejeitar
       </button>
   </form>
+  @include('chamado.fechar')
+</span>
 @endif
+
+ 

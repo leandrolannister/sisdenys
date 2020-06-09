@@ -39,7 +39,8 @@ class Chamado extends Model
 
     public function store_c(Request $req):bool{      
       
-      DB::beginTransaction();
+      if(isset($req->arquivo))        
+        DB::beginTransaction();
 
       try{
         $dados = $req->all();
@@ -61,56 +62,25 @@ class Chamado extends Model
        $dados['status'] = 'ABERTO';
        $chamado->movtoChamados()->create($dados);
 
-       if($chamado):
-         DB::commit();
-         return true;
-       endif;
+       if(isset($req->arquivo)){
+         $arquivo = (new Arquivo())
+         ->store_a($req, $chamado);
+
+         if($chamado):
+           DB::commit();
+           return true;
+         else:
+           DB::rollback();
+           return false;  
+         endif;
        
-       DB::rollback();
-       return false;  
-    }
-
-    public function storeWithFile(Request $req)
-    :bool{
-      DB::beginTransaction();
-
-      try{
-        $dados = $req->all();
-        $dados['user_id'] = auth()->user()->id;
-        $dados['data'] = Date('Y:m:d');
-        
-        $chamado = $this::create($dados);
-        
-       }catch(\Exception $e){
-        return false;
+         DB::rollback();
+         return false;  
        }
 
-       $arquivo = (new Arquivo())
-       ->store_a($req, $chamado);
-
-       $dados['unidade_id'] = auth()->user()->unidade->id;
-       $dados['status'] = TECNICO;
-       $chamado->movtoChamados()->create($dados);
-
-       $dados['ativo'] = false;
-       $dados['status'] = 'ABERTO';       
-       $chamado->movtoChamados()->create($dados);       
-       
-       if($chamado and $arquivo):
-         DB::commit();
-         return true;
-       endif;
-       
-       DB::rollback();
-       return false;   
-    }
-
-    public function getUltimoChamadoUsuario()
-    :object{
-      return $this::where('user_id',
-      auth()->user()->id)->get()->last();
-    }
-
+       return true; 
+    }    
+    
     public function meusChamados(int $user_id):
     array{
        

@@ -3,7 +3,7 @@
 @section('title', 'Chamado')
 
 @section('content_header')
-  <h1>Consulta Chamado</h1>  
+  <h1>Consulta Chamado</h1>   
 @stop
 
 @section('content')
@@ -40,9 +40,10 @@
         </select>          
       </div>
       @include('chamado.historico')
-      @include('chamado.arquivos')
+      @include('chamado.arquivos')      
     </form> 
     @include('chamado.reabertura')
+        
   </div>
 </div>    
 @stop

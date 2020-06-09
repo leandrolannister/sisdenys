@@ -49,6 +49,9 @@ define('USER_SEM_PERFIL_TECNICO_ADMIN',
 define('TECNICO_SEM_CHAMADO', 
   'Não existe chamados pendentes');
 
+define('CHAMADO_FECHADO_SUCESSO',
+  'Chamado foi fechado com sucesso!');
+
 
 
 

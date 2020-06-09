@@ -115,11 +115,13 @@ class User extends Authenticatable
       return $users;
     }
 
-    public function getUsuariosGrupo(
-    int $grupochamado_id):object{
+    public function getTecnicosUnidades(
+    int $unidade_id):object{
 
-      return $this::where('grupochamado_id',
-      $grupochamado_id)->select('email')
+      return DB::table('users as u')
+      ->join('tipousuarios as t', 't.user_id', 'u.id')
+      ->select('u.email')
+      ->where('t.unidade_id', $unidade_id)
       ->get();
     }
 }

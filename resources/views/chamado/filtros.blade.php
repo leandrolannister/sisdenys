@@ -12,6 +12,9 @@
         <option value="Pendente_Tecnico">
           Pendente_Tecnico
         </option>
+        <option value="Pendente_Usuario">
+          Pendente_Usuário
+        </option>
         <option value="Reaberto">
           Reaberto
         </option>

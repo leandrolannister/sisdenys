@@ -13,11 +13,11 @@ class TipoChamadoSeeder extends Seeder
     public function run()
     {
         Tipochamado::create([
-          'descricao' => 'Manutenção Predial'          
+          'descricao' => 'Manutenção REDES'          
         ]);
 
         Tipochamado::create([
-          'descricao' => 'Papelaria'          
+          'descricao' => 'Atualizar Anti-Virus'          
         ]);
     }
 }
