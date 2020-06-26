@@ -10,7 +10,7 @@ use App\Models\{Tipousuario, Unidade};
 class TipoUsuariosController extends Controller
 {
     public function index():object {
-       $usersList = (new User())->listar();
+       $usersList = (new User())->listar();       
        $tiposUserList = Tipousuario::all();
        $unidadeList = (new Unidade())->list();
 

@@ -11,8 +11,15 @@ use App\Service\Helper;
 
 class UsersController extends Controller
 {
-  public function create():object 
-  {
+  public function index(){
+    $userList = (new User())->list();
+    $perfis = (new User())->perfis();
+
+    return view('usuario.index', 
+      compact('userList', 'perfis'));
+  }
+
+  public function create():object{
     $user = auth()->user();
 
     $unidadeList = (new Unidade())->list();
@@ -21,8 +28,7 @@ class UsersController extends Controller
       compact('user', 'unidadeList'));
   }  
   
-  public function update(UserValidate $req):object
-  {       
+  public function update(UserValidate $req):object{       
     $updateUser = (new User())->update_u($req->all());
 
     if($updateUser)
@@ -49,10 +55,20 @@ class UsersController extends Controller
     ->with('error', MENSAGEM_ERRO);       
   }
 
-  private function validarUsuarioComum(Request $req)
-  :void{
+  private function validarUsuarioComum(Request $req):void{
      $this->validate($req, [
       'name' => 'required|min:3',
       'email' => 'required']);   
+  }
+
+  public function edit(Request $req){
+    $update = (new User())->updatePerfil($req->all());
+
+    if($update)
+      return redirect()->route('user.index')
+      ->with('success', MENSAGEM_SUCESSO);    
+    
+      return redirect()->route('user.index')
+      ->with('error', MENSAGEM_ERRO); 
   }
 }

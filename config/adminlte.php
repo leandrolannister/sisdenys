@@ -216,7 +216,7 @@ return [
        'icon' => 'fas fa-fw fa-user',
       ],
           
-      ['text' => 'Usuário Perfil',
+      ['text' => 'Tipo de Usuário',
        'url'  => 'tipousuario/',
        'icon' => 'fas fa-users-cog',
        'can' => 'Admin',
@@ -272,6 +272,9 @@ return [
                 ],
                 ['text' => 'Tipo de Chamados',
                  'url'  => 'tipochamado/',
+                ],
+                ['text' => 'Usuário Perfil',
+                 'url'  => 'user/',
                 ],
         ],
         'can' => 'Admin',

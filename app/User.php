@@ -85,6 +85,7 @@ class User extends Authenticatable
      ->leftjoin('tipousuarios as t', 't.user_id', 'u.id')
      ->select('u.id', 'u.name', 't.tipo', 'u.unidade_id',
       't.unidade_id as tUndId')
+     ->where('perfil', '!=', 'Comum')
      ->orderby('u.name', 'desc')
      ->paginate();
 
@@ -123,5 +124,29 @@ class User extends Authenticatable
       ->select('u.email')
       ->where('t.unidade_id', $unidade_id)
       ->get();
+    }
+
+    public function perfis():array{
+      return ['Admin', 'Tecnico', 'Comum'];
+    }
+
+    public function list():object{
+      return 
+      $this::query()
+      ->select('id', 'name','email', 'perfil')
+      ->get();
+    }
+
+    public function updatePerfil(array $dados):bool{
+      $user = $this::find($dados['id']);
+
+      try{
+        $user->perfil = $dados['perfil'];
+        $user->save();
+      }catch(\Exception $e){
+        return false;
+      }
+
+      return true;
     }
 }
