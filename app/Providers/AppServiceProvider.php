@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\User;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,8 +22,21 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
-    {
-        //
+    public function boot(){       
+      
+      \Gate::define('Admin',function ($user){
+        if ($user->perfil == 'Admin')
+          return true;
+      });
+
+      \Gate::define('Tecnico',function ($user){
+        if ($user->perfil == 'Tecnico')
+          return true;
+      });      
+
+      \Gate::define('Comum',function ($user){
+        if ($user->perfil == 'Comum')
+          return true;
+      });                 
     }
 }

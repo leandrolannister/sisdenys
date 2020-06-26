@@ -1,4 +1,4 @@
-    <?php
+<?php  
 
 return [
 
@@ -207,100 +207,79 @@ return [
     |
     */
 
+     
     'menu' => [
-        /*[
-            'text' => 'search',
-            'search' => true,
-            'topnav' => true,
+      ['header' => 'account_settings'],
+          
+      ['text' => 'Usuário',
+       'url'  => 'user/create',
+       'icon' => 'fas fa-fw fa-user',
+      ],
+          
+      ['text' => 'Usuário Perfil',
+       'url'  => 'tipousuario/',
+       'icon' => 'fas fa-users-cog',
+       'can' => 'Admin',
+      ],
+          
+      ['text'    => 'Cadastro',
+       'icon'    => 'fas fa-fw fa-share',
+       'submenu' => [              
+          ['text' => 'Instituição',
+           'url'  => 'instituicao/create',
+          ],
+          ['text' => 'Unidade',
+           'url'  => 'unidade/create',
+          ],              
+          ['text' => 'Tipo de Chamado',
+           'url'  => 'tipochamado/create',
+          ],
         ],
-        [
-            'text' => 'blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
-        ],
-        [
-            'text'        => 'pages',
-            'url'         => 'admin/pages',
-            'icon'        => 'far fa-fw fa-file',
-            'label'       => 4,
-            'label_color' => 'success',
-        ],*/
-        ['header' => 'account_settings'],
-        [
-            'text' => 'Usuário',
-            'url'  => 'user/create',
-            'icon' => 'fas fa-fw fa-user',
-        ],
-        [
-            'text' => 'Usuário Perfil',
-            'url'  => 'tipousuario/',
-            'icon' => 'fas fa-users-cog',
-        ],
-        [
-            'text'    => 'Cadastro',
-            'icon'    => 'fas fa-fw fa-share',
-            'submenu' => [
-                [
-                  'text' => 'Instituição',
-                  'url'  => 'instituicao/create',
+        'can' => 'Admin',
+      ],
+      
+      ['header' => 'Movimentos'],
+      
+      ['text'   => 'Novo Chamado',
+        'icon_color' => 'red',
+        'url' => 'chamado/create',        
+      ],
+      ['text' => 'Meus Chamados',
+       'icon_color' => 'blue',
+       'url' => 'chamado/'
+      ],
+      ['text' => 'Atendimento',
+       'icon_color' => 'green',
+       'url' => 'chamado/atendimento',
+       'can' => 'Tecnico',
+      ],
+      ['text' => 'Histórico',
+       'icon_color' => 'gray',
+       'url' => 'chamado/movto',
+       'can' => 'Tecnico',
+      ],
+      ['text' => 'Manutenção',
+       'icon' => 'fas fa-fw fa-share',
+       'submenu' => [
+                ['text' => 'Instituição',
+                 'url'  => 'instituicao/',
                 ],
-                [
-                  'text' => 'Unidade',
-                  'url'  => 'unidade/create',
+                ['text' => 'Unidade',
+                 'url'  => 'unidade/',
                 ],
-                [
-                  'text' => 'Tipo de Chamado',
-                  'url'  => 'tipochamado/create',
+                ['text' => 'Perfil Usuário',
+                 'url'  => 'tipousuario/delete',
                 ],
-            ],
+                ['text' => 'Tipo de Chamados',
+                 'url'  => 'tipochamado/',
+                ],
         ],
-        ['header' => 'Movimentos'],
-        [
-            'text'       => 'Novo Chamado',
-            'icon_color' => 'red',
-            'url' => 'chamado/create'
-        ],
-        [
-            'text'       => 'Meus Chamados',
-            'icon_color' => 'blue',
-            'url' => 'chamado/'
-        ],
-        [
-            'text'       => 'Atendimento',
-            'icon_color' => 'green',
-            'url' => 'chamado/atendimento'
-        ],
-        [
-            'text'       => 'Histórico',
-            'icon_color' => 'gray',
-            'url' => 'chamado/movto'
-        ],
-        [
-            'text'    => 'Manutenção',
-            'icon'    => 'fas fa-fw fa-share',
-            'submenu' => [
-                [
-                  'text' => 'Instituição',
-                  'url'  => 'instituicao/',
-                ],
-                [
-                  'text' => 'Unidade',
-                  'url'  => 'unidade/',
-                ],
-                [
-                  'text' => 'Perfil Usuário',
-                  'url'  => 'tipousuario/delete',
-                ],
-                [
-                  'text' => 'Tipo de Chamados',
-                  'url'  => 'tipochamado/',
-                ],
+        'can' => 'Admin',
+      ],
+      
+    ],  
 
-            ],
-        ],
-
-    ],
-
+    
     /*
     |--------------------------------------------------------------------------
     | Menu Filters

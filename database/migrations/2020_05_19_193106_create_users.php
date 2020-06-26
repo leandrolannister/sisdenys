@@ -20,6 +20,8 @@ class CreateUsers extends Migration
               $table->string('email')->unique();
               $table->string('password');
               $table->index(['email']);
+              $table->string('perfil', 10)
+              ->default('Comum');
 
               $table->integer('unidade_id');
               $table->foreign('unidade_id')
