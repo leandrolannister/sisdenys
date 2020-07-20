@@ -33,15 +33,11 @@
             <td>{{$c->name}}</td>
             <td>{{$c->tecnico}}</td>
             <td>
-              <form method="post" 
-                    action="{{route('chamado.atender')}}">
-                @csrf
-                <input type="hidden" name="movto_id"
-                       value="{{$c->id}}">
-
+              <form action="{{route('chamado.atender', $c->id)}}">
+               
                 <button type="submit" 
                         class="btn btn-info btn-sm">
-                  <i class="fas fa-search"></i> 
+                    <i class="fas fa-search"></i> 
                 </button>       
               </form>
             </td>

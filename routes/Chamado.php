@@ -20,7 +20,7 @@ Route::group(['middleware' => 'auth'], function(){
    	'ChamadosController@atendimento')
     ->name('chamado.atendimento');
 
-   route::post('/atender', 
+   route::get('/atender/{chamadoId}', 
    'ChamadosController@atender')
    ->name('chamado.atender'); 
 
@@ -28,7 +28,7 @@ Route::group(['middleware' => 'auth'], function(){
    'ChamadosController@updateTecnico')
    ->name('chamado.updatetecnico');
 
-   route::post('/retornotecnico',
+   route::any('/retornotecnico',
    'ChamadosController@retornotecnico')
    ->name('chamado.retornotecnico');
 

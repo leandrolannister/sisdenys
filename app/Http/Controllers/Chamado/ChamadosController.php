@@ -114,10 +114,10 @@ class ChamadosController extends Controller
         'historico'));
     }
 
-    public function atender(Request $req):object{
+    public function atender(int $chamadoId):object{
 
       $chamado = (new Movtochamado())->
-      atenderChamado($req->movto_id)[0];
+      atenderChamado($chamadoId)[0];
 
       $files = (new Arquivo())
       ->list($chamado->chamado_id);
@@ -147,9 +147,10 @@ class ChamadosController extends Controller
 
     public function retornotecnico(Request $req)
     :object {
-      
+
+     
       if(is_null($req->atendimento))
-        return redirect()->route('chamado.atendimento')
+        return redirect()->back()
         ->with('error', CHAMADO_SEM_PARECER_TECNICO);
 
       $atendimento = 

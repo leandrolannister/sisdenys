@@ -252,6 +252,7 @@ return [
        'icon_color' => 'green',
        'url' => 'chamado/atendimento',
        'can' => 'Tecnico',
+       'can' => 'Admin',
       ],
       ['text' => 'Histórico',
        'icon_color' => 'gray',
