@@ -10,6 +10,7 @@ use App\Models\{Tipousuario, Unidade};
 class TipoUsuariosController extends Controller
 {
     public function index():object {
+       
        $usersList = (new User())->listar();       
        $tiposUserList = Tipousuario::all();
        $unidadeList = (new Unidade())->list();
@@ -34,31 +35,23 @@ class TipoUsuariosController extends Controller
 
     public function getTipos():array{
       return ['Admin', 'Tecnico', 'Comum'];
-    }
-
-    public function delete():object{
-       $usersList = (new User())->listToDestroy();
-       $tiposUserList = Tipousuario::all();
-       $unidadeList = (new Unidade())->list();
-       $tipos = (new Tipousuario())->getTipos();
-       
-       return view('tipousuario.destroy', 
-        compact('usersList', 'tipos', 'unidadeList'));
-    }
+    }    
 
     public function destroy(Request $req){
+
       $destroy = (new Tipousuario())->destroy_t($req->all());
 
       if($destroy)
-        return redirect()->route('tipousuario.delete')
+        return redirect()->route('tipousuario.index')
         ->with('success', MESSAGE_DESTROY);
 
-       return redirect()->route('tipousuario.delete')
+       return redirect()->route('tipousuario.index')
         ->with('error', MESSAGE_DESTROY_USER_PERFIL);
     }
 
     public function filtro(Request $req){
-      $usersList = (new User())->filtroTipoUsuario($req->name);
+      $usersList = (new User())
+      ->filtroTipoUsuario($req->name);
 
       $tiposUserList = Tipousuario::all();
       $instituicaoList = (new Instituicao())->list('id');

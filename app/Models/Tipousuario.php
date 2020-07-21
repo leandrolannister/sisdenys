@@ -110,7 +110,6 @@ class Tipousuario extends Model
           
       if($user->tipo == 'Tecnico' || $user->tipo == 'Admin')
         return true;
-
   }
 
 }
