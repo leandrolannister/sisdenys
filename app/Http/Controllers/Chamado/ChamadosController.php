@@ -124,8 +124,10 @@ class ChamadosController extends Controller
 
       $historico = (new Movtochamado())
       ->historicoChamado($chamado->chamado_id);
-      
+
       $tipoList = (new Tipochamado())->list();
+
+      //dd($chamado);
   
       return view('chamado.atender', 
       compact('chamado', 'files', 

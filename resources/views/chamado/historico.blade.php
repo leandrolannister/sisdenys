@@ -9,7 +9,9 @@
     </div>
 @else
   <label style="margin-right: 530px">Usuário</label>
-    <label>Técnico</label> 
+    <label>Técnico Responsável: 
+      <span class="text-danger">{{mb_strtoupper($chamado->tecnico)}}</span>
+    </label> 
   @foreach($historico as $h)
     <div class="input-group">
       <textarea rows="3" disabled 

@@ -97,7 +97,8 @@ class Movtochamado extends Model
      ->join('users as u', 'u.id', 'm.user_id')
      ->select('m.chamado_id', 'm.status', 
       'm.descricao', 'm.created_at',
-      'm.titulo', 'm.id','u.email', 'm.tipochamado_id')
+      'm.titulo', 'm.id','u.email', 'm.tipochamado_id',
+       'm.tecnico')
       ->where('m.id', $movto_id)
       ->get();
 
